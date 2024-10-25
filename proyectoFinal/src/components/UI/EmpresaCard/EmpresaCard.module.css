@@ -1,0 +1,23 @@
+.bodyContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.cardButton {
+  width: 10vw;
+  height: 6vh;
+  font-size: 12px;
+  background-color: #fbb383;
+  border: #ff7300;
+  color: #252422;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+button:hover {
+  background-color: #ffd699;
+  color: #252422;
+}

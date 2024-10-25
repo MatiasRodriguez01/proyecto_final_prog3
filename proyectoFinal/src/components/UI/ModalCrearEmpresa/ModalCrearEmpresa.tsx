@@ -6,10 +6,10 @@ import { Button } from "react-bootstrap";
 interface PopUpProps {
   visible: boolean;
   onClose: () => void;
-  onAddEmpresa: (nombre: string, razonSocial: string, cuil: string) => void;
+  onAddEmpresa: (nombre: string, razonSocial: string, cuil: string, selectedImage: string | null) => void;
 }
 
-const PopUp = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
+const ModalCrearEmpresa = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
   const [inputNombre, setInputNombre] = useState<string>("");
   const [inputRazonSocial, setInputRazonSocial] = useState<string>("");
   const [inputCuil, setInputCuil] = useState<string>("");
@@ -19,7 +19,7 @@ const PopUp = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAddEmpresa(inputNombre, inputRazonSocial, inputCuil); // Agregar empresa
+    onAddEmpresa(inputNombre, inputRazonSocial, inputCuil,selectedImage); // Agregar empresa
     setInputNombre("");
     setInputRazonSocial("");
     setInputCuil("");
@@ -130,4 +130,4 @@ const PopUp = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
   );
 };
 
-export default PopUp;
+export default ModalCrearEmpresa;
