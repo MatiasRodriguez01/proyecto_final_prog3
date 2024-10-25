@@ -36,7 +36,9 @@ export const Listado = () => {
           </button>
           <hr />
           <div className={styleListado.listaEmpresa}>
+          <div className={styleListado.titulo}>
             <h4>Lista de Empresas</h4>
+          </div>
             {empresas.length !== 0 ? (
               empresas.map((e) => (
                 <div className={styleListado.empresas} key={e.id}>

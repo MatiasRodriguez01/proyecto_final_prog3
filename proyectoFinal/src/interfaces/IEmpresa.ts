@@ -1,5 +1,5 @@
 export interface IEmpresa {
-    id: number,
-    nombre: string,
-    sucursales: string[]
-  }
+  id: number;
+  nombre: string;
+  sucursales: string[];
+}
