@@ -30,16 +30,24 @@ const PopUp = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
       <div className={stylePopUp.popUpContainer}>
         <div className={stylePopUp.contenido}>
           <h2>Crear empresa</h2>
-          <form onSubmit={handleSubmit}>
+          <form className={stylePopUp.formulario} onSubmit={handleSubmit}>
             <input
               type="text"
-              placeholder="Ingrese el nombre de la empresa"
+              placeholder="Ingrese un nombre"
               value={input}
               onChange={handleChangeInput}
             />
-            <button type="submit">Enviar</button>
+            <input type="text" placeholder="Ingrese una razon social"/>
+            <input type="text" placeholder="Ingrese un cuil"/>
+            <div className={stylePopUp.imagenContainer}>
+              <button>Agregar imagen</button>
+              <img src="imagen" alt="imagen del boton" />
+            </div>
           </form>
-          <button onClick={onClose}>Cerrar</button>
+          <div className={stylePopUp.buttons}>
+            <button type="submit">Enviar</button>
+            <button onClick={onClose}>Cerrar</button>
+          </div>
         </div>
       </div>
     </div>
