@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
-import PopUp from "../PopUp/PopUp";
+import PopUp from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from "./Listado.module.css";
 
 export const Listado = () => {
