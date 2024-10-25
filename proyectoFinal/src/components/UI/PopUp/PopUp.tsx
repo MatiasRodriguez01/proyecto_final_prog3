@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import stylePopUp from "./PopUp.module.css";
+import imagen from "./imagen.png"
 
 interface PopUpProps {
   visible: boolean;
@@ -37,11 +38,11 @@ const PopUp = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
               value={input}
               onChange={handleChangeInput}
             />
-            <input type="text" placeholder="Ingrese una razon social"/>
-            <input type="text" placeholder="Ingrese un cuil"/>
+            <input type="text" placeholder="Ingrese una razon social" />
+            <input type="text" placeholder="Ingrese un cuil" />
             <div className={stylePopUp.imagenContainer}>
               <button>Agregar imagen</button>
-              <img src="imagen" alt="imagen del boton" />
+              <img src={imagen} alt="imagen del boton" />
             </div>
           </form>
           <div className={stylePopUp.buttons}>
