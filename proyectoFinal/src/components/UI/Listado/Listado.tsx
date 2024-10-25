@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
-import PopUp from "../PopUp/PopUp";
 import styleListado from "./Listado.module.css";
-
+import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
+import { EmpresaCard } from "../EmpresaCard/EmpresaCard";
 export const Listado = () => {
   const { empresas, handleAddEmpresa } = useEmpresas();
   const [isPopUpVisible, setIsPopUpVisible] = useState<boolean>(false);
@@ -15,8 +15,13 @@ export const Listado = () => {
     setIsPopUpVisible(false); // Cierra el modal
   };
 
-  const agregarNuevaEmpresa = (nombre: string) => {
-    handleAddEmpresa(nombre); // Agrega la empresa al estado
+  const agregarNuevaEmpresa = (
+    nombre: string,
+    razonSocial: string,
+    cuil: string,
+    imagen: string | null
+  ) => {
+    handleAddEmpresa(nombre, razonSocial, cuil, imagen);
   };
 
   return (
@@ -41,8 +46,15 @@ export const Listado = () => {
           </div>
             {empresas.length !== 0 ? (
               empresas.map((e) => (
-                <div className={styleListado.empresas} key={e.id}>
-                  <p>{e.nombre}</p>
+                <div className={styleListado.empresasCardContainer} key={e.id}>
+                  {/* Tarjeta de EMPRESA CARD */}
+
+                  <EmpresaCard
+                    nombre={e.nombre}
+                    razonSocial={e.razonSocial}
+                    cuil={e.cuil}
+                    imagen={e.imagen}
+                  />
                 </div>
               ))
             ) : (
@@ -60,7 +72,7 @@ export const Listado = () => {
       </article>
 
       {/* Componente PopUp */}
-      <PopUp
+      <ModalCrearEmpresa
         visible={isPopUpVisible}
         onClose={cerrarPopUp}
         onAddEmpresa={agregarNuevaEmpresa}
