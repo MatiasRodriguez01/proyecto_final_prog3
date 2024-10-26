@@ -1,28 +1,13 @@
-import { useState } from "react";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
+import { EmpresaCard } from "../EmpresaCard/EmpresaCard";
+import { useListado } from "../../../hooks/Listado/useListado";
 import styleListado from "./Listado.module.css";
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
-import { EmpresaCard } from "../EmpresaCard/EmpresaCard";
+
 export const Listado = () => {
-  const { empresas, handleAddEmpresa } = useEmpresas();
-  const [isPopUpVisible, setIsPopUpVisible] = useState<boolean>(false);
+  const { empresas } = useEmpresas();
 
-  const agregarEmpresa = () => {
-    setIsPopUpVisible(true); // Muestra el modal
-  };
-
-  const cerrarPopUp = () => {
-    setIsPopUpVisible(false); // Cierra el modal
-  };
-
-  const agregarNuevaEmpresa = (
-    nombre: string,
-    razonSocial: string,
-    cuil: string,
-    imagen: string | null
-  ) => {
-    handleAddEmpresa(nombre, razonSocial, cuil, imagen);
-  };
+  const { isPopUpVisible, agregarEmpresa, cerrarPopUp, agregarNuevaEmpresa } = useListado()
 
   return (
     <>
