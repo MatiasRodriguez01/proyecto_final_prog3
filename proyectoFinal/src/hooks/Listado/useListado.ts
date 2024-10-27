@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEmpresas } from "../empresas/useEmpresas";
 
 export const useListado = () => {
-  const { handleAddEmpresa } = useEmpresas();
+  const { empresas, handleAddEmpresa } = useEmpresas();
   const [isPopUpVisible, setIsPopUpVisible] = useState<boolean>(false);
 
   const agregarEmpresa = () => {
@@ -23,6 +23,7 @@ export const useListado = () => {
   };
 
   return {
+    empresas,  
     isPopUpVisible,
     agregarEmpresa,
     cerrarPopUp,

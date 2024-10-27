@@ -17,15 +17,6 @@ const ModalCrearEmpresa = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
 
   const [fileKey, setFileKey] = useState<number>(0); //Agregamos un id unico para las imagenes para poder esetear bien el formulario
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onAddEmpresa(inputNombre, inputRazonSocial, inputCuil,selectedImage); // Agregar empresa
-    setInputNombre("");
-    setInputRazonSocial("");
-    setInputCuil("");
-    resetForm(); // Cerrar el modal
-  };
-
   const resetForm = () => {
     setInputNombre("");
     setInputRazonSocial("");
@@ -34,6 +25,15 @@ const ModalCrearEmpresa = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
     setFileKey((prevKey) => prevKey + 1); //Aumentamos la key para que react pueda resetear el formulario de manera correcta
     onClose();
   };
+
+  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
+  const addForm = () => {
+    onAddEmpresa(inputNombre, inputRazonSocial, inputCuil,selectedImage); // Agregar empresa
+    resetForm(); // Cerrar el modal
+  }
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -111,6 +111,7 @@ const ModalCrearEmpresa = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
               <Button
                 variant="primary"
                 type="submit"
+                onClick={addForm}
                 className={styleModalEmpresa.formButton}
               >
                 Enviar

@@ -7,16 +7,19 @@ interface EmpresaCardProps {
   razonSocial: string;
   cuil: string;
   imagen: string | null;
+  onVerEmpresa: () => void;
 }
-export const EmpresaCard: FC<EmpresaCardProps> = ({ nombre, imagen }) => {
+export const EmpresaCard: FC<EmpresaCardProps> = ({ nombre, imagen, onVerEmpresa}) => {
+
   return (
-    <Card className={stylesEmpresaCard.cardContainer}>
+    //className={stylesEmpresaCard.cardContainer}
+    <Card> 
       {imagen && (
         <Card.Img variant="top" src={imagen} alt="imagen de la empresa" />
       )}
       <Card.Body className={stylesEmpresaCard.bodyContainer}>
-        <Card.Title>{nombre}</Card.Title>
-        <Button variant="primary" className={stylesEmpresaCard.cardButton}>
+        <Card.Title style={{height:'auto', margin:'0'}}>{nombre}</Card.Title>
+        <Button variant="primary" className={stylesEmpresaCard.cardButton} onClick={onVerEmpresa}>
           Ver Empresa
         </Button>
       </Card.Body>
