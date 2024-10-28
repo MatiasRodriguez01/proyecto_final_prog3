@@ -10,6 +10,7 @@
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
     z-index: 1000; /* Asegura que el popup esté encima de otros elementos */
+    
 }
 
 .container  {

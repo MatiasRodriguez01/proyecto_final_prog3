@@ -4,7 +4,7 @@ import { IEmpresa } from "../../interfaces/IEmpresa";
 export const useEmpresas = () => {
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
 
-  const handleAddEmpresa = (nombre: string, razonSocial: string, cuil: string, selectedImage: string | null) => {
+  const handleAddEmpresa = (nombre: string, razonSocial: string, cuil: string, selectedImage: string | null): void => {
     const nuevaEmpresa: IEmpresa = {
       id: empresas.length + 1,
       nombre: nombre,
@@ -18,7 +18,6 @@ export const useEmpresas = () => {
   };
 
   return {
-    empresas,
-    handleAddEmpresa,
+    empresas, handleAddEmpresa,
   };
 };

@@ -1,26 +1,25 @@
 import { EmpresaCard } from "../EmpresaCard/EmpresaCard";
 import { useListado } from "../../../hooks/Listado/useListado";
-import { useState } from "react";
 import { EmpresaInfo } from "../EmpresaInfo/EmpresaInfo";
+import { useEmpresaActiva } from "../../../hooks/useEmpresaActiva/useEmpresaActiva";
 
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from "./Listado.module.css";
+import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 
 
 export const Listado = () => {
+
+  const {empresas, handleAddEmpresa} = useEmpresas();
+
   const {
-    empresas,
     isPopUpVisible,
     agregarEmpresa,
     cerrarPopUp,
     agregarNuevaEmpresa
-  } = useListado()
+  } = useListado({ voidEmpresa: handleAddEmpresa })
 
-  const [empresaActiva, setEmpresaActiva] = useState<number | null>(null);
-
-  const mostrarEmpresaInfo = (id: number) => setEmpresaActiva(id);
-
-  const cerrarEmpresaInfo = () => setEmpresaActiva(null);
+  const { empresaActiva, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaActiva()
 
   return (
     <>
