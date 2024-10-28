@@ -23,10 +23,10 @@ const ModalCrearEmpresa = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
   const [fileKey, setFileKey] = useState<number>(0); //Agregamos un id unico para las imagenes para poder esetear bien el formulario
 
   const resetForm = () => {
-    handleNombreNull;
-    handleRazonSocialNull;
-    handleCuilNull;
-    handleImageNull;
+    handleNombreNull();
+    handleRazonSocialNull();
+    handleCuilNull();
+    handleImageNull();
     setFileKey((prevKey) => prevKey + 1); //Aumentamos la key para que react pueda resetear el formulario de manera correcta
     onClose();
   };
