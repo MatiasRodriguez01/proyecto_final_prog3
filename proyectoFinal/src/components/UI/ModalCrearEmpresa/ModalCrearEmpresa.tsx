@@ -85,6 +85,7 @@ const ModalCrearEmpresa : FC<PopUpProps> = ({ visible, onClose, onAddEmpresa }) 
               <input
                 type="text"
                 name='imagen'
+                placeholder="Ingresa una imagen"
                 value={imagen}
                 onChange={handleChange}
               />

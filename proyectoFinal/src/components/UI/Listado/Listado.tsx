@@ -5,20 +5,20 @@ import { useEmpresaActiva } from "../../../hooks/useEmpresaActiva/useEmpresaActi
 
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from "./Listado.module.css";
+import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 //import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 
 
 export const Listado = () => {
   // const x: string[][] = empresas.map((e) => e.sucursales)
+  const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
+
 
   const {
-    empresas,
-    handleDeleteEmpresa,
     isPopUpVisible,
-    agregarEmpresa,
-    cerrarPopUp,
+    HandlePopUp,
     agregarNuevaEmpresa
-  } = useListado()
+  } = useListado(handleAddEmpresa)
 
   const { empresaActiva, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaActiva()
 
@@ -31,7 +31,7 @@ export const Listado = () => {
           </div>
           <button
             type="button"
-            onClick={agregarEmpresa}
+            onClick={HandlePopUp}
             className={styleListado.agregarEmpresa}
           >AGREGAR EMPRESAS<span className="material-symbols-outlined ">add</span>
           </button>
@@ -86,13 +86,10 @@ export const Listado = () => {
         {/* Componente para mostrar la información de la empresa */}
       </article>
 
-
-
-
       {/* Componente PopUp */}
       <ModalCrearEmpresa
         visible={isPopUpVisible}
-        onClose={cerrarPopUp}
+        onClose={HandlePopUp}
         onAddEmpresa={agregarNuevaEmpresa}
       />
     </>
