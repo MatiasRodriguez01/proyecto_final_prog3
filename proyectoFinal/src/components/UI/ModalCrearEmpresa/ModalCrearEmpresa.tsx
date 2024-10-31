@@ -1,44 +1,43 @@
-import { ChangeEvent, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useImage } from "../../../hooks/modalCrearEmpresa/useImage/useImage";
-import { useNombre } from "../../../hooks/modalCrearEmpresa/useNombre/useNombre";
-import { useRazonSocial } from "../../../hooks/modalCrearEmpresa/useRazonSocial/useRazonSocial";
-import { useCuil } from "../../../hooks/modalCrearEmpresa/useCuil/useCuil";
+import { useForm } from "../../../hooks/useForm/useForm";
 
 import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
-import imagen from "./imagen.png";
+import addImagen from "./imagen.png";
+import { FC } from "react";
 
 interface PopUpProps {
   visible: boolean;
   onClose: () => void;
-  onAddEmpresa: (nombre: string, razonSocial: string, cuil: string, selectedImage: string | null) => void;
+  onAddEmpresa: Function;
+  // onAddEmpresa: (nombre: string, razonSocial: string, cuil: string, selectedImage: string | null) => void;
 }
 
-const ModalCrearEmpresa = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
-  
-  const { inputNombre, handleChangeNombre, handleNombreNull } = useNombre() // en useNombre asignamos el valor del inputNombre, change para modificarlo, y el null para retornar vacio
-  const { inputRazonSocial, handleChangeRazonSocial, handleRazonSocialNull } = useRazonSocial() // en useRazonSocial asignamos el valor del inputRazonSocial, change para modificarlo, y el null para retornar vacio
-  const { inputCuil, handleChangeCuil, handleCuilNull } = useCuil() // en useCuil asignamos el valor del inputCuil, change para modificarlo, y el Null para retornar vacio
-  const { selectedImage, handleImageUpload, handleImageNull } = useImage() // en useImage asignamos una imagen, change para modificarlo, y el Null para retornar vacio
-  const [fileKey, setFileKey] = useState<number>(0); //Agregamos un id unico para las imagenes para poder esetear bien el formulario
+const ModalCrearEmpresa : FC<PopUpProps> = ({ visible, onClose, onAddEmpresa }) => {
 
-  const resetForm = () => {
-    handleNombreNull();
-    handleRazonSocialNull();
-    handleCuilNull();
-    handleImageNull();
-    setFileKey((prevKey) => prevKey + 1); //Aumentamos la key para que react pueda resetear el formulario de manera correcta
-    onClose();
-  };
+  const { values, handleChange, resetForm } = useForm({
+    nombre: '',
+    razonSocial: '',
+    cuil: 0,
+    imagen: ''
+  });
+
+  const { nombre, razonSocial, cuil, imagen } = values;
 
   const addForm = () => {
-    onAddEmpresa(inputNombre, inputRazonSocial, inputCuil,selectedImage); // Agregar empresa
+    onAddEmpresa(nombre, razonSocial, cuil, imagen); // Agregar empresa
     resetForm(); // Cerrar el modal
+    onClose()
   }  
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
+  const cancelForm = () => {
+    resetForm()
+    onClose()
+  }
+
+  // const handleSubmit = () => {
+  //   resetForm()
+  //   onClose()
+  // };
   
     if (!visible) {
       return null; // Si no está visible, no renderiza nada
@@ -53,52 +52,43 @@ const ModalCrearEmpresa = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
           {/* FORMULARIO PARA AGREGAR EMPRESA */}
           <form
             className={styleModalEmpresa.formulario}
-            onSubmit={handleSubmit}
           >
             {/* NOMBRE DE LA EMPRESA */}
             <input
               type="text"
+              name='nombre'
               placeholder="Ingrese un nombre"
-              value={inputNombre}
-              onChange={handleChangeNombre}
+              value={nombre}
+              onChange={handleChange}
               required
             />
             {/* RAZON SOCIAL DE LA EMPRESA */}
             <input
               type="text"
+              name='razonSocial'
               placeholder="Ingrese una razon social"
-              value={inputRazonSocial}
-              onChange={handleChangeRazonSocial}
+              value={razonSocial}
+              onChange={handleChange}
               required
             />
             {/* CUIL */}
             <input
-              type="string"
+              type="number"
+              name='cuil'
               placeholder="Ingrese un cuil"
-              value={inputCuil}
-              onChange={handleChangeCuil}
+              value={cuil}
+              onChange={handleChange}
               required
             />
             {/* AGREGAR IMAGEN */}
             <div className={styleModalEmpresa.imagenContainer}>
-              <label htmlFor="fileInput" style={{ cursor: "pointer" }}>
-                <Button variant="secondary" as="span">
-                  Agregar Imagen
-                </Button>
-              </label>
               <input
-                id="fileInput"
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                key={fileKey}
-                style={{ display: "none" }}
+                type="text"
+                name='imagen'
+                value={imagen}
+                onChange={handleChange}
               />
-              {selectedImage ? (
-                <img src={selectedImage} alt="Vista Previa" />
-              ) : (
-                <img src={imagen} alt="imagen del boton" />
-              )}
+              <img src={addImagen} alt="imagen del boton" />
               {/* AGREGAR FUNCIONALIDAD PARA SUBIR UNA IMAGEN */}
             </div>
             <div className={styleModalEmpresa.containerButtonsForm}>
@@ -112,7 +102,7 @@ const ModalCrearEmpresa = ({ visible, onClose, onAddEmpresa }: PopUpProps) => {
               </Button>{" "}
               <Button
                 variant="primary"
-                onClick={resetForm}
+                onClick={cancelForm}
                 className={styleModalEmpresa.formButton}
               >
                 Cerrar

@@ -4,8 +4,8 @@ import styleInfo from "./EmpresaInfo.module.css"
 interface IEmpresaInfo {
     nombre: string;
     razonSocial: string;
-    cuil: string;
-    imagen: string | null;
+    cuil: number;
+    imagen: string;
     onVerEmpresa: () => void;
 }
 
@@ -19,7 +19,7 @@ export const EmpresaInfo: FC<IEmpresaInfo> = ({ nombre, razonSocial, cuil, image
                     )}
 
                     <div className="card-body" style={{ height: 'auto' }}>
-                        <h5 className="card-title" style={{ height: 'auto' }}>{nombre}</h5>
+                        <h5 className="card-title" style={{ height: 'auto', textAlign:'center' }}>{nombre}</h5>
                         <hr />
                         <p className="card-text" style={{ height: 'auto' }}><strong>Razon Social:</strong> {razonSocial}</p>
                         <p className="card-text" style={{ height: 'auto' }}><strong>Cuil:</strong> {cuil}</p>

@@ -5,19 +5,20 @@ import { useEmpresaActiva } from "../../../hooks/useEmpresaActiva/useEmpresaActi
 
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from "./Listado.module.css";
-import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
+//import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 
 
 export const Listado = () => {
-
-  const {empresas, handleAddEmpresa} = useEmpresas();
+  // const x: string[][] = empresas.map((e) => e.sucursales)
 
   const {
+    empresas,
+    handleDeleteEmpresa,
     isPopUpVisible,
     agregarEmpresa,
     cerrarPopUp,
     agregarNuevaEmpresa
-  } = useListado({ voidEmpresa: handleAddEmpresa })
+  } = useListado()
 
   const { empresaActiva, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaActiva()
 
@@ -32,9 +33,7 @@ export const Listado = () => {
             type="button"
             onClick={agregarEmpresa}
             className={styleListado.agregarEmpresa}
-          >
-            AGREGAR EMPRESAS
-            <span className="material-symbols-outlined ">add</span>
+          >AGREGAR EMPRESAS<span className="material-symbols-outlined ">add</span>
           </button>
           <hr />
           <div className={styleListado.listaEmpresa}>
@@ -48,20 +47,18 @@ export const Listado = () => {
 
                   <EmpresaCard
                     nombre={e.nombre}
-                    razonSocial={e.razonSocial}
-                    cuil={e.cuil}
-                    imagen={e.imagen}
                     onVerEmpresa={() => mostrarEmpresaInfo(e.id)} // Usar la función para mostrar EmpresaInfo
+                    deleteEmpresa={() => handleDeleteEmpresa(e.id)}
                   />
 
                   {empresaActiva == e.id && (
-                        <EmpresaInfo
-                          nombre={e.nombre}
-                          razonSocial={e.razonSocial}
-                          cuil={e.cuil}
-                          imagen={e.imagen}
-                          onVerEmpresa={cerrarEmpresaInfo}
-                        />
+                    <EmpresaInfo
+                      nombre={e.nombre}
+                      razonSocial={e.razonSocial}
+                      cuil={e.cuil}
+                      imagen={e.imagen}
+                      onVerEmpresa={cerrarEmpresaInfo}
+                    />
 
                   )}
 
@@ -79,7 +76,12 @@ export const Listado = () => {
           <div className={styleListado.titulo}>
             <h2>Sucursales</h2>
           </div>
-          {/* <button>AGREGAR SUCURSAL</button> */}
+          <div className={styleListado.sucursalContainer}>
+            {/* <p>hola hola como como estas estas</p>
+            <p>hola hola como como estas estas</p>
+            <p>hola hola como como estas estas</p>
+            <p>hola hola como como estas estas</p> */}
+          </div>
         </section>
         {/* Componente para mostrar la información de la empresa */}
       </article>

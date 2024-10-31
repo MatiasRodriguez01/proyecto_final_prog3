@@ -5,10 +5,14 @@
 
 hr {
   width: 15vw;
-  height: 2px; /* Definimos el grosor de la línea */
-  background-color: black; /* Color de fondo */
-  margin: 20px 0; /* Espaciado arriba y abajo */
+  height: 2px;
+  /* Definimos el grosor de la línea */
+  background-color: black;
+  /* Color de fondo */
+  margin: 20px 0;
+  /* Espaciado arriba y abajo */
 }
+
 .containerEmpresas {
   background-color: #252422;
   height: auto;
@@ -31,7 +35,7 @@ hr {
   gap: 2vh;
 }
 
-.empresasCardContainer{
+.empresasCardContainer {
   width: 80%;
   display: flex;
 }
@@ -53,6 +57,7 @@ button {
   cursor: pointer;
   transition: 0.2s;
 }
+
 button:hover {
   background-color: #ffd699;
 }
@@ -64,6 +69,23 @@ button:hover {
   align-items: center;
 }
 
+.containerPopInfo {
+  position: fixed;
+  /* Para que se mantenga en la pantalla, incluso al hacer scroll */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fondo oscuro semitransparente */
+  display: flex;
+  justify-content: center;
+  /* Centra horizontalmente */
+  align-items: center;
+  /* Centra verticalmente */
+  z-index: 1000;
+  /* Asegura que el popup esté encima de otros elementos */
+}
 
 .containerSucursales {
   background-color: #fffaeb;
@@ -73,15 +95,15 @@ button:hover {
   align-items: center;
 }
 
-.containerPopInfo {
-  position: fixed; /* Para que se mantenga en la pantalla, incluso al hacer scroll */
-  top: 0;
-  left: 0;
+.sucursalContainer {
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  z-index: 1000; /* Asegura que el popup esté encima de otros elementos */
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.sucursalContainer p {
+  height: auto;
 }

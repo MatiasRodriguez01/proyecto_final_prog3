@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useEmpresas } from "../empresas/useEmpresas";
 
-interface inter {
-  voidEmpresa: ( nombre: string, razonSocial: string, cuil: string, imagen: string | null ) => void;
-}
+// interface inter {
+//   voidEmpresa: Function;
+// }
 
-export const useListado = ({ voidEmpresa }: inter) => {
+export const useListado = () => {
+
+  const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
   const [isPopUpVisible, setIsPopUpVisible] = useState<boolean>(false);
 
   const agregarEmpresa = () => {
@@ -18,13 +21,15 @@ export const useListado = ({ voidEmpresa }: inter) => {
   const agregarNuevaEmpresa = (
     nombre: string,
     razonSocial: string,
-    cuil: string,
-    imagen: string | null
+    cuil: number,
+    imagen: string
   ) => {
-    voidEmpresa(nombre, razonSocial, cuil, imagen);
+    handleAddEmpresa(nombre, razonSocial, cuil, imagen);
   };
 
   return {
+    empresas,
+    handleDeleteEmpresa,
     isPopUpVisible,
     agregarEmpresa,
     cerrarPopUp,

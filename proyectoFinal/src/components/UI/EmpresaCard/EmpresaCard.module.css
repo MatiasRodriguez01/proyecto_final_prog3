@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+.card {
+  width: 100%;
+}
+
 .cardButton {
   width: auto;
   height: 5vh;
@@ -22,4 +26,17 @@
 button:hover {
   background-color: #ffd699;
   color: #252422;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1vh;
+  justify-content: center;
+  align-items: center;
+  margin: 1vh;
+}
+
+.buttonCard {
+  width: 4vw;
+  height: 5vh;
 }
