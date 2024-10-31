@@ -7,6 +7,13 @@
 
 .card {
   width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover{
+  cursor: pointer;
+  transform: scale(1.1);
+  background-color: rgb(200, 200, 217);
 }
 
 .cardButton {
@@ -39,4 +46,8 @@ button:hover {
 .buttonCard {
   width: 4vw;
   height: 5vh;
+}
+
+.sucursalesExistentes{
+  margin: 40%;
 }

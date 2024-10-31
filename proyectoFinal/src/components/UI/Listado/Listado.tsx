@@ -6,7 +6,6 @@ import { useEmpresaActiva } from "../../../hooks/useEmpresaActiva/useEmpresaActi
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from "./Listado.module.css";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
-//import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 
 
 export const Listado = () => {
@@ -44,7 +43,6 @@ export const Listado = () => {
               empresas.map((e) => (
                 <div className={styleListado.empresasCardContainer} key={e.id}>
                   {/* Tarjeta de EMPRESA CARD */}
-
                   <EmpresaCard
                     nombre={e.nombre}
                     onVerEmpresa={() => mostrarEmpresaInfo(e.id)} // Usar la función para mostrar EmpresaInfo
@@ -77,10 +75,10 @@ export const Listado = () => {
             <h2>Sucursales</h2>
           </div>
           <div className={styleListado.sucursalContainer}>
-            {/* <p>hola hola como como estas estas</p>
             <p>hola hola como como estas estas</p>
             <p>hola hola como como estas estas</p>
-            <p>hola hola como como estas estas</p> */}
+            <p>hola hola como como estas estas</p>
+            <p>hola hola como como estas estas</p>
           </div>
         </section>
         {/* Componente para mostrar la información de la empresa */}
