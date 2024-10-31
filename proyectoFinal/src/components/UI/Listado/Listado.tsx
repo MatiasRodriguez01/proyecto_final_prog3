@@ -6,6 +6,8 @@ import { useEmpresaActiva } from "../../../hooks/useEmpresaActiva/useEmpresaActi
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from "./Listado.module.css";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
+import { useState } from "react";
+import { IEmpresa } from "../../../interfaces/IEmpresa";
 //import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 
 
@@ -20,7 +22,11 @@ export const Listado = () => {
     agregarNuevaEmpresa
   } = useListado(handleAddEmpresa)
 
-  const { empresaActiva, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaActiva()
+  const { empresaInfo, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaActiva()
+
+  const [ empresaActiva, setEmpresaActiva ] = useState<IEmpresa>(); 
+
+
 
   return (
     <>
@@ -51,7 +57,7 @@ export const Listado = () => {
                     deleteEmpresa={() => handleDeleteEmpresa(e.id)}
                   />
 
-                  {empresaActiva == e.id && (
+                  {empresaInfo == e.id && (
                     <EmpresaInfo
                       nombre={e.nombre}
                       razonSocial={e.razonSocial}
