@@ -9,6 +9,7 @@ import { UseSucursal } from "../useSucursal/UseSucursal";
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from '../Listado/Listado.module.css'
 import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
+import { useSucursales } from "../../../hooks/sucursales/useSucursales";
 //import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 
 
@@ -16,12 +17,13 @@ export const Listado = () => {
   // const x: string[][] = empresas.map((e) => e.sucursales)
   const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
 
+  const { sucursales, handleAddSucursal, handleDeleteSucursal } = useSucursales()
 
   const {
     isPopUpVisible,
     HandlePopUp,
     agregarNuevaEmpresa
-  } = useListado(handleAddEmpresa)
+  } = useListado(handleAddEmpresa, handleAddSucursal)
 
   const { empresaInfo, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaInformacion()
 
@@ -102,12 +104,6 @@ export const Listado = () => {
         {/* Componente para mostrar la información de la empresa */}
 
       </article>
-
-      <ModalCrearSucursal
-        visible={isPopUpVisible}
-        onClose={HandlePopUp}
-        onAddSucursal={() => console.log('hola')}
-        />
 
       {/* Componente PopUp */}
       <ModalCrearEmpresa
