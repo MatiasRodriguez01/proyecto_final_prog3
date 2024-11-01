@@ -2,8 +2,8 @@ import { FC, useState, useEffect } from "react";
 import { IEmpresa } from "../../../interfaces/IEmpresa";
 import { Button, Card } from "react-bootstrap";
 import styleSucursal from "../useSucursal/UseSucursal.module.css";
-import { ISucursales } from "../../../interfaces/ISucursal";
 import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
+import { ISucursal } from "../../../interfaces/ISucursal";
 
 interface IPropsSucursal {
   empresa: IEmpresa;
@@ -11,7 +11,7 @@ interface IPropsSucursal {
 }
 
 export const UseSucursal: FC<IPropsSucursal> = ({ empresa, empresaActiva }) => {
-  const [sucursales, setSucursales] = useState<ISucursales[]>(empresa.sucursales);
+  const [sucursales, setSucursales] = useState<ISucursal[]>(empresa.sucursales);
 
   const [isPopUpVisible, setIsPopUpVisible] = useState<boolean>(false);
 

@@ -16,6 +16,7 @@ export const useListado = (handleAddEmpresa: Function, handleAddSucursal: Functi
     handleAddEmpresa(nombre, razonSocial, cuil, imagen);
   };
 
+
   const agregarNuevaSucursal = (
     nombre: string,
     horarioApertura: string,
