@@ -1,17 +1,14 @@
 import { EmpresaCard } from "../EmpresaCard/EmpresaCard";
 import { useListado } from "../../../hooks/Listado/useListado";
 import { EmpresaInfo } from "../EmpresaInfo/EmpresaInfo";
-
-import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
-import styleListado from "./Listado.module.css";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 import { useEmpresaInformacion } from "../../../hooks/useEmpresaInformacion/useEmpresaInformacion";
 import { useState } from "react";
-import { UseSucursal } from "../useSucursal/useSucursal";
+
+import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
+import styleListado from '../Listado/Listado.module.css'
+import { UseSucursal } from "../useSucursal/UseSucursal";
 //import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
-import { IEmpresa } from "../../../interfaces/IEmpresa";
-import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
-import React from "react";
 
 
 export const Listado = () => {
@@ -33,7 +30,7 @@ export const Listado = () => {
     setEmpresaActiva(id)
   }
 
-  const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])
+  //const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])
 
   return (
     <>
