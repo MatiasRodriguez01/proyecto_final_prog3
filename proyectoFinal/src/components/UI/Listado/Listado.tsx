@@ -1,6 +1,6 @@
-import { EmpresaCard } from "../EmpresaCard/EmpresaCard";
+import { EmpresaCard } from "../../views/empresas/EmpresaCard/EmpresaCard";
 import { useListado } from "../../../hooks/Listado/useListado";
-import { EmpresaInfo } from "../EmpresaInfo/EmpresaInfo";
+import { EmpresaInfo } from "../../views/empresas/EmpresaInfo/EmpresaInfo";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 import { useEmpresaInformacion } from "../../../hooks/useEmpresaInformacion/useEmpresaInformacion";
 import { useState } from "react";

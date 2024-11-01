@@ -6,11 +6,11 @@
 hr {
   width: 15vw;
   height: 2px;
-  /* Definimos el grosor de la línea */
+ 
   background-color: black;
-  /* Color de fondo */
+
   margin: 20px 0;
-  /* Espaciado arriba y abajo */
+ 
 }
 
 .containerEmpresas {
