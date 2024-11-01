@@ -3,6 +3,7 @@ import { IEmpresa } from "../../../interfaces/IEmpresa";
 import { Button, Card } from "react-bootstrap";
 import styleSucursal from "../useSucursal/UseSucursal.module.css";
 import { ISucursales } from "../../../interfaces/ISucursal";
+import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
 
 interface IPropsSucursal {
   empresa: IEmpresa;
@@ -11,17 +12,21 @@ interface IPropsSucursal {
 
 export const UseSucursal: FC<IPropsSucursal> = ({ empresa, empresaActiva }) => {
   const [sucursales, setSucursales] = useState<ISucursales[]>(empresa.sucursales);
-  
+
+  const [isPopUpVisible, setIsPopUpVisible] = useState<boolean>(false);
+
   useEffect(() => {
     setSucursales(empresa.sucursales);
   }, [empresaActiva, empresa.sucursales]);
-  
+
   const handleAddSucursal = () => {
-    const nuevaSucursal: ISucursales = {
-      id: sucursales.length,
-      nombre: `sucursal nueva ${sucursales.length + 1}`
-    };
-    setSucursales([...sucursales, nuevaSucursal]);
+    // const nuevaSucursal: ISucursales = {
+    //   id: sucursales.length,
+    //   nombre: `sucursal nueva ${sucursales.length + 1}`
+    // };
+    // setSucursales([...sucursales, nuevaSucursal]);
+    setIsPopUpVisible(!isPopUpVisible)
+
   };
 
   const handleDeleteSucursal = (id: number) => {
@@ -56,7 +61,7 @@ export const UseSucursal: FC<IPropsSucursal> = ({ empresa, empresaActiva }) => {
                       </span>
                     </Button>{" "}
                     <Button
-                      onClick={() => handleDeleteSucursal(sucursal.id)}
+                      // onClick={() => handleDeleteSucursal(sucursal.id)}
                       className={styleSucursal.button}
                       variant="danger"
                     >
@@ -70,6 +75,14 @@ export const UseSucursal: FC<IPropsSucursal> = ({ empresa, empresaActiva }) => {
             ))}
           </div>
         </div>
+
+        {isPopUpVisible && (
+          <ModalCrearSucursal
+            visible={isPopUpVisible}
+            onClose={() => setIsPopUpVisible(false)}
+            onAddSucursal={() => console.log('hola')}
+          />
+        )}
       </>
     );
   }

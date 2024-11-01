@@ -3,11 +3,12 @@ import { useListado } from "../../../hooks/Listado/useListado";
 import { EmpresaInfo } from "../EmpresaInfo/EmpresaInfo";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 import { useEmpresaInformacion } from "../../../hooks/useEmpresaInformacion/useEmpresaInformacion";
-import { useState } from "react";
+import { useState } from "react"
+import { UseSucursal } from "../useSucursal/UseSucursal";
 
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from '../Listado/Listado.module.css'
-import { UseSucursal } from "../useSucursal/UseSucursal";
+import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
 //import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 
 
@@ -101,6 +102,12 @@ export const Listado = () => {
         {/* Componente para mostrar la información de la empresa */}
 
       </article>
+
+      <ModalCrearSucursal
+        visible={isPopUpVisible}
+        onClose={HandlePopUp}
+        onAddSucursal={() => console.log('hola')}
+        />
 
       {/* Componente PopUp */}
       <ModalCrearEmpresa
