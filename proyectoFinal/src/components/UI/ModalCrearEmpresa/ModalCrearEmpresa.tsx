@@ -4,15 +4,16 @@ import { useForm } from "../../../hooks/useForm/useForm";
 import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
 import { FC } from "react";
+import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
 
-interface PopUpProps {
+interface PopUpPropsEmpresa {
   visible: boolean;
   onClose: () => void;
   onAddEmpresa: Function;
   // onAddEmpresa: (nombre: string, razonSocial: string, cuil: string, selectedImage: string | null) => void;
 }
 
-const ModalCrearEmpresa : FC<PopUpProps> = ({ visible, onClose, onAddEmpresa }) => {
+const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpresa }) => {
 
   const { values, handleChange, resetForm } = useForm({
     nombre: '',

@@ -6,6 +6,9 @@ import { useEmpresaActiva } from "../../../hooks/useEmpresaActiva/useEmpresaActi
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from "./Listado.module.css";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
+import { IEmpresa } from "../../../interfaces/IEmpresa";
+import { useState } from "react";
+import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
 
 
 export const Listado = () => {
@@ -20,6 +23,8 @@ export const Listado = () => {
   } = useListado(handleAddEmpresa)
 
   const { empresaActiva, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaActiva()
+
+  const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])
 
   return (
     <>
@@ -75,10 +80,11 @@ export const Listado = () => {
             <h2>Sucursales</h2>
           </div>
           <div className={styleListado.sucursalContainer}>
-            <p>hola hola como como estas estas</p>
-            <p>hola hola como como estas estas</p>
-            <p>hola hola como como estas estas</p>
-            <p>hola hola como como estas estas</p>
+            {
+              empresas.map((empresa) => {
+                return (<p>{empresa.sucursales}</p>)
+              })
+            }
           </div>
         </section>
         {/* Componente para mostrar la información de la empresa */}
