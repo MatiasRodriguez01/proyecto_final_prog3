@@ -9,19 +9,23 @@ import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 import { IEmpresa } from "../../../interfaces/IEmpresa";
 import { useState } from "react";
 import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
+import { useSucursales } from "../../../hooks/sucursales/useSucursales";
 
 
 export const Listado = () => {
   // const x: string[][] = empresas.map((e) => e.sucursales)
   const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
 
+  const {sucursales, handleAddSucursal, handleDeleteSucursal} = useSucursales();
+
 
   const {
     isPopUpVisible,
     HandlePopUp,
     agregarNuevaEmpresa
-  } = useListado(handleAddEmpresa)
+  } = useListado(handleAddEmpresa, handleAddSucursal)
 
+  
   const { empresaActiva, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaActiva()
 
   const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])
