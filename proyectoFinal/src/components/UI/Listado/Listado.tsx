@@ -2,14 +2,13 @@ import { EmpresaCard } from "../EmpresaCard/EmpresaCard";
 import { useListado } from "../../../hooks/Listado/useListado";
 import { EmpresaInfo } from "../EmpresaInfo/EmpresaInfo";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
-import { useEmpresaInformacion } from "../../../hooks/useEmpresaInformacion/useEmpresaInformacion";
 import { useState } from "react"
 import { UseSucursal } from "../useSucursal/UseSucursal";
 
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from '../Listado/Listado.module.css'
-import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
 import { useSucursales } from "../../../hooks/sucursales/useSucursales";
+import { useInformacion } from "../../../hooks/useInformacion/useInformacion";
 //import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
 
 
@@ -22,16 +21,18 @@ export const Listado = () => {
   const {
     isPopUpVisible,
     HandlePopUp,
-    agregarNuevaEmpresa
+    agregarNuevaEmpresa,
+    agregarNuevaSucursal
   } = useListado(handleAddEmpresa, handleAddSucursal)
 
-  const { empresaInfo, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaInformacion()
+  const {informacion,mostrarInformacion,cerrarInformacion } = useInformacion()
 
   const [empresaActiva, setEmpresaActiva] = useState<number>(0)
 
   const handleEmpresaActiva = (id: number) => {
     setEmpresaActiva(id)
   }
+
 
   //const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])
 
@@ -60,19 +61,19 @@ export const Listado = () => {
 
                   <EmpresaCard
                     empresa={e}
-                    onVerEmpresa={() => mostrarEmpresaInfo(e.id)} // Usar la función para mostrar EmpresaInfo
+                    onVerEmpresa={() => mostrarInformacion(e.id)} // Usar la función para mostrar EmpresaInfo
                     deleteEmpresa={() => handleDeleteEmpresa(e.id)}
                     onClick={() => handleEmpresaActiva(e.id)}
 
                   />
 
-                  {empresaInfo == e.id && (
+                  {informacion == e.id && (
                     <EmpresaInfo
                       nombre={e.nombre}
                       razonSocial={e.razonSocial}
                       cuil={e.cuil}
                       imagen={e.imagen}
-                      onVerEmpresa={cerrarEmpresaInfo}
+                      onVerEmpresa={cerrarInformacion}
                     />
 
                   )}
@@ -95,7 +96,13 @@ export const Listado = () => {
           <div className={styleListado.sucursalContainer}>
             {
               empresas.map((empresa) => (
-                <UseSucursal key={empresa.id} empresa={empresa} empresaActiva={empresaActiva} />
+                <UseSucursal 
+                  empresa={empresa} 
+                  empresaActiva={empresaActiva} 
+                  prop_sucursales={sucursales} 
+                  onAddSucursal={agregarNuevaSucursal} 
+                  onDeleteSucursal={handleDeleteSucursal}
+                  />
               ))
             }
           </div>

@@ -1,49 +1,55 @@
-import { FC } from "react";
+import { ChangeEvent, FC } from "react";
 import { useForm } from "../../../hooks/useForm/useForm";
-import styleModalSucursal from "./ModalCrearSucursal.module.css"
 import { Button } from "react-bootstrap";
-import addImagen from "../ModalCrearEmpresa/imagen.png"
 
-interface PopUpPropsSucursal{
-    visible: boolean,
-    onClose(): void,
-    onAddSucursal: Function
+import addImagen from "../ModalCrearEmpresa/imagen.png"
+import styleModalSucursal from "./ModalCrearSucursal.module.css"
+
+
+interface PopUpPropsSucursal {
+  visible: boolean,
+  onClose(): void,
+  onAddSucursal: Function
 }
 
-export const ModalCrearSucursal : FC<PopUpPropsSucursal> =({visible, onClose, onAddSucursal}) => {
-    const { values, handleChange, resetForm } = useForm({
-        nombre: '',
-        horarioApertura: '',
-        horarioCierre: '',
-        pais: '',
-        provincia: '',
-        localidad: '',
-        latitud: '',
-        longitud: '',
-        nombreCalle: '',
-        numeroCalle: 0,
-        codigoPostal: 0,
-        numeroPiso: 0,
-        numeroDepartamento: 0,
-        imagen: ''
-      });
+export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({ visible, onClose, onAddSucursal }) => {
+  const { values, handleChange, resetForm } = useForm({
+    nombre: '',
+    horarioApertura: '',
+    horarioCierre: '',
+    pais: '',
+    provincia: '',
+    localidad: '',
+    latitud: '',
+    longitud: '',
+    nombreCalle: '',
+    numeroCalle: 0,
+    codigoPostal: 0,
+    numeroPiso: 0,
+    numeroDepartamento: 0,
+    imagen: ''
+  });
 
-      const { nombre, horarioApertura, horarioCierre, pais, provincia, localidad, latitud, longitud, nombreCalle, numeroCalle, codigoPostal, numeroPiso, numeroDepartamento, imagen } = values;
+  const { nombre, horarioApertura, horarioCierre, pais, provincia, localidad, latitud, longitud, nombreCalle, numeroCalle, codigoPostal, numeroPiso, numeroDepartamento, imagen } = values;
 
-    const addForm = () => {
-        onAddSucursal(nombre, horarioApertura, horarioCierre, pais, provincia, localidad, latitud, longitud, nombreCalle, numeroCalle, codigoPostal, numeroPiso, numeroDepartamento, imagen); // Agregar empresa
-        resetForm(); // Cerrar el modal
-        onClose()
-    }  
+  const addForm = () => {
+    onAddSucursal(nombre, horarioApertura, horarioCierre, pais, provincia, localidad, latitud, longitud, nombreCalle, numeroCalle, codigoPostal, numeroPiso, numeroDepartamento, imagen); // Agregar empresa
+    resetForm(); // Cerrar el modal
+    onClose()
+  }
 
-    const cancelForm = () => {
-        resetForm()
-        onClose()
-    }
+  const cancelForm = () => {
+    resetForm()
+    onClose()
+  }
 
-    if (!visible) {
-        return null; // Si no está visible, no renderiza nada
-      }
+  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault()
+  }
+
+  if (!visible) {
+    return null; // Si no está visible, no renderiza nada
+  }
   return (
     <div className={styleModalSucursal.containerPopUp}>
       <div className={styleModalSucursal.popUpContainer}>
@@ -53,6 +59,7 @@ export const ModalCrearSucursal : FC<PopUpPropsSucursal> =({visible, onClose, on
           {/* FORMULARIO PARA AGREGAR UNA SUCURSAL */}
           <form
             className={styleModalSucursal.formulario}
+            onSubmit={handleSubmit}
           >
             {/* NOMBRE DE LA SUCURSAL */}
             <input
@@ -82,23 +89,23 @@ export const ModalCrearSucursal : FC<PopUpPropsSucursal> =({visible, onClose, on
               required
             />
             {/* SELECCIONAR UNA PROVINCIA */}
-            <select name="provincia"  required> //usar un useState para guardar el valor
-                    <option value="" disabled selected>Seleccione un país</option>
-                    <option value="mendoza">Mendoza</option>
-                    <option value="santiago de chile">Santiago de Chile</option>
-                    <option value="monterrey">Monterrey</option>
+            <select name="provincia" required> //usar un useState para guardar el valor
+              <option value="" disabled selected>Seleccione un país</option>
+              <option value="mendoza">Mendoza</option>
+              <option value="santiago de chile">Santiago de Chile</option>
+              <option value="monterrey">Monterrey</option>
             </select>
             {/* SELECCIONAR UNA LOCALIDAD */}
             <select name="localidad" required> //usar un useState para guardar el valor
-                    <option value="" disabled selected>Seleccione un país</option>
-                    <option value="lujan de cuyo">Lujan de Cuyo, Mendoza</option>
-                    <option value="godoy cruz">Godoy Cruz, Mendoza</option>
-                    <option value="las condes">Las Condes, Santiago de Chile</option>
-                    <option value="providencia">Providencia, Santiago de Chile</option>
-                    <option value="san pedro garza garcia">San Pedro Garza García, Monterrey</option>
-                    <option value="guadalupe">Guadalupe, Monterrey</option>
+              <option value="" disabled selected>Seleccione un país</option>
+              <option value="lujan de cuyo">Lujan de Cuyo, Mendoza</option>
+              <option value="godoy cruz">Godoy Cruz, Mendoza</option>
+              <option value="las condes">Las Condes, Santiago de Chile</option>
+              <option value="providencia">Providencia, Santiago de Chile</option>
+              <option value="san pedro garza garcia">San Pedro Garza García, Monterrey</option>
+              <option value="guadalupe">Guadalupe, Monterrey</option>
             </select>
-                       {/* LATITUD*/}
+            {/* LATITUD*/}
             <input
               type="text"
               name='latitud'
@@ -107,7 +114,7 @@ export const ModalCrearSucursal : FC<PopUpPropsSucursal> =({visible, onClose, on
               onChange={handleChange}
               required
             />
-              {/* LONGITUD*/}
+            {/* LONGITUD*/}
             <input
               type="text"
               name='longitud'
@@ -116,7 +123,7 @@ export const ModalCrearSucursal : FC<PopUpPropsSucursal> =({visible, onClose, on
               onChange={handleChange}
               required
             />
-               {/* NOMBRE DE LA CALLE*/}
+            {/* NOMBRE DE LA CALLE*/}
             <input
               type="text"
               name='nombreCalle'
@@ -125,7 +132,7 @@ export const ModalCrearSucursal : FC<PopUpPropsSucursal> =({visible, onClose, on
               onChange={handleChange}
               required
             />
-               {/* NUMERO DE LA CALLE*/}
+            {/* NUMERO DE LA CALLE*/}
             <input
               type="number"
               name='numeroCalle'
@@ -134,7 +141,7 @@ export const ModalCrearSucursal : FC<PopUpPropsSucursal> =({visible, onClose, on
               onChange={handleChange}
               required
             />
-                {/* CODIGO POSTAL*/}
+            {/* CODIGO POSTAL*/}
             <input
               type="number"
               name='codigoPostal'
@@ -143,7 +150,7 @@ export const ModalCrearSucursal : FC<PopUpPropsSucursal> =({visible, onClose, on
               onChange={handleChange}
               required
             />
-                {/* NUMERO DE PISO*/}
+            {/* NUMERO DE PISO*/}
             <input
               type="number"
               name='numeroPiso'
@@ -151,7 +158,7 @@ export const ModalCrearSucursal : FC<PopUpPropsSucursal> =({visible, onClose, on
               value={numeroPiso}
               onChange={handleChange}
             />
-                {/* NUMERO DE DEPARTAMENTO*/}
+            {/* NUMERO DE DEPARTAMENTO*/}
             <input
               type="number"
               name='numeroDepartamento'
