@@ -1,34 +1,28 @@
 import { Button, Card } from "react-bootstrap";
 import stylesEmpresaCard from "./EmpresaCard.module.css";
-import { FC, useState } from "react";
+import { FC } from "react";
+import { IEmpresa } from "../../../interfaces/IEmpresa";
 
 interface EmpresaCardProps {
-  nombre: string;
+  empresa: IEmpresa;
   // razonSocial: string;
   // cuil: number;
   //imagen: string;
   onVerEmpresa: () => void;
   deleteEmpresa: () => void;
+  onClick: () => void;
 }
-export const EmpresaCard: FC<EmpresaCardProps> = ({
-  nombre,
-  onVerEmpresa,
-  deleteEmpresa,
-}) => {
 
-  const[showSucursales, setShowSucursales] = useState(false)
+export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa, deleteEmpresa, onClick }) => {
 
-  const handleClick = () => {
-    setShowSucursales(true);
-  };
-
+  //const[showSucursales, setShowSucursales] = useState(false)
   return (
     <>
       {/* {showSucursales ? (<div className="seccionSucursales")} */}
-      <Card onClick={handleClick} className={stylesEmpresaCard.card}>
+      <Card onClick={onClick} className={stylesEmpresaCard.card}>
         <Card.Body className={stylesEmpresaCard.bodyContainer}>
           <Card.Title style={{ height: "auto", margin: "0" }}>
-            {nombre}
+            {empresa.nombre}
           </Card.Title>
 
           <div className={stylesEmpresaCard.buttonContainer}>

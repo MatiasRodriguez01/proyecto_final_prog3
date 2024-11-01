@@ -1,17 +1,14 @@
 import { EmpresaCard } from "../EmpresaCard/EmpresaCard";
 import { useListado } from "../../../hooks/Listado/useListado";
 import { EmpresaInfo } from "../EmpresaInfo/EmpresaInfo";
-import { useEmpresaActiva } from "../../../hooks/useEmpresaActiva/useEmpresaActiva";
 
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from "./Listado.module.css";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
-<<<<<<< HEAD
+import { useEmpresaInformacion } from "../../../hooks/useEmpresaInformacion/useEmpresaInformacion";
 import { useState } from "react";
-import { IEmpresa } from "../../../interfaces/IEmpresa";
+import { UseSucursal } from "../useSucursal/useSucursal";
 //import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
-=======
->>>>>>> rama_santi
 
 
 export const Listado = () => {
@@ -25,11 +22,13 @@ export const Listado = () => {
     agregarNuevaEmpresa
   } = useListado(handleAddEmpresa)
 
-  const { empresaInfo, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaActiva()
+  const { empresaInfo, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaInformacion()
 
-  const [ empresaActiva, setEmpresaActiva ] = useState<IEmpresa>(); 
+  const [empresaActiva, setEmpresaActiva] = useState<number>(0)
 
-
+  const handleEmpresaActiva = (id: number) => {
+    setEmpresaActiva(id)
+  }
 
   return (
     <>
@@ -53,10 +52,13 @@ export const Listado = () => {
               empresas.map((e) => (
                 <div className={styleListado.empresasCardContainer} key={e.id}>
                   {/* Tarjeta de EMPRESA CARD */}
+
                   <EmpresaCard
-                    nombre={e.nombre}
+                    empresa={e}
                     onVerEmpresa={() => mostrarEmpresaInfo(e.id)} // Usar la función para mostrar EmpresaInfo
                     deleteEmpresa={() => handleDeleteEmpresa(e.id)}
+                    onClick={() => handleEmpresaActiva(e.id)}
+
                   />
 
                   {empresaInfo == e.id && (
@@ -81,17 +83,19 @@ export const Listado = () => {
         </section>
 
         <section className={styleListado.containerSucursales}>
-          <div className={styleListado.titulo}>
-            <h2>Sucursales</h2>
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <h2 style={{ height: 'auto', textAlign: 'center' }}>Sucursales</h2>
+            <hr />
+            {
+              empresas.map((empresa) => (
+                <UseSucursal key={empresa.id} empresa={empresa} empresaActiva={empresaActiva}/>
+              ))
+            }
           </div>
-          <div className={styleListado.sucursalContainer}>
-            <p>hola hola como como estas estas</p>
-            <p>hola hola como como estas estas</p>
-            <p>hola hola como como estas estas</p>
-            <p>hola hola como como estas estas</p>
-          </div>
+
         </section>
         {/* Componente para mostrar la información de la empresa */}
+
       </article>
 
       {/* Componente PopUp */}
@@ -100,6 +104,8 @@ export const Listado = () => {
         onClose={HandlePopUp}
         onAddEmpresa={agregarNuevaEmpresa}
       />
+
+
     </>
   );
 };

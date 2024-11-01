@@ -1,0 +1,43 @@
+.title {
+    height: auto;
+    text-align: center;
+}
+
+.containerPrincipal {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerSucursal{
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    align-items: center;
+    gap: 5vh;
+}
+
+.buttons {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3vh;
+}
+
+.button {
+    width: 50px; 
+}
+
+.boton_agregar {
+    height: 10vh;
+    display: flex;
+    flex-direction: center;
+    justify-content: center;
+    align-items: center;
+}
