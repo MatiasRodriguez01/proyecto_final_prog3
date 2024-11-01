@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from "react";
 import { IEmpresa } from "../../../interfaces/IEmpresa";
 import { Button, Card } from "react-bootstrap";
-import styleSucursal from "./UseSucursal.module.css";
+import styleSucursal from "../useSucursal/UseSucursal.module.css";
 import { ISucursales } from "../../../interfaces/ISucursal";
 
 interface IPropsSucursal {

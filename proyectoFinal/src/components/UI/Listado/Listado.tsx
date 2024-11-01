@@ -5,10 +5,16 @@ import { EmpresaInfo } from "../EmpresaInfo/EmpresaInfo";
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from "./Listado.module.css";
 import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
+<<<<<<< HEAD
 import { useEmpresaInformacion } from "../../../hooks/useEmpresaInformacion/useEmpresaInformacion";
 import { useState } from "react";
 import { UseSucursal } from "../useSucursal/useSucursal";
 //import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
+=======
+import { IEmpresa } from "../../../interfaces/IEmpresa";
+import { useState } from "react";
+import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
+>>>>>>> 5ae4ddb9bbb0e840786710caf27f02a623e14780
 
 
 export const Listado = () => {
@@ -29,6 +35,8 @@ export const Listado = () => {
   const handleEmpresaActiva = (id: number) => {
     setEmpresaActiva(id)
   }
+
+  const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])
 
   return (
     <>
@@ -83,6 +91,7 @@ export const Listado = () => {
         </section>
 
         <section className={styleListado.containerSucursales}>
+<<<<<<< HEAD
           <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h2 style={{ height: 'auto', textAlign: 'center' }}>Sucursales</h2>
             <hr />
@@ -90,6 +99,16 @@ export const Listado = () => {
               empresas.map((empresa) => (
                 <UseSucursal key={empresa.id} empresa={empresa} empresaActiva={empresaActiva}/>
               ))
+=======
+          <div className={styleListado.titulo}>
+            <h2>Sucursales</h2>
+          </div>
+          <div className={styleListado.sucursalContainer}>
+            {
+              empresas.map((empresa) => {
+                return (<p>{empresa.sucursales}</p>)
+              })
+>>>>>>> 5ae4ddb9bbb0e840786710caf27f02a623e14780
             }
           </div>
 
