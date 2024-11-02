@@ -81,13 +81,6 @@ export const ModalCrearSucursal : FC<PopUpPropsSucursal> =({visible, onClose, on
               onChange={handleChange}
               required
             />
-              {/* SELECCIONAR UN PAIS */}
-            <select name="pais" required> //usar un useState para guardar el valor
-                    <option value="" disabled selected>Seleccione un país</option>
-                    <option value="argentina">Argentina</option>
-                    <option value="mexico">México</option>
-                    <option value="chile">España</option>
-            </select>
             {/* SELECCIONAR UNA PROVINCIA */}
             <select name="provincia"  required> //usar un useState para guardar el valor
                     <option value="" disabled selected>Seleccione un país</option>

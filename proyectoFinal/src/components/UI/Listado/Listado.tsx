@@ -9,19 +9,21 @@ import { UseSucursal } from "../useSucursal/UseSucursal";
 import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
 import styleListado from '../Listado/Listado.module.css'
 import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
-//import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
+import { useSucursales } from "../../../hooks/sucursales/useSucursales";
 
 
 export const Listado = () => {
   // const x: string[][] = empresas.map((e) => e.sucursales)
   const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
 
+  const {sucursales, handleAddSucursal, handleDeleteSucursal} = useSucursales();
+
 
   const {
     isPopUpVisible,
     HandlePopUp,
     agregarNuevaEmpresa
-  } = useListado(handleAddEmpresa)
+  } = useListado(handleAddEmpresa, handleAddSucursal)
 
   const { empresaInfo, mostrarEmpresaInfo, cerrarEmpresaInfo } = useEmpresaInformacion()
 
