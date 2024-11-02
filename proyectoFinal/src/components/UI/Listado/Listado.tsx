@@ -27,9 +27,9 @@ export const Listado = () => {
 
   const {informacion,mostrarInformacion,cerrarInformacion } = useInformacion()
 
-  const [empresaActiva, setEmpresaActiva] = useState<number>(0)
+  const [empresaActiva, setEmpresaActiva] = useState<string>('')
 
-  const handleEmpresaActiva = (id: number) => {
+  const handleEmpresaActiva = (id: string) => {
     setEmpresaActiva(id)
   }
 

@@ -11,7 +11,7 @@ import { SucursalCard } from "../SucursalCard/SucursalCard";
 
 interface IPropsSucursal {
   empresa: IEmpresa;
-  empresaActiva: number;
+  empresaActiva: string;
   prop_sucursales: ISucursal[],
   onAddSucursal: Function,
   onDeleteSucursal: Function;
