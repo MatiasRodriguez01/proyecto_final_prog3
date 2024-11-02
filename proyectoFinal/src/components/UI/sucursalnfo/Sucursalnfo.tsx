@@ -10,7 +10,7 @@ interface IPropsSucursalInfo {
 export const Sucursalnfo: FC<IPropsSucursalInfo> = ({ sucursal, onVerSucursal }) => {
     return (
         <div className={styleInfo.containerPopInfo}>
-            <div className={styleInfo.container}>
+            <div className={styleInfo.container} style={{overflowY:'scroll'}}>
                 <div className="card" style={{ width: "18rem", height: 'auto' }}>
                     {sucursal.imagen && (
                         <img src={sucursal.imagen} className="card-img-top" alt="..."></img>
