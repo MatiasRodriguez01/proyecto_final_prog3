@@ -1,13 +1,14 @@
-import { FC, useState, useEffect } from "react";
-import { IEmpresa } from "../../../interfaces/IEmpresa";
 import { Button } from "react-bootstrap";
+import { FC, useState, useEffect } from "react";
+import { IEmpresa } from "../../../../interfaces/IEmpresa";
+import { ISucursal } from "../../../../interfaces/ISucursal";
+
+import { SucursalCard } from "../SucursalCard/SucursalCard";
+import { Sucursalnfo } from "../sucursalnfo/Sucursalnfo";
 import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
-import { ISucursal } from "../../../interfaces/ISucursal";
-import { useInformacion } from "../../../hooks/useInformacion/useInformacion";
 
 import styleSucursal from "../useSucursal/UseSucursal.module.css";
-import { Sucursalnfo } from "../sucursalnfo/Sucursalnfo";
-import { SucursalCard } from "../SucursalCard/SucursalCard";
+import { useInformacion } from "../../../../hooks/useInformacion";
 
 interface IPropsSucursal {
   empresa: IEmpresa;
@@ -15,9 +16,10 @@ interface IPropsSucursal {
   prop_sucursales: ISucursal[],
   onAddSucursal: Function,
   onDeleteSucursal: Function;
+  isLoggin: () => void;
 }
 
-export const UseSucursal: FC<IPropsSucursal> = ({ empresa, empresaActiva, prop_sucursales, onAddSucursal, onDeleteSucursal }) => {
+export const UseSucursal: FC<IPropsSucursal> = ({ empresa, empresaActiva, prop_sucursales, onAddSucursal, onDeleteSucursal, isLoggin }) => {
 
   const [sucursales, setSucursales] = useState<ISucursal[]>(prop_sucursales);
 
@@ -46,11 +48,12 @@ export const UseSucursal: FC<IPropsSucursal> = ({ empresa, empresaActiva, prop_s
         <div className={styleSucursal.containerPrincipal}>
           <div className={styleSucursal.containerSucursal}>
             {prop_sucursales.map((sucursal) => (
-              <div>
+              <div key={sucursal.id}>
                 <SucursalCard
                   sucursal={sucursal}
                   onSucursalActiva={() => mostrarInformacion(sucursal.id)}
                   onDeleteSucursal={() => onDeleteSucursal(sucursal.id)}
+                  isLoggin={isLoggin}
                 />
 
                 {
@@ -66,13 +69,12 @@ export const UseSucursal: FC<IPropsSucursal> = ({ empresa, empresaActiva, prop_s
           </div>
         </div>
 
-        {isPopUpVisible && (
-          <ModalCrearSucursal
-            visible={isPopUpVisible}
-            onClose={() => setIsPopUpVisible(false)}
-            onAddSucursal={onAddSucursal}
-          />
-        )}
+        
+        {
+          isPopUpVisible && ( 
+            <ModalCrearSucursal visible={isPopUpVisible} onClose={() => setIsPopUpVisible(false)} onAddSucursal={onAddSucursal}/>
+          )
+        }
       </>
     );
   }

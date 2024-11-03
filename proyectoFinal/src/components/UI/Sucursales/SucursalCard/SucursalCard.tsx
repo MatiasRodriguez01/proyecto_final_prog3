@@ -1,17 +1,17 @@
-import { Button, Card } from "react-bootstrap";
-import { ISucursal } from "../../../interfaces/ISucursal";
 import { FC } from "react";
-
 import styleSucursal from "../useSucursal/UseSucursal.module.css";
+import { ISucursal } from "../../../../interfaces/ISucursal";
+import { Card, Button } from "react-bootstrap";
 
 
 interface IPropsSucursalCard {
   sucursal: ISucursal;
   onSucursalActiva: () => void;
   onDeleteSucursal: () => void;
+  isLoggin: () => void;
 }
 
-export const SucursalCard: FC<IPropsSucursalCard> = ({ sucursal, onSucursalActiva, onDeleteSucursal }) => {
+export const SucursalCard: FC<IPropsSucursalCard> = ({ sucursal, onSucursalActiva, onDeleteSucursal, isLoggin }) => {
   return (
     <Card style={{ width: "18rem", height: "auto" }}>
       <Card.Body style={{ height: "auto" }}>
@@ -20,6 +20,7 @@ export const SucursalCard: FC<IPropsSucursalCard> = ({ sucursal, onSucursalActiv
         </Card.Title>
         <div className={styleSucursal.buttons}>
           <Button
+            type='submit'
             className={styleSucursal.button}
             variant="primary"
           >
@@ -32,6 +33,7 @@ export const SucursalCard: FC<IPropsSucursalCard> = ({ sucursal, onSucursalActiv
             </span>
           </Button>{" "}
           <Button
+            type='submit'
             className={styleSucursal.button}
             variant="danger"
             onClick={onDeleteSucursal}
@@ -40,6 +42,12 @@ export const SucursalCard: FC<IPropsSucursalCard> = ({ sucursal, onSucursalActiv
               delete_forever
             </span>
           </Button>
+          <Button
+            type='submit'
+            className={styleSucursal.button}
+            variant="warning"
+            onClick={isLoggin}
+          >ver</Button>
         </div>
       </Card.Body>
     </Card>

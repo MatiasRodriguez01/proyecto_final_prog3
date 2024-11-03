@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { ISucursal } from '../../../interfaces/ISucursal'
-import styleInfo from "../EmpresaInfo/EmpresaInfo.module.css"
+import { ISucursal } from '../../../../interfaces/ISucursal'
+import styleInfo from "../../Empresas/EmpresaInfo/EmpresaInfo.module.css"
 
 interface IPropsSucursalInfo {
     sucursal: ISucursal;

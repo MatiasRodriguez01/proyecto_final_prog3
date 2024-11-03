@@ -1,18 +1,21 @@
-import { EmpresaCard } from "../EmpresaCard/EmpresaCard";
-import { useListado } from "../../../hooks/Listado/useListado";
-import { EmpresaInfo } from "../EmpresaInfo/EmpresaInfo";
-import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
-import { useState } from "react"
-import { UseSucursal } from "../useSucursal/UseSucursal";
+import { FC, useState } from "react";
+import { useEmpresas } from "../../../hooks/useEmpresas";
+import { useInformacion } from "../../../hooks/useInformacion";
+import { useListado } from "../../../hooks/useListado";
+import { useSucursales } from "../../../hooks/useSucursales";
+import { EmpresaInfo } from "../Empresas/EmpresaInfo/EmpresaInfo";
+import { UseSucursal } from "../Sucursales/useSucursal/UseSucursal";
 
-import ModalCrearEmpresa from "../ModalCrearEmpresa/ModalCrearEmpresa";
-import styleListado from '../Listado/Listado.module.css'
-import { useSucursales } from "../../../hooks/sucursales/useSucursales";
-import { useInformacion } from "../../../hooks/useInformacion/useInformacion";
-//import { useEmpresas } from "../../../hooks/empresas/useEmpresas";
+import ModalCrearEmpresa from "../Empresas/ModalCrearEmpresa/ModalCrearEmpresa";
+import EmpresaCard from "../Empresas/EmpresaCard/EmpresaCard";
 
+import styleListado from "./Listado.module.css"
 
-export const Listado = () => {
+interface IProsListado {
+  isLoggin: () => void;
+}
+
+export const Listado: FC<IProsListado> = ({ isLoggin })  => {
   // const x: string[][] = empresas.map((e) => e.sucursales)
   const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
 
@@ -97,11 +100,13 @@ export const Listado = () => {
             {
               empresas.map((empresa) => (
                 <UseSucursal 
+                  key={empresa.id}
                   empresa={empresa} 
                   empresaActiva={empresaActiva} 
                   prop_sucursales={sucursales} 
                   onAddSucursal={agregarNuevaSucursal} 
                   onDeleteSucursal={handleDeleteSucursal}
+                  isLoggin={isLoggin}
                   />
               ))
             }
