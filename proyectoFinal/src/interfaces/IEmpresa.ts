@@ -1,10 +1,10 @@
-import { ISucursales } from "./ISucursal";
+import { ISucursal } from "./ISucursal";
 
 export interface IEmpresa {
-  id: number;
+  id: string;
   nombre: string;
   razonSocial: string;
   cuil: number;
   imagen: string;
-  sucursales: ISucursales[];
+  sucursales: ISucursal[];
 }

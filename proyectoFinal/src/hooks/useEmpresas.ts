@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IEmpresa } from "../../interfaces/IEmpresa";
+import { IEmpresa } from "../interfaces/IEmpresa";
 
 export const useEmpresas = () => {
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);

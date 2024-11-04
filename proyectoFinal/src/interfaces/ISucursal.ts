@@ -1,4 +1,17 @@
-export interface ISucursales {
-    id: number,
-    nombre: string
+export interface ISucursal {
+    id: string,
+    nombre: string,
+    horarioApertura: string,
+    horarioCierre: string,
+    pais: string,
+    provincia: string,
+    localidad: string,
+    latitud: string,
+    longitud: string,
+    nombreCalle: string,
+    numeroCalle: number,
+    codigoPostal: number,
+    numeroPiso: number,
+    numeroDepartamento: number,
+    imagen: string
 }
