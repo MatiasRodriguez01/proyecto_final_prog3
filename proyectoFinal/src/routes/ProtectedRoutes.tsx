@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router"
-import { Hearder } from "../components/screen/Header"
-import { Categoria } from "../components/screen/Categoria"
-import { Producto } from "../components/screen/Producto"
-import { Alogenos } from "../components/screen/Alogenos"
+import { Hearder } from "../components/views/Header/Header"
+import { Categoria } from "../components/views/Categoria/Categoria"
+import { Producto } from "../components/views/Producto/Producto"
+import { Alogenos } from "../components/views/Alogenos/Alogenos"
 import { FC } from "react"
 
 interface IProsProtectedRoutes {

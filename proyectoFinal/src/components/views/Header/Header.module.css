@@ -1,0 +1,12 @@
+
+.backButton{
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid #fff;
+    transition: 0.2s ease-in;
+}
+.backButton:hover{
+    color: #1F2421;
+    background-color: #fff;
+    border: 0px ;
+}
