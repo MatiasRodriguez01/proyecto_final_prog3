@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { FC } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
@@ -10,17 +9,17 @@ interface IProsProyectedRoutes {
 export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
 
   
-  const { categorias, handleAddCategoria, handleDeleteCategoria } = useCategorias();
-  const { productos, handleAddProducto, handleDeleteProducto } = useProductos();
-  const { alergenos, handleAddAlergeno, handleDeleteAlergeno } = useAlergenos();
+  // const { categorias, handleAddCategoria, handleDeleteCategoria } = useCategorias();
+  // const { productos, handleAddProducto, handleDeleteProducto } = useProductos();
+  // const { alergenos, handleAddAlergeno, handleDeleteAlergeno } = useAlergenos();
 
-  const {
-    isPopUpVisible,
-    HandlePopUp,
-    agregarNuevaCategoria,
-    agregarNuevoProducto,
-    agregarNuevoAlergeno
-  } = useListado(handleAddCategoria, handleAddProducto, handleAddAlergeno)
+  // const {
+  //   isPopUpVisible,
+  //   HandlePopUp,
+  //   agregarNuevaCategoria,
+  //   agregarNuevoProducto,
+  //   agregarNuevoAlergeno
+  // } = useListado(handleAddCategoria, handleAddProducto, handleAddAlergeno)
 
   return (
     <>
@@ -45,17 +44,17 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
           <div className={stylesAdminCard.containerBotones}>
             <button 
             type="button"
-            onClick={HandlePopUp}
+            // onClick={HandlePopUp}
             >Categorias</button>
 
             <button 
             type="button"
-            onClick={HandlePopUp}
+            // onClick={HandlePopUp}
             >Productos</button>
 
             <button 
             type="button"
-            onClick={HandlePopUp}
+            // onClick={HandlePopUp}
             >Alergenos</button>
 
           </div>
@@ -64,29 +63,3 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
     </>
   );
 };
-=======
-import { Route, Routes } from "react-router"
-import { Hearder } from "../components/views/Header/Header"
-import { Categoria } from "../components/views/Categoria/Categoria"
-import { Producto } from "../components/views/Producto/Producto"
-import { Alogenos } from "../components/views/Alogenos/Alogenos"
-import { FC } from "react"
-
-interface IProsProtectedRoutes {
-    isBack: () => void;
-  }
-  
-
-export const ProtectedRoutes: FC<IProsProtectedRoutes> = ({ isBack }) => {
-    return (
-        <>
-            <Hearder isBack={isBack} />
-            <Routes>
-                <Route path="/categoria" element={<Categoria/>} />
-                <Route path="/producto" element={<Producto/>} />
-                <Route path="/alogeno" element={<Alogenos/>} />
-            </Routes>
-        </>
-    )
-}
->>>>>>> cb614be81b80da9b56492700db529fc9aa8ca07a

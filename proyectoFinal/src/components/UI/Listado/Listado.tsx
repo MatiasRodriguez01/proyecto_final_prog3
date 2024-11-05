@@ -3,11 +3,11 @@ import { useEmpresas } from "../../../hooks/useEmpresas";
 import { useInformacion } from "../../../hooks/useInformacion";
 import { useListado } from "../../../hooks/useListado";
 import { useSucursales } from "../../../hooks/useSucursales";
-import { EmpresaInfo } from "../Empresas/EmpresaInfo/EmpresaInfo";
-import { UseSucursal } from "../Sucursales/useSucursal/UseSucursal";
+import { EmpresaInfo } from "../../views/Empresas/EmpresaInfo/EmpresaInfo";
+import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
 
-import ModalCrearEmpresa from "../Empresas/ModalCrearEmpresa/ModalCrearEmpresa";
-import EmpresaCard from "../Empresas/EmpresaCard/EmpresaCard";
+import ModalCrearEmpresa from "../../views/Empresas/ModalCrearEmpresa/ModalCrearEmpresa";
+import EmpresaCard from "../../views/Empresas/EmpresaCard/EmpresaCard";
 
 import styleListado from "./Listado.module.css";
 
@@ -27,12 +27,8 @@ export const Listado: FC<IProsListado> = ({ isLoggin }) => {
     HandlePopUp,
     agregarNuevaEmpresa,
     agregarNuevaSucursal,
-<<<<<<< HEAD
 
   } = useListado(handleAddEmpresa, handleAddSucursal)
-=======
-  } = useListado(handleAddEmpresa, handleAddSucursal);
->>>>>>> cb614be81b80da9b56492700db529fc9aa8ca07a
 
   const { informacion, mostrarInformacion, cerrarInformacion } =
     useInformacion();
