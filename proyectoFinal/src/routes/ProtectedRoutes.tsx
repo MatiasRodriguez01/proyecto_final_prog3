@@ -8,6 +8,7 @@ interface IProsProyectedRoutes {
 
 export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
 
+  
   const { categorias, handleAddCategoria, handleDeleteCategoria } = useCategorias();
   const { productos, handleAddProducto, handleDeleteProducto } = useProductos();
   const { alergenos, handleAddAlergeno, handleDeleteAlergeno } = useAlergenos();
@@ -43,16 +44,18 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
           <div className={stylesAdminCard.containerBotones}>
             <button 
             type="button"
-
+            onClick={HandlePopUp}
             >Categorias</button>
 
-            <button type="button">Productos</button>
+            <button 
+            type="button"
+            onClick={HandlePopUp}
+            >Productos</button>
 
-            <button type="button">Alergenos</button>
-
-            <button type="button">Alergenos</button>
-
-            <button type="button">Alergenos</button>
+            <button 
+            type="button"
+            onClick={HandlePopUp}
+            >Alergenos</button>
 
           </div>
         </div>

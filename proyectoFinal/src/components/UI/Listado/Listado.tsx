@@ -21,16 +21,14 @@ export const Listado: FC<IProsListado> = ({ isLoggin })  => {
 
   const { sucursales, handleAddSucursal, handleDeleteSucursal } = useSucursales()
 
-  const { alergenos, handleAddAlergeno, handleDeleteDelete } = useSucursales()
-
 
   const {
     isPopUpVisible,
     HandlePopUp,
     agregarNuevaEmpresa,
     agregarNuevaSucursal,
-    agregarAlergeno
-  } = useListado(handleAddEmpresa, handleAddSucursal, handleAddAlergeno)
+
+  } = useListado(handleAddEmpresa, handleAddSucursal)
 
   const {informacion,mostrarInformacion,cerrarInformacion } = useInformacion()
 
