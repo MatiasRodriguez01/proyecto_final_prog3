@@ -7,7 +7,7 @@ export const AppRouter = () => {
 
     const [isLoggin, setIsloggin] = useState<boolean>(false);
 
-    const cambiarRuta = () => {
+    const changeRoute = () => {
         console.log(isLoggin)
         setIsloggin(!isLoggin)
     }
@@ -17,9 +17,9 @@ export const AppRouter = () => {
         <Routes>
             {
                 isLoggin ? (
-                    <Route path="/*" element={<ProtectedRoutes isBack={cambiarRuta}/>} />
+                    <Route path="/*" element={<ProtectedRoutes isBack={changeRoute}/>} />
                 ) : (
-                    <Route  path="/*" element={<Listado isLoggin={cambiarRuta}/>} />
+                    <Route  path="/*" element={<Listado isLoggin={changeRoute}/>} />
                 )
             }
         </Routes>
