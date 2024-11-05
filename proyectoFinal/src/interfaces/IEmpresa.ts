@@ -1,6 +1,5 @@
 import { ISucursal } from "./ISucursal";
 
-
 export interface IEmpresa {
   id: number;
   nombre: string;

@@ -1,19 +1,5 @@
 import { useState } from "react";
 import { IEmpresa } from "../../interfaces/IEmpresa";
-import { ISucursales } from "../../interfaces/ISucursal";
-
-const s1: ISucursales = {
-  id: 1,
-  nombre: 'sucursal 1'
-} 
-const s2: ISucursales = {
-  id: 2,
-  nombre: 'sucursal 2'
-} 
-const s3: ISucursales = {
-  id: 3,
-  nombre: 'sucursal 3'
-} 
 
 export const useEmpresas = () => {
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
@@ -25,7 +11,7 @@ export const useEmpresas = () => {
       razonSocial: razonSocial,
       cuil: cuil,
       imagen: selectedImage, 
-      sucursales: [s1, s2, s3],
+      sucursales: [],
     };
 
     setEmpresas((prevEmpresas) => [...prevEmpresas, nuevaEmpresa]);

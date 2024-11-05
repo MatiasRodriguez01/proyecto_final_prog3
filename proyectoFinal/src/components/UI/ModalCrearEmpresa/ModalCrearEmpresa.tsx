@@ -1,16 +1,14 @@
+import { ChangeEvent, FC } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "../../../hooks/useForm/useForm";
 
 import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
-import { FC } from "react";
-import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
 
 interface PopUpPropsEmpresa {
   visible: boolean;
   onClose: () => void;
   onAddEmpresa: Function;
-  // onAddEmpresa: (nombre: string, razonSocial: string, cuil: string, selectedImage: string | null) => void;
 }
 
 const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpresa }) => {
@@ -35,10 +33,9 @@ const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpr
     onClose()
   }
 
-  // const handleSubmit = () => {
-  //   resetForm()
-  //   onClose()
-  // };
+  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault()
+  };
   
     if (!visible) {
       return null; // Si no está visible, no renderiza nada
@@ -52,6 +49,7 @@ const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpr
 
           {/* FORMULARIO PARA AGREGAR EMPRESA */}
           <form
+            onSubmit={handleSubmit}
             className={styleModalEmpresa.formulario}
           >
             {/* NOMBRE DE LA EMPRESA */}
