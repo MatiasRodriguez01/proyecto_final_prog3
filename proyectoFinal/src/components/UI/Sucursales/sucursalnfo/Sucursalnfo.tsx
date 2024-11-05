@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { ISucursal } from '../../../interfaces/ISucursal'
-import styleInfo from "../EmpresaInfo/EmpresaInfo.module.css"
+import { ISucursal } from '../../../../interfaces/ISucursal'
+import styleInfo from "../../Empresas/EmpresaInfo/EmpresaInfo.module.css"
 
 interface IPropsSucursalInfo {
     sucursal: ISucursal;
@@ -10,7 +10,7 @@ interface IPropsSucursalInfo {
 export const Sucursalnfo: FC<IPropsSucursalInfo> = ({ sucursal, onVerSucursal }) => {
     return (
         <div className={styleInfo.containerPopInfo}>
-            <div className={styleInfo.container}>
+            <div className={styleInfo.container} style={{overflowY:'scroll'}}>
                 <div className="card" style={{ width: "18rem", height: 'auto' }}>
                     {sucursal.imagen && (
                         <img src={sucursal.imagen} className="card-img-top" alt="..."></img>

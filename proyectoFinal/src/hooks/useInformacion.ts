@@ -2,9 +2,9 @@
 import { useState } from "react";
 
 export const useInformacion = () => {
-  const [informacion, setInformacion] = useState<number | null>(null);
+  const [informacion, setInformacion] = useState<string | null>(null);
 
-  const mostrarInformacion = (id: number) => setInformacion(id);
+  const mostrarInformacion = (id: string) => setInformacion(id);
 
   const cerrarInformacion= () => setInformacion(null);
 

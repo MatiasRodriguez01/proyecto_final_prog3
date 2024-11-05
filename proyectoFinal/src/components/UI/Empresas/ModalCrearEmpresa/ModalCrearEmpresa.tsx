@@ -1,6 +1,6 @@
 import { ChangeEvent, FC } from "react";
 import { Button } from "react-bootstrap";
-import { useForm } from "../../../hooks/useForm/useForm";
+import { useForm } from "../../../../hooks/useForm";
 
 import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";

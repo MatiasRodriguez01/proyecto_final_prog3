@@ -1,7 +1,7 @@
 import { ISucursal } from "./ISucursal";
 
 export interface IEmpresa {
-  id: number;
+  id: string;
   nombre: string;
   razonSocial: string;
   cuil: number;

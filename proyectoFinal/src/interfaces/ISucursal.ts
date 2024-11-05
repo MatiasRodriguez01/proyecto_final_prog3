@@ -1,5 +1,5 @@
 export interface ISucursal {
-    id: number,
+    id: string,
     nombre: string,
     horarioApertura: string,
     horarioCierre: string,

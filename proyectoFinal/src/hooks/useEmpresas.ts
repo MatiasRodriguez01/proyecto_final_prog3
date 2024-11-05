@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { IEmpresa } from "../../interfaces/IEmpresa";
+import { IEmpresa } from "../interfaces/IEmpresa";
 
 export const useEmpresas = () => {
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
 
   const handleAddEmpresa = (nombre: string, razonSocial: string, cuil: number, selectedImage: string) => {
     const nuevaEmpresa: IEmpresa = {
-      id: empresas.length + 1,
+      id: new Date().toISOString(),
       nombre: nombre,
       razonSocial: razonSocial,
       cuil: cuil,
@@ -17,7 +17,7 @@ export const useEmpresas = () => {
     setEmpresas((prevEmpresas) => [...prevEmpresas, nuevaEmpresa]);
   };
 
-  const handleDeleteEmpresa = (id: number) => { 
+  const handleDeleteEmpresa = (id: string) => { 
     setEmpresas((prev) =>  prev.filter(empresa => empresa.id !== id))
   }
 

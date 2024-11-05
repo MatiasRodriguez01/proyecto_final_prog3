@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Listado } from "./components/UI/Listado/Listado";
+import { App } from "./App";
 // import "@fontsource/material-symbols-outlined"; 
 
 const link = document.createElement('link');
@@ -10,6 +10,6 @@ document.head.appendChild(link);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Listado />
+    <App />
   </StrictMode>
 );

@@ -19,7 +19,7 @@ export const useSucursales = () => {
     numeroDepartamento: number,
     imagen: string) => {
     const nuevaEmpresa: ISucursal = {
-      id: sucursales.length + 1,
+      id:  new Date().toISOString(),
       nombre: nombre,
       horarioApertura: horarioApertura,
       horarioCierre: horarioCierre,
@@ -39,7 +39,7 @@ export const useSucursales = () => {
     setSucursales((prevSucursales) => [...prevSucursales, nuevaEmpresa]);
   };
 
-  const handleDeleteSucursal = (id: number) => { 
+  const handleDeleteSucursal = (id: string) => { 
     setSucursales((prev) =>  prev.filter(sucursal => sucursal.id !== id))
   }
 
