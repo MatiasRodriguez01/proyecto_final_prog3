@@ -11,36 +11,41 @@ interface PopUpPropsEmpresa {
   onAddEmpresa: Function;
 }
 
-const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpresa }) => {
-
+const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({
+  visible,
+  onClose,
+  onAddEmpresa,
+}) => {
   const { values, handleChange, resetForm } = useForm({
-    nombre: '',
-    razonSocial: '',
+    nombre: "",
+    razonSocial: "",
     cuil: 0,
-    imagen: ''
+    imagen: "",
   });
 
   const { nombre, razonSocial, cuil, imagen } = values;
 
   const addForm = () => {
-    onAddEmpresa(nombre, razonSocial, cuil, imagen); // Agregar empresa
-    resetForm(); // Cerrar el modal
-    onClose()
-  }  
+    // Agregar empresa
+    onAddEmpresa(nombre, razonSocial, cuil, imagen);
+    // Resetear el form cuando se cierra
+    resetForm();
+    onClose();
+  };
 
   const cancelForm = () => {
-    resetForm()
-    onClose()
-  }
+    resetForm();
+    onClose();
+  };
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
   };
-  
-    if (!visible) {
-      return null; // Si no está visible, no renderiza nada
-    }
-  
+  // Si no está visible, no renderiza nada
+  if (!visible) {
+    return null;
+  }
+
   return (
     <div className={styleModalEmpresa.containerPopUp}>
       <div className={styleModalEmpresa.popUpContainer}>
@@ -55,7 +60,7 @@ const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpr
             {/* NOMBRE DE LA EMPRESA */}
             <input
               type="text"
-              name='nombre'
+              name="nombre"
               placeholder="Ingrese un nombre"
               value={nombre}
               onChange={handleChange}
@@ -64,7 +69,7 @@ const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpr
             {/* RAZON SOCIAL DE LA EMPRESA */}
             <input
               type="text"
-              name='razonSocial'
+              name="razonSocial"
               placeholder="Ingrese una razon social"
               value={razonSocial}
               onChange={handleChange}
@@ -73,7 +78,7 @@ const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpr
             {/* CUIL */}
             <input
               type="number"
-              name='cuil'
+              name="cuil"
               placeholder="Ingrese un cuil"
               value={cuil}
               onChange={handleChange}
@@ -83,7 +88,7 @@ const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpr
             <div className={styleModalEmpresa.imagenContainer}>
               <input
                 type="text"
-                name='imagen'
+                name="imagen"
                 placeholder="Ingresa una imagen"
                 value={imagen}
                 onChange={handleChange}

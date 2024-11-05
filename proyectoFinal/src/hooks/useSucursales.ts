@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { ISucursal } from "../../interfaces/ISucursal";
-
+import { ISucursal } from "../interfaces/ISucursal";
 export const useSucursales = () => {
   const [sucursales, setSucursales] = useState<ISucursal[]>([]);
 
-  const handleAddSucursal = (nombre: string,
+  const handleAddSucursal = (
+    nombre: string,
     horarioApertura: string,
     horarioCierre: string,
     pais: string,
@@ -17,9 +17,10 @@ export const useSucursales = () => {
     codigoPostal: number,
     numeroPiso: number,
     numeroDepartamento: number,
-    imagen: string) => {
+    imagen: string
+  ) => {
     const nuevaEmpresa: ISucursal = {
-      id:  new Date().toISOString(),
+      id: new Date().toISOString(),
       nombre: nombre,
       horarioApertura: horarioApertura,
       horarioCierre: horarioCierre,
@@ -33,19 +34,19 @@ export const useSucursales = () => {
       codigoPostal: codigoPostal,
       numeroPiso: numeroPiso,
       numeroDepartamento: numeroDepartamento,
-      imagen: imagen
+      imagen: imagen,
     };
 
     setSucursales((prevSucursales) => [...prevSucursales, nuevaEmpresa]);
   };
 
-  const handleDeleteSucursal = (id: string) => { 
-    setSucursales((prev) =>  prev.filter(sucursal => sucursal.id !== id))
-  }
+  const handleDeleteSucursal = (id: string) => {
+    setSucursales((prev) => prev.filter((sucursal) => sucursal.id !== id));
+  };
 
   return {
-    sucursales, 
-    handleAddSucursal, 
-    handleDeleteSucursal
+    sucursales,
+    handleAddSucursal,
+    handleDeleteSucursal,
   };
 };
