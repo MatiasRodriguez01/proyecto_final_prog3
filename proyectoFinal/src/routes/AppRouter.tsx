@@ -8,7 +8,6 @@ export const AppRouter = () => {
     const [isLoggin, setIsloggin] = useState<boolean>(false);
 
     const changeRoute = () => {
-        console.log(isLoggin)
         setIsloggin(!isLoggin)
     }
 
