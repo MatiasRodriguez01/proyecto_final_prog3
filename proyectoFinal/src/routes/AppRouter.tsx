@@ -12,17 +12,17 @@ export const AppRouter = () => {
         setIsloggin(!isLoggin)
     }
 
-  return (
-    <>
-        <Routes>
-            {
-                isLoggin ? (
-                    <Route path="/*" element={<ProtectedRoutes isBack={changeRoute}/>} />
-                ) : (
-                    <Route  path="/*" element={<Listado isLoggin={changeRoute}/>} />
-                )
-            }
-        </Routes>
-    </>
-  )
+    return (
+        <>
+            <Routes>
+                {
+                    isLoggin ? (
+                        <Route path="/*" element={<ProtectedRoutes isBack={changeRoute} />} />
+                    ) : (
+                        <Route path="/*" element={<Listado isLoggin={changeRoute} />} />
+                    )
+                }
+            </Routes>
+        </>
+    )
 }
