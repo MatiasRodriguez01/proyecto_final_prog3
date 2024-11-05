@@ -1,0 +1,37 @@
+.container{
+    display: flex;
+    width: 20vw;
+    margin: 10px;
+    border-right: #252422 1px solid;
+
+
+}
+
+.administracion{
+    padding: 50px;
+    display: grid;
+    width: 15vw;
+
+    
+
+}
+.containerBotones{
+    display: grid;
+    margin: auto;
+
+    
+}
+button {
+    width: 10vw;
+    height: 6vh;
+    font-size: 12px;
+    color: black;
+    background-color: white;
+    padding: 10px 20px;
+    border: #bcb9b3 1px solid;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin: 10px;
+
+}

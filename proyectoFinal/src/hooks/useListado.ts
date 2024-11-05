@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useListado = (handleAddEmpresa: Function, handleAddSucursal: Function) => {
+export const useListado = (handleAddEmpresa: Function, handleAddSucursal: Function, handleAddAlergeno: Function) => {
   const [isPopUpVisible, setIsPopUpVisible] = useState<boolean>(false);
 
   const HandlePopUp = () => {
@@ -50,10 +50,23 @@ export const useListado = (handleAddEmpresa: Function, handleAddSucursal: Functi
       imagen)
   }
 
+  const agregarAlergeno = (
+    nombre: string,
+    imagen: string
+  ) => {
+    handleAddAlergeno(
+      nombre,
+      imagen
+    )
+  }
+
+  
+
   return {
     isPopUpVisible,
     HandlePopUp,
     agregarNuevaEmpresa,
-    agregarNuevaSucursal
+    agregarNuevaSucursal,
+    agregarAlergeno
   };
 };
