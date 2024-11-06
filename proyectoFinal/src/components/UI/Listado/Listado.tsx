@@ -2,48 +2,32 @@ import { FC, useEffect, useState } from "react";
 import { useEmpresas } from "../../../hooks/useEmpresas";
 import { useInformacion } from "../../../hooks/useInformacion";
 import { useListado } from "../../../hooks/useListado";
-import { useSucursales } from "../../../hooks/useSucursales";
 import { EmpresaInfo } from "../Empresas/EmpresaInfo/EmpresaInfo";
-import { UseSucursal } from "../Sucursales/useSucursal/UseSucursal";
 
 import ModalCrearEmpresa from "../Empresas/ModalCrearEmpresa/ModalCrearEmpresa";
 import EmpresaCard from "../Empresas/EmpresaCard/EmpresaCard";
 
 import styleListado from "./Listado.module.css"
 
-interface IProsListado {
-  isLoggin: () => void;
-}
+// interface IProsListado {
+//   isLoggin: () => void;
+// }
 
-export const Listado: FC<IProsListado> = ({ isLoggin })  => {
+export const Listado = () => {
   // const x: string[][] = empresas.map((e) => e.sucursales)
   const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
 
-  const { sucursales, handleAddSucursal, handleUpdateSucursal, fetchSucursales } = useSucursales(0)
+  //const { sucursales, handleAddSucursal, handleUpdateSucursal } = useSucursales(0);
 
-  const {
-    isPopUpVisible,
-    HandlePopUp,
-    agregarNuevaEmpresa,
-    agregarNuevaSucursal
-  } = useListado(handleAddEmpresa, handleAddSucursal)
+  const { isPopUpVisible, HandlePopUp } = useListado()
 
-  const {informacion,mostrarInformacion,cerrarInformacion } = useInformacion()
+  const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion()
 
-  const [empresaActiva, setEmpresaActiva] = useState<string>('')
+  const [empresaActiva, setEmpresaActiva] = useState<number | null>(null)
 
-  const handleEmpresaActiva = (id: string) => {
+  const handleEmpresaActiva = (id: number) => {
     setEmpresaActiva(id)
   }
-
-  useEffect(() => {
-    if (empresaActiva){
-      fetchSucursales(empresaActiva)
-    }
-  },[empresaActiva,fetchSucursales])
-
-
-  //const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])
 
   return (
     <>
@@ -78,14 +62,18 @@ export const Listado: FC<IProsListado> = ({ isLoggin })  => {
 
                   {informacion == e.id && (
                     <EmpresaInfo
-                      nombre={e.nombre}
-                      razonSocial={e.razonSocial}
-                      cuil={e.cuil}
-                      imagen={e.imagen}
+                      empresa={e}
                       onVerEmpresa={cerrarInformacion}
                     />
 
                   )}
+
+                  {/* Componente PopUp */}
+                  <ModalCrearEmpresa
+                    visible={isPopUpVisible}
+                    onClose={HandlePopUp}
+                    onAddEmpresa={handleAddEmpresa}
+                  />
 
                 </div>
               ))
@@ -102,7 +90,7 @@ export const Listado: FC<IProsListado> = ({ isLoggin })  => {
           <div className={styleListado.titulo}>
             <h2>Sucursales</h2>
           </div>
-          <div className={styleListado.sucursalContainer}>
+          {/* <div className={styleListado.sucursalContainer}>
             {
               empresas.map((empresa) => (
                 <UseSucursal 
@@ -116,19 +104,11 @@ export const Listado: FC<IProsListado> = ({ isLoggin })  => {
                   />
               ))
             }
-          </div>
+          </div> */}
 
         </section>
-        {/* Componente para mostrar la información de la empresa */}
 
       </article>
-
-      {/* Componente PopUp */}
-      <ModalCrearEmpresa
-        visible={isPopUpVisible}
-        onClose={HandlePopUp}
-        onAddEmpresa={agregarNuevaEmpresa}
-      />
 
 
     </>

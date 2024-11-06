@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { IEmpresa } from "../interfaces/IEmpresa";
-import { ServiceEmpresa } from "../servicios/EmpresaService";
+import { ServiceEmpresa } from "../services/EmpresaService";
 import { ICreateEmpresaDto } from "../types/dtos/empresa/ICreateEmpresaDto";
+import { IEmpresa } from "../types/dtos/empresa/IEmpresa";
 
 export const useEmpresas = () => {
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
@@ -16,21 +16,8 @@ export const useEmpresas = () => {
       console.error("Error creando empresa, ", error)
     }
   }
-
-  /*const handleAddEmpresa = (nombre: string, razonSocial: string, cuil: number, selectedImage: string) => {
-    const nuevaEmpresa: IEmpresa = {
-      id: new Date().toISOString(),
-      nombre: nombre,
-      razonSocial: razonSocial,
-      cuil: cuil,
-      imagen: selectedImage, 
-      sucursales: [],
-    };
-
-    setEmpresas((prevEmpresas) => [...prevEmpresas, nuevaEmpresa]);
-  };*/
-
-  const handleDeleteEmpresa = (id: string) => { 
+  
+  const handleDeleteEmpresa = (id: number) => { 
     setEmpresas((prev) =>  prev.filter(empresa => empresa.id !== id))
   }
 
@@ -38,3 +25,15 @@ export const useEmpresas = () => {
     empresas, handleAddEmpresa, handleDeleteEmpresa
   };
 };
+    /*const handleAddEmpresa = (nombre: string, razonSocial: string, cuil: number, selectedImage: string) => {
+      const nuevaEmpresa: IEmpresa = {
+        id: new Date().toISOString(),
+        nombre: nombre,
+        razonSocial: razonSocial,
+        cuil: cuil,
+        imagen: selectedImage, 
+        sucursales: [],
+      };
+  
+      setEmpresas((prevEmpresas) => [...prevEmpresas, nuevaEmpresa]);
+    };*/

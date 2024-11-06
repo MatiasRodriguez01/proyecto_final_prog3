@@ -1,6 +1,6 @@
 import { Button, Card } from "react-bootstrap";
 import { FC } from "react";
-import { IEmpresa } from "../../../../interfaces/IEmpresa";
+import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 import stylesEmpresaCard from "./EmpresaCard.module.css";
 
 interface EmpresaCardProps {

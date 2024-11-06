@@ -4,6 +4,7 @@ import { useForm } from "../../../../hooks/useForm";
 
 import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
+import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
 
 interface PopUpPropsEmpresa {
   visible: boolean;
@@ -23,7 +24,14 @@ const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpr
   const { nombre, razonSocial, cuil, imagen } = values;
 
   const addForm = () => {
-    onAddEmpresa(nombre, razonSocial, cuil, imagen); // Agregar empresa
+    
+    const newEmpresa: ICreateEmpresaDto = {
+      nombre: nombre,
+      razonSocial: razonSocial,
+      cuit: cuil,
+      logo: imagen,
+    }
+    onAddEmpresa(newEmpresa); // Agregar empresa
     resetForm(); // Cerrar el modal
     onClose()
   }  

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ISucursal } from "../interfaces/ISucursal";
-import { ServiceSucursal } from "../servicios/SucursalService";
+import { ServiceSucursal } from "../services/SucursalService";
 import { ICreateSucursal } from "../types/dtos/sucursal/ICreateSucursal";
 import { IUpdateSucursal } from "../types/dtos/sucursal/IUpdateSucursal";
 
