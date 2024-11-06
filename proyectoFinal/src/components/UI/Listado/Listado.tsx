@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useEmpresas } from "../../../hooks/useEmpresas";
 import { useInformacion } from "../../../hooks/useInformacion";
 import { useListado } from "../../../hooks/useListado";
@@ -19,7 +19,7 @@ export const Listado: FC<IProsListado> = ({ isLoggin })  => {
   // const x: string[][] = empresas.map((e) => e.sucursales)
   const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
 
-  const { sucursales, handleAddSucursal, handleDeleteSucursal } = useSucursales()
+  const { sucursales, handleAddSucursal, handleUpdateSucursal, fetchSucursales } = useSucursales(0)
 
   const {
     isPopUpVisible,
@@ -35,6 +35,12 @@ export const Listado: FC<IProsListado> = ({ isLoggin })  => {
   const handleEmpresaActiva = (id: string) => {
     setEmpresaActiva(id)
   }
+
+  useEffect(() => {
+    if (empresaActiva){
+      fetchSucursales(empresaActiva)
+    }
+  },[empresaActiva,fetchSucursales])
 
 
   //const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])

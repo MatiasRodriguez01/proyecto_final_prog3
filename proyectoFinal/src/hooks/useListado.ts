@@ -21,34 +21,31 @@ export const useListado = (handleAddEmpresa: Function, handleAddSucursal: Functi
     nombre: string,
     horarioApertura: string,
     horarioCierre: string,
-    pais: string,
-    localidad: string,
-    provincia: string,
-    latitud: string,
-    longitud: string,
-    nombreCalle: string,
-    numeroCalle: number,
-    codigoPostal: number,
-    numeroPiso: number,
-    numeroDepartamento: number,
-    imagen: string
+    esCasaMatriz: boolean,
+    latitud: number,
+    longitud: number,
+    domicilio: {
+      calle: string,
+      numero: number,
+      cp: number,
+      piso: number,
+      nroDpto: number,
+      idLocalidad: number
+    },
+    idEmpresa: number,
+    logo: string | null
   ) => {
     handleAddSucursal(
       nombre,
       horarioApertura,
       horarioCierre,
-      pais,
-      provincia,
-      localidad,
+      esCasaMatriz,
       latitud,
       longitud,
-      nombreCalle,
-      numeroCalle,
-      codigoPostal,
-      numeroPiso,
-      numeroDepartamento,
-      imagen)
-  }
+      domicilio,
+      idEmpresa,
+      logo
+  )};
 
   return {
     isPopUpVisible,
