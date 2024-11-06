@@ -1,6 +1,9 @@
 import { FC } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
+import { useCategorias } from "../hooks/useCategorias";
+import { useProductos } from "../hooks/useProductos"
+import { useAlergenos } from "../hooks/usoAlergenos"
 
 interface IProsProyectedRoutes {
   isBack: () => void;
@@ -9,17 +12,17 @@ interface IProsProyectedRoutes {
 export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
 
   
-  // const { categorias, handleAddCategoria, handleDeleteCategoria } = useCategorias();
-  // const { productos, handleAddProducto, handleDeleteProducto } = useProductos();
-  // const { alergenos, handleAddAlergeno, handleDeleteAlergeno } = useAlergenos();
+  const { categorias, handleAddCategoria, handleDeleteCategoria } = useCategorias();
+  const { productos, handleAddProducto, handleDeleteProducto } = useProductos();
+  const { alergenos, handleAddAlergeno, handleDeleteAlergeno } = useAlergenos();
 
-  // const {
-  //   isPopUpVisible,
-  //   HandlePopUp,
-  //   agregarNuevaCategoria,
-  //   agregarNuevoProducto,
-  //   agregarNuevoAlergeno
-  // } = useListado(handleAddCategoria, handleAddProducto, handleAddAlergeno)
+  const {
+    isPopUpVisible,
+    HandlePopUp,
+    agregarNuevaCategoria,
+    // agregarNuevoProducto,
+    agregarNuevoAlergeno
+  } = useListado(handleAddCategoria, handleAddProducto, handleAddAlergeno)
 
   return (
     <>
@@ -44,17 +47,17 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
           <div className={stylesAdminCard.containerBotones}>
             <button 
             type="button"
-            // onClick={HandlePopUp}
+            onClick={HandlePopUp}
             >Categorias</button>
 
             <button 
             type="button"
-            // onClick={HandlePopUp}
+            onClick={HandlePopUp}
             >Productos</button>
 
             <button 
             type="button"
-            // onClick={HandlePopUp}
+            onClick={HandlePopUp}
             >Alergenos</button>
 
           </div>
