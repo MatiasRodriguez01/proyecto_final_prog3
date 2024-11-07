@@ -51,6 +51,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
   } = values;
 
   const addForm = () => {
+    // Agregar empresa
     onAddSucursal(
       nombre,
       horarioApertura,
@@ -66,8 +67,9 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
       numeroPiso,
       numeroDepartamento,
       imagen
-    ); // Agregar empresa
-    resetForm(); // Cerrar el modal
+    );
+    // Cerrar el modal
+    resetForm(); 
     onClose();
   };
 
@@ -81,7 +83,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
   };
 
   if (!visible) {
-    return null; // Si no está visible, no renderiza nada
+    return null; 
   }
   return (
     <div className={styleModalSucursal.containerPopUp}>
