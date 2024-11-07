@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { ISucursal } from "../interfaces/ISucursal";
 import { ServiceSucursal } from "../services/SucursalService";
 import { ICreateSucursal } from "../types/dtos/sucursal/ICreateSucursal";
 import { IUpdateSucursal } from "../types/dtos/sucursal/IUpdateSucursal";
+import { ISucursal } from "../types/dtos/sucursal/ISucursal";
 
 
 export const useSucursales = (empresaId: number) => {
@@ -45,61 +45,60 @@ export const useSucursales = (empresaId: number) => {
       console.error("Error al actualizar la sucursal:", error);
     }
   };
-
-  /*const handleDeleteSucursal = async (id: number) => {
-    try {
-      await serviceSucursal.deleteSucursal(id);
-      setSucursales((prev) => prev.filter((sucursal) => sucursal.id !== id));
-    } catch (error) {
-      console.error("Error eliminando sucursal:", error);
-    }
-  };*/
-
-
-
-
-  /*const handleAddSucursal = (nombre: string,
-    horarioApertura: string,
-    horarioCierre: string,
-    pais: string,
-    provincia: string,
-    localidad: string,
-    latitud: string,
-    longitud: string,
-    nombreCalle: string,
-    numeroCalle: number,
-    codigoPostal: number,
-    numeroPiso: number,
-    numeroDepartamento: number,
-    imagen: string) => {
-    const nuevaEmpresa: ISucursal = {
-      id:  new Date().toISOString(),
-      nombre: nombre,
-      horarioApertura: horarioApertura,
-      horarioCierre: horarioCierre,
-      pais: pais,
-      provincia: provincia,
-      localidad: localidad,
-      latitud: latitud,
-      longitud: longitud,
-      nombreCalle: nombreCalle,
-      numeroCalle: numeroCalle,
-      codigoPostal: codigoPostal,
-      numeroPiso: numeroPiso,
-      numeroDepartamento: numeroDepartamento,
-      imagen: imagen
-    };
-
-    setSucursales((prevSucursales) => [...prevSucursales, nuevaEmpresa]);
-  };*/
-
-  /*const handleDeleteSucursal = (id: string) => { 
-    setSucursales((prev) =>  prev.filter(sucursal => sucursal.id !== id))
-  }*/
-
+  
   return {
     sucursales, 
     handleAddSucursal, 
     handleUpdateSucursal
   };
-};
+};    
+      /*const handleDeleteSucursal = async (id: number) => {
+        try {
+          await serviceSucursal.deleteSucursal(id);
+          setSucursales((prev) => prev.filter((sucursal) => sucursal.id !== id));
+        } catch (error) {
+          console.error("Error eliminando sucursal:", error);
+        }
+      };*/
+    
+    
+    
+    
+      /*const handleAddSucursal = (nombre: string,
+        horarioApertura: string,
+        horarioCierre: string,
+        pais: string,
+        provincia: string,
+        localidad: string,
+        latitud: string,
+        longitud: string,
+        nombreCalle: string,
+        numeroCalle: number,
+        codigoPostal: number,
+        numeroPiso: number,
+        numeroDepartamento: number,
+        imagen: string) => {
+        const nuevaEmpresa: ISucursal = {
+          id:  new Date().toISOString(),
+          nombre: nombre,
+          horarioApertura: horarioApertura,
+          horarioCierre: horarioCierre,
+          pais: pais,
+          provincia: provincia,
+          localidad: localidad,
+          latitud: latitud,
+          longitud: longitud,
+          nombreCalle: nombreCalle,
+          numeroCalle: numeroCalle,
+          codigoPostal: codigoPostal,
+          numeroPiso: numeroPiso,
+          numeroDepartamento: numeroDepartamento,
+          imagen: imagen
+        };
+    
+        setSucursales((prevSucursales) => [...prevSucursales, nuevaEmpresa]);
+      };*/
+    
+      /*const handleDeleteSucursal = (id: string) => { 
+        setSucursales((prev) =>  prev.filter(sucursal => sucursal.id !== id))
+      }*/

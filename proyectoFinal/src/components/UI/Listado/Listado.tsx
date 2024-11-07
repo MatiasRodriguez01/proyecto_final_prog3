@@ -69,11 +69,6 @@ export const Listado = () => {
                   )}
 
                   {/* Componente PopUp */}
-                  <ModalCrearEmpresa
-                    visible={isPopUpVisible}
-                    onClose={HandlePopUp}
-                    onAddEmpresa={handleAddEmpresa}
-                  />
 
                 </div>
               ))
@@ -110,6 +105,11 @@ export const Listado = () => {
 
       </article>
 
+      <ModalCrearEmpresa
+        visible={isPopUpVisible}
+        onClose={HandlePopUp}
+        onAddEmpresa={handleAddEmpresa}
+      />
 
     </>
   );

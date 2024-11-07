@@ -24,13 +24,14 @@ const ModalCrearEmpresa : FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpr
   const { nombre, razonSocial, cuil, imagen } = values;
 
   const addForm = () => {
-    
+
     const newEmpresa: ICreateEmpresaDto = {
       nombre: nombre,
       razonSocial: razonSocial,
       cuit: cuil,
       logo: imagen,
     }
+    console.log(newEmpresa)
     onAddEmpresa(newEmpresa); // Agregar empresa
     resetForm(); // Cerrar el modal
     onClose()
