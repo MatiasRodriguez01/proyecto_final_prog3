@@ -1,10 +1,16 @@
 import { ChangeEvent, FC } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "../../../../hooks/useForm";
+import { useDispatch, UseDispatch } from "react-redux";
+import { AppDispatch } from "../../../../store/store";
 
 import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
 import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
+<<<<<<< HEAD
+=======
+import { createEmpresa } from "../../../../slices/empresaSucursalSlice";
+>>>>>>> c7641d58f77fd2b6120341aaf3137e9f3d34eccf
 
 interface PopUpPropsEmpresa {
   visible: boolean;
@@ -17,6 +23,9 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({
   onClose,
   onAddEmpresa,
 }) => {
+
+  const dispatch = useDispatch<AppDispatch>()
+
   const { values, handleChange, resetForm } = useForm({
     nombre: "",
     razonSocial: "",
@@ -25,6 +34,17 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({
   });
 
   const { nombre, razonSocial, cuil, imagen } = values;
+
+  const handleCreateEmpresa = () => {
+    const newEmpresa: ICreateEmpresaDto = {
+      nombre,
+      razonSocial,
+      cuil,
+      imagen
+    };
+
+    dispatch(createEmpresa(newEmpresa));
+  };
 
   const addForm = () => {
 <<<<<<< HEAD:proyectoFinal/src/components/UI/Empresas/ModalCrearEmpresa/ModalCrearEmpresa.tsx
@@ -43,6 +63,8 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({
 =======
     // Agregar empresa
     onAddEmpresa(nombre, razonSocial, cuil, imagen);
+    //se crea la empresa en la api
+    handleCreateEmpresa();
     // Resetear el form cuando se cierra
     resetForm();
     onClose();

@@ -17,18 +17,44 @@ export const Listado = () => {
   // const x: string[][] = empresas.map((e) => e.sucursales)
   const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
 
+<<<<<<< HEAD
   //const { sucursales, handleAddSucursal, handleUpdateSucursal } = useSucursales(0);
 
   const { isPopUpVisible, HandlePopUp } = useListado()
+=======
+  const { sucursales, handleAddSucursal, handleDeleteSucursal } = useSucursales(0); //Corregir useSucursale
+
+>>>>>>> c7641d58f77fd2b6120341aaf3137e9f3d34eccf
 
   const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion()
 
   const [empresaActiva, setEmpresaActiva] = useState<number | null>(null)
 
+<<<<<<< HEAD
   const handleEmpresaActiva = (id: number) => {
     setEmpresaActiva(id)
   }
 
+=======
+  const { informacion, mostrarInformacion, cerrarInformacion } =
+    useInformacion();
+
+  const [empresaActiva, setEmpresaActiva] = useState<string>("");
+
+  const handleEmpresaActiva = (id: string) => {
+    setEmpresaActiva(id)
+  }
+
+  /*useEffect(() => {
+    if (empresaActiva){
+      fetchSucursales(empresaActiva)
+    }
+  },[empresaActiva,fetchSucursales])*/
+
+
+  //const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])
+
+>>>>>>> c7641d58f77fd2b6120341aaf3137e9f3d34eccf
   return (
     <>
       <article className={styleListado.container}>
