@@ -8,9 +8,12 @@ export const useEmpresas = () => {
 
   const serviceEmpresa = new ServiceEmpresa()
 
+  let idEmpresa = 0;
+
   const handleAddEmpresa = async (newEmpresa: ICreateEmpresaDto) => {
     try{
       const response = await serviceEmpresa.createOneEmpresa(newEmpresa)
+      idEmpresa = response.data.id;
       setEmpresas((prev) => [...prev, response.data])
     }catch(error){
       console.error("Error creando empresa, ", error)
@@ -35,6 +38,6 @@ export const useEmpresas = () => {
   }
 
   return {
-    empresas, handleAddEmpresa, handleDeleteEmpresa
+    empresas, handleAddEmpresa, handleDeleteEmpresa, idEmpresa
   };
 };

@@ -93,13 +93,14 @@ export const useSucursales = (empresaId: number) => {
     setSucursales((prevSucursales) => [...prevSucursales, nuevaEmpresa]);
   };*/
 
-  /*const handleDeleteSucursal = (id: string) => { 
+  const handleDeleteSucursal = (id: string) => { 
     setSucursales((prev) =>  prev.filter(sucursal => sucursal.id !== id))
-  }*/
+  }
 
   return {
     sucursales, 
     handleAddSucursal, 
-    handleUpdateSucursal
+    handleUpdateSucursal,
+    handleDeleteSucursal
   };
 };

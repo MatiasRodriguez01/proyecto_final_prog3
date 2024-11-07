@@ -19,7 +19,7 @@ export const Listado: FC<IProsListado> = ({ isLoggin })  => {
   // const x: string[][] = empresas.map((e) => e.sucursales)
   const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
 
-  const { sucursales, handleAddSucursal, handleUpdateSucursal, fetchSucursales } = useSucursales(0)
+  const { sucursales, handleAddSucursal, handleUpdateSucursal,handleDeleteSucursal} = useSucursales(0)
 
   const {
     isPopUpVisible,
@@ -36,11 +36,11 @@ export const Listado: FC<IProsListado> = ({ isLoggin })  => {
     setEmpresaActiva(id)
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (empresaActiva){
       fetchSucursales(empresaActiva)
     }
-  },[empresaActiva,fetchSucursales])
+  },[empresaActiva,fetchSucursales])*/
 
 
   //const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])

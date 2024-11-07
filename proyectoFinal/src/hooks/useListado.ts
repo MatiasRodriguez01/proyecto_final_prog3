@@ -11,9 +11,12 @@ export const useListado = (handleAddEmpresa: Function, handleAddSucursal: Functi
     nombre: string,
     razonSocial: string,
     cuil: number,
-    imagen: string
+    imagen: string | null
   ) => {
-    handleAddEmpresa(nombre, razonSocial, cuil, imagen);
+    handleAddEmpresa({nombre,
+      razonSocial,
+      cuil,
+      imagen});
   };
 
 
