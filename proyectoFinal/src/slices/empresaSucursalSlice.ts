@@ -21,6 +21,7 @@ export const createEmpresa = createAsyncThunk(
   async (empresaData: ICreateEmpresaDto, { rejectWithValue }) => {
     try {
       const response = await serviceEmpresa.createOneEmpresa(empresaData);
+      console.log(response.data)
       return response.data as IEmpresa;
     } catch (error: any) {
       console.error("Error creando empresa:", error.message);

@@ -37,7 +37,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpre
     };
     
     dispatch(createEmpresa(newEmpresa));
-    onAddEmpresa(newEmpresa);
+    //onAddEmpresa(newEmpresa);
   };
 
   const addForm = () => {
