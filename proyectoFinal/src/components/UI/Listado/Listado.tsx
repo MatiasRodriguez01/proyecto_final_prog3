@@ -8,75 +8,48 @@ import EmpresaCard from "../../views/Empresas/EmpresaCard/EmpresaCard";
 
 import styleListado from "./Listado.module.css";
 import { EmpresaInfo } from "../../views/Empresas/EmpresaInfo/EmpresaInfo";
+import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
+import { ServiceEmpresa } from "../../../services/EmpresaService";
+import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaListado";
 
 export const Listado: FC = () => {
-  const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
-  const { isPopUpVisible, HandlePopUp } = useListado();
-  const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion();
+  //const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
+  const [ empresas, setEmpresas ] = useState<IEmpresa[]>([]);
+  const serviceEmpresa = new ServiceEmpresa();
+
 
   const [empresaActiva, setEmpresaActiva] = useState<number | null>(null);
-
-  useEffect(() => {
-    console.log("Empresas:", empresas); // Verifica si `empresas` contiene datos
-  }, [empresas]);
-
+  
   const handleEmpresaActiva = (id: number) => {
     setEmpresaActiva(id);
   };
 
+  useEffect(() => {
+    const fetchEmpresas = async () => {
+      const e = await serviceEmpresa.getAllEmpresas();
+      setEmpresas(e);
+      console.log("Empresas:", empresas) // Verifica si `empresas` contiene datos
+    }
+    fetchEmpresas()
+  }, [empresas]);
+
+
   return (
     <>
       <article className={styleListado.container}>
+
         <section className={styleListado.containerEmpresas}>
-          <div className={styleListado.titulo}>
-            <h2>Empresas</h2>
-          </div>
-          <button
-            type="button"
-            onClick={HandlePopUp}
-            className={styleListado.agregarEmpresa}
-          >
-            AGREGAR EMPRESAS
-            <span className="material-symbols-outlined">add</span>
-          </button>
-          <hr />
-          <div className={styleListado.listaEmpresa}>
-            <div className={styleListado.titulo}>
-              <h4>Lista de Empresas</h4>
-            </div>
-            {empresas.length !== 0 ? (
-              empresas.map((e) => (
-                <div className={styleListado.empresasCardContainer} key={e.id}>
-                  <EmpresaCard
-                    empresa={e}
-                    onVerEmpresa={() => mostrarInformacion(e.id)}
-                    deleteEmpresa={() => handleDeleteEmpresa(e.id)}
-                    onClick={() => handleEmpresaActiva(e.id)}
-                  />
-                  {informacion === e.id && (
-                    <EmpresaInfo
-                      empresa={e}
-                      onVerEmpresa={cerrarInformacion}
-                    />
-                  )}
-                </div>
-              ))
-            ) : (
-              <p>No hay empresas</p>
-            )}
-          </div>
+          <EmpresaListado empresas={empresas} onEmpresaActiva={handleEmpresaActiva}/>
         </section>
+
         <section className={styleListado.containerSucursales}>
           <div className={styleListado.titulo}>
             <h2>Sucursales</h2>
           </div>
         </section>
+
       </article>
-      <ModalCrearEmpresa
-        visible={isPopUpVisible}
-        onClose={HandlePopUp}
-        onAddEmpresa={handleAddEmpresa}
-      />
     </>
   );
 };
+// 

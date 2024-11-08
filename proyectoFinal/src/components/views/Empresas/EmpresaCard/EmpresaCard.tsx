@@ -6,14 +6,12 @@ import stylesEmpresaCard from "./EmpresaCard.module.css";
 interface EmpresaCardProps {
   empresa: IEmpresa;
   onVerEmpresa: () => void;
-  deleteEmpresa: () => void;
   onClick: () => void;
 }
 
 export const EmpresaCard: FC<EmpresaCardProps> = ({
   empresa,
   onVerEmpresa,
-  deleteEmpresa,
   onClick,
 }) => {
   return (
@@ -38,7 +36,6 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({
             </Button>
             <Button
               variant="outline-danger"
-              onClick={deleteEmpresa}
               className={stylesEmpresaCard.buttonCard}
             >
               <span className="material-symbols-outlined">delete_forever</span>

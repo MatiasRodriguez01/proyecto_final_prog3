@@ -18,11 +18,9 @@ const initialState: EmpresaSucursalState = {
 // Acción asíncrona para crear una nueva empresa
 export const createEmpresa = createAsyncThunk(
   'empresaSucursal/createEmpresa',
-  async (empresaData: ICreateEmpresaDto, { rejectWithValue }) => {
+  async (empresaData: IEmpresa, { rejectWithValue }) => {
     try {
-      const response = await serviceEmpresa.createOneEmpresa(empresaData);
-      console.log(response.data)
-      return response.data as IEmpresa;
+      return await serviceEmpresa.createOneEmpresa(empresaData)
     } catch (error: any) {
       console.error("Error creando empresa:", error.message);
       return rejectWithValue(error.message);

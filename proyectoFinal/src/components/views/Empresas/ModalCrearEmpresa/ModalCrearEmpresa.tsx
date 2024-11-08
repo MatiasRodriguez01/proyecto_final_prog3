@@ -1,23 +1,21 @@
 import { ChangeEvent, FC } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "../../../../hooks/useForm";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../store/store";
 
 import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
-import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
-import { createEmpresa } from "../../../../slices/empresaSucursalSlice";
+import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
+import { ServiceEmpresa } from "../../../../services/EmpresaService";
 
 interface PopUpPropsEmpresa {
   visible: boolean;
   onClose: () => void;
-  onAddEmpresa: Function;
 }
 
-const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpresa }) => {
+const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
 
-  const dispatch = useDispatch<AppDispatch>()
+  //const dispatch = useDispatch<AppDispatch>();
+  const serviceEmpresa = new ServiceEmpresa();
 
   const { values, handleChange, resetForm } = useForm({
     nombre: "",
@@ -28,20 +26,30 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpre
 
   const { nombre, razonSocial, cuil, imagen } = values;
 
-  const handleCreateEmpresa = () => {
-    const newEmpresa: ICreateEmpresaDto = {
-      nombre: nombre,
-      razonSocial: razonSocial,
-      cuit: cuil,
-      logo: imagen
-    };
-    
-    dispatch(createEmpresa(newEmpresa));
+  const handleCreateEmpresa = async (empresa: IEmpresa) => {
+
+    try {
+      await serviceEmpresa.createOneEmpresa(empresa)
+    } catch (error) {
+      console.error("Error crear Empresa: ", error)
+    }
     //onAddEmpresa(newEmpresa);
   };
 
+
+
   const addForm = () => {
-    handleCreateEmpresa();
+    const newEmpresa: IEmpresa = {
+      id: Date.now(),
+      nombre: nombre,
+      razonSocial: razonSocial,
+      cuit: cuil,
+      logo: imagen,
+      sucursales: [],
+      pais: null
+    };
+    handleCreateEmpresa(newEmpresa);
+    console.log(newEmpresa.id)
     resetForm(); // Cerrar el modal
     onClose()
   }  

@@ -8,25 +8,20 @@ export const useEmpresas = () => {
 
   const serviceEmpresa = new ServiceEmpresa();
 
-  // Función para cargar empresas al montar el componente
-  const loadEmpresas = async () => {
-    try {
-      const response = await serviceEmpresa.getAllEmpresas();
-      setEmpresas(response.data);
-    } catch (error) {
-      console.error("Error al cargar empresas: ", error);
-    }
-  };
-
-  // Cargar empresas al montar
-  useEffect(() => {
-    loadEmpresas();
-  }, []);
+  // // Función para cargar empresas al montar el componente
+  // const loadEmpresas = async () => {
+  //   try {
+  //     const response = await serviceEmpresa.getAllEmpresas();
+  //     setEmpresas(response.data);
+  //   } catch (error) {
+  //     console.error("Error al cargar empresas: ", error);
+  //   }
+  // };
 
   const handleAddEmpresa = async (newEmpresa: ICreateEmpresaDto) => {
     try {
-      const response = await serviceEmpresa.createOneEmpresa(newEmpresa);
-      setEmpresas((prev) => [...prev, response.data]);
+      // const response = await serviceEmpresa.createOneEmpresa(newEmpresa);
+      // setEmpresas((prev) => [...prev, response.data]);
     } catch (error) {
       console.error("Error creando empresa: ", error);
     }
