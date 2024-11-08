@@ -23,15 +23,6 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({
           <Card.Title style={{ height: "auto", margin: "0" }}>
             {empresa.nombre}
           </Card.Title>
-          <img
-            src={empresa.imagen}
-            alt={`${empresa.nombre} logo`}
-            style={{
-              width: "100%",
-              height: "auto",
-              marginTop: "10px",
-            }}
-          />
           <div className={stylesEmpresaCard.buttonContainer}>
             <Button
               variant="outline-primary"

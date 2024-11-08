@@ -4,7 +4,7 @@ import { ICategoria } from "../interfaces/ICategoria";
 export const useCategorias = () => {
   const [categorias, setCategorias] = useState<ICategoria[]>([]);
 
-  const handleAddCategoria} = (
+  const handleAddCategoria = (
     denominacion: string
 ) => {
     const nuevaCategoria: ICategoria = {
@@ -21,4 +21,5 @@ export const useCategorias = () => {
 
   return {
     categorias, handleAddCategoria, handleDeleteCategoria
+  }
 };

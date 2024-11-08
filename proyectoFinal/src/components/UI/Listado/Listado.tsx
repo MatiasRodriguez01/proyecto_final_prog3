@@ -9,52 +9,21 @@ import EmpresaCard from "../../views/Empresas/EmpresaCard/EmpresaCard";
 import styleListado from "./Listado.module.css";
 import { EmpresaInfo } from "../../views/Empresas/EmpresaInfo/EmpresaInfo";
 
-// interface IProsListado {
-//   isLoggin: () => void;
-// }
-
-export const Listado = () => {
-  // const x: string[][] = empresas.map((e) => e.sucursales)
+export const Listado: FC = () => {
   const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
+  const { isPopUpVisible, HandlePopUp } = useListado();
+  const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion();
 
-<<<<<<< HEAD
-  //const { sucursales, handleAddSucursal, handleUpdateSucursal } = useSucursales(0);
+  const [empresaActiva, setEmpresaActiva] = useState<number | null>(null);
 
-  const { isPopUpVisible, HandlePopUp } = useListado()
-=======
-  const { sucursales, handleAddSucursal, handleDeleteSucursal } = useSucursales(0); //Corregir useSucursale
+  useEffect(() => {
+    console.log("Empresas:", empresas); // Verifica si `empresas` contiene datos
+  }, [empresas]);
 
->>>>>>> c7641d58f77fd2b6120341aaf3137e9f3d34eccf
-
-  const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion()
-
-  const [empresaActiva, setEmpresaActiva] = useState<number | null>(null)
-
-<<<<<<< HEAD
   const handleEmpresaActiva = (id: number) => {
-    setEmpresaActiva(id)
-  }
+    setEmpresaActiva(id);
+  };
 
-=======
-  const { informacion, mostrarInformacion, cerrarInformacion } =
-    useInformacion();
-
-  const [empresaActiva, setEmpresaActiva] = useState<string>("");
-
-  const handleEmpresaActiva = (id: string) => {
-    setEmpresaActiva(id)
-  }
-
-  /*useEffect(() => {
-    if (empresaActiva){
-      fetchSucursales(empresaActiva)
-    }
-  },[empresaActiva,fetchSucursales])*/
-
-
-  //const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])
-
->>>>>>> c7641d58f77fd2b6120341aaf3137e9f3d34eccf
   return (
     <>
       <article className={styleListado.container}>
@@ -68,7 +37,7 @@ export const Listado = () => {
             className={styleListado.agregarEmpresa}
           >
             AGREGAR EMPRESAS
-            <span className="material-symbols-outlined ">add</span>
+            <span className="material-symbols-outlined">add</span>
           </button>
           <hr />
           <div className={styleListado.listaEmpresa}>
@@ -78,26 +47,18 @@ export const Listado = () => {
             {empresas.length !== 0 ? (
               empresas.map((e) => (
                 <div className={styleListado.empresasCardContainer} key={e.id}>
-                  {/* Tarjeta de EMPRESA CARD */}
-
                   <EmpresaCard
                     empresa={e}
-                    // Usar la función para mostrar EmpresaInfo
                     onVerEmpresa={() => mostrarInformacion(e.id)}
-                    // Usar la funcion para eliminar una empresa
                     deleteEmpresa={() => handleDeleteEmpresa(e.id)}
                     onClick={() => handleEmpresaActiva(e.id)}
                   />
-
-                  {informacion == e.id && (
+                  {informacion === e.id && (
                     <EmpresaInfo
                       empresa={e}
                       onVerEmpresa={cerrarInformacion}
                     />
                   )}
-
-                  {/* Componente PopUp */}
-
                 </div>
               ))
             ) : (
@@ -105,31 +66,12 @@ export const Listado = () => {
             )}
           </div>
         </section>
-
         <section className={styleListado.containerSucursales}>
           <div className={styleListado.titulo}>
             <h2>Sucursales</h2>
           </div>
-          {/* <div className={styleListado.sucursalContainer}>
-            {
-              empresas.map((empresa) => (
-                <UseSucursal 
-                  key={empresa.id}
-                  empresa={empresa} 
-                  empresaActiva={empresaActiva} 
-                  prop_sucursales={sucursales} 
-                  onAddSucursal={agregarNuevaSucursal} 
-                  onDeleteSucursal={handleDeleteSucursal}
-                  isLoggin={isLoggin}
-                  />
-              ))
-            }
-          </div> */}
-
         </section>
-
       </article>
-
       <ModalCrearEmpresa
         visible={isPopUpVisible}
         onClose={HandlePopUp}

@@ -1,16 +1,13 @@
 import { ChangeEvent, FC } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "../../../../hooks/useForm";
-import { useDispatch, UseDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../store/store";
 
 import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
 import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
-<<<<<<< HEAD
-=======
 import { createEmpresa } from "../../../../slices/empresaSucursalSlice";
->>>>>>> c7641d58f77fd2b6120341aaf3137e9f3d34eccf
 
 interface PopUpPropsEmpresa {
   visible: boolean;
@@ -18,11 +15,7 @@ interface PopUpPropsEmpresa {
   onAddEmpresa: Function;
 }
 
-const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({
-  visible,
-  onClose,
-  onAddEmpresa,
-}) => {
+const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose, onAddEmpresa }) => {
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -37,39 +30,21 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({
 
   const handleCreateEmpresa = () => {
     const newEmpresa: ICreateEmpresaDto = {
-      nombre,
-      razonSocial,
-      cuil,
-      imagen
-    };
-
-    dispatch(createEmpresa(newEmpresa));
-  };
-
-  const addForm = () => {
-<<<<<<< HEAD:proyectoFinal/src/components/UI/Empresas/ModalCrearEmpresa/ModalCrearEmpresa.tsx
-
-    const newEmpresa: ICreateEmpresaDto = {
       nombre: nombre,
       razonSocial: razonSocial,
       cuit: cuil,
-      logo: imagen,
-    }
-    console.log(newEmpresa)
-    onAddEmpresa(newEmpresa); // Agregar empresa
+      logo: imagen
+    };
+    
+    dispatch(createEmpresa(newEmpresa));
+    onAddEmpresa(newEmpresa);
+  };
+
+  const addForm = () => {
+    handleCreateEmpresa();
     resetForm(); // Cerrar el modal
     onClose()
   }  
-=======
-    // Agregar empresa
-    onAddEmpresa(nombre, razonSocial, cuil, imagen);
-    //se crea la empresa en la api
-    handleCreateEmpresa();
-    // Resetear el form cuando se cierra
-    resetForm();
-    onClose();
-  };
->>>>>>> desarrollo:proyectoFinal/src/components/views/Empresas/ModalCrearEmpresa/ModalCrearEmpresa.tsx
 
   const cancelForm = () => {
     resetForm();

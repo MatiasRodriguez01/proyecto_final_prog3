@@ -1,9 +1,7 @@
 import { FC } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
-import { useCategorias } from "../hooks/useCategorias";
-import { useProductos } from "../hooks/useProductos"
-import { useAlergenos } from "../hooks/usoAlergenos"
+import { useListado } from "../hooks/useListado";
 
 interface IProsProyectedRoutes {
   isBack: () => void;
@@ -11,18 +9,10 @@ interface IProsProyectedRoutes {
 
 export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
 
-  
-  const { categorias, handleAddCategoria, handleDeleteCategoria } = useCategorias();
-  const { productos, handleAddProducto, handleDeleteProducto } = useProductos();
-  const { alergenos, handleAddAlergeno, handleDeleteAlergeno } = useAlergenos();
-
   const {
     isPopUpVisible,
-    HandlePopUp,
-    agregarNuevaCategoria,
-    // agregarNuevoProducto,
-    agregarNuevoAlergeno
-  } = useListado(handleAddCategoria, handleAddProducto, handleAddAlergeno)
+    HandlePopUp
+  } = useListado()
 
   return (
     <>

@@ -1,47 +1,28 @@
 import axios, { AxiosResponse } from 'axios';
 import { IUpdateEmpresaDto } from '../types/dtos/empresa/IUpdateEmpresaDto';
 import { ICreateEmpresaDto } from '../types/dtos/empresa/ICreateEmpresaDto';
+import { IEmpresa } from '../types/dtos/empresa/IEmpresa';
 
 export class ServiceEmpresa {
   private baseURL: string;
 
   constructor() {
-    this.baseURL = 'http://190.221.207.224:8090/empresas';
+    this.baseURL = 'http://localhost:8090/empresas';
   }
 
-  public async getIsEmpresaMatriz(id: number): Promise<AxiosResponse<any>> {
-    const url = `${this.baseURL}/existEmpresaMatriz/${id}`;
-    return axios.get(url, {
-      headers: {
-        'User-Agent': 'insomnia/9.3.2',
-      },
+  public async getAllEmpresas(): Promise<AxiosResponse<IEmpresa[]>> {
+    return axios.get(this.baseURL);
+  }
+
+  public async createOneEmpresa(empresa: ICreateEmpresaDto): Promise<AxiosResponse<IEmpresa>> {
+    return axios.post(this.baseURL, empresa, {
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  public async createOneEmpresa(empresa: ICreateEmpresaDto): Promise<AxiosResponse<any>> {
-    const url = `${this.baseURL}`;
-    return axios.post(url, empresa, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-
-  public async editOneEmpresa(id: number, empresa: IUpdateEmpresaDto): Promise<AxiosResponse<any>> {
-    const url = `${this.baseURL}/update/${id}`;
-    return axios.put(url, empresa, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-
-  public async getAllEmpresas(): Promise<AxiosResponse<any>> {
-    const url = `${this.baseURL}`;
-    return axios.get(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+  public async editOneEmpresa(id: number, empresa: IUpdateEmpresaDto): Promise<AxiosResponse<IEmpresa>> {
+    return axios.put(`${this.baseURL}/update/${id}`, empresa, {
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 }
