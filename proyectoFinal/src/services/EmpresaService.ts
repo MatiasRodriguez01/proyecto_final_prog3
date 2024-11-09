@@ -1,4 +1,6 @@
+import { ICreateEmpresaDto } from '../types/dtos/empresa/ICreateEmpresaDto';
 import { IEmpresa } from '../types/dtos/empresa/IEmpresa';
+import { IUpdateEmpresaDto } from '../types/dtos/empresa/IUpdateEmpresaDto';
 
 export class ServiceEmpresa {
   private baseURL: string;
@@ -34,7 +36,7 @@ export class ServiceEmpresa {
   //   });
   // }
 
-  public async createOneEmpresa(empresa: IEmpresa): Promise<IEmpresa> {
+  public async createOneEmpresa(empresa: ICreateEmpresaDto): Promise<IUpdateEmpresaDto> {
     const response = await fetch(`${this.baseURL}/empresas`, {
       method: 'POST',
       headers: {
@@ -52,7 +54,7 @@ export class ServiceEmpresa {
   //   });
   // }
 
-  public async editOneEmpresa(id: number, empresa: IEmpresa): Promise<IEmpresa> {
+  public async editOneEmpresa(id: number, empresa: IUpdateEmpresaDto): Promise<IUpdateEmpresaDto> {
     const response = await fetch(`${this.baseURL}/empresas/${id}`, {
       method: 'PUT',
       headers: {

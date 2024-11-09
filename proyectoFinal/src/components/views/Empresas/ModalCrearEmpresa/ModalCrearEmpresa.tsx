@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "../../../../hooks/useForm";
 
@@ -6,6 +6,8 @@ import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 import { ServiceEmpresa } from "../../../../services/EmpresaService";
+import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
+import { IUpdateEmpresaDto } from "../../../../types/dtos/empresa/IUpdateEmpresaDto";
 
 interface PopUpPropsEmpresa {
   visible: boolean;
@@ -17,6 +19,8 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
   //const dispatch = useDispatch<AppDispatch>();
   const serviceEmpresa = new ServiceEmpresa();
 
+  const [empresaId, setEmpresaId] = useState<number>(0)
+
   const { values, handleChange, resetForm } = useForm({
     nombre: "",
     razonSocial: "",
@@ -26,30 +30,40 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
 
   const { nombre, razonSocial, cuil, imagen } = values;
 
-  const handleCreateEmpresa = async (empresa: IEmpresa) => {
+  const handleCreateEmpresa = async (empresa: ICreateEmpresaDto) => {
 
     try {
-      await serviceEmpresa.createOneEmpresa(empresa)
+      const response = await serviceEmpresa.createOneEmpresa(empresa)
+
+      if(response && response.id){
+        setEmpresaId(response.id);
+        console.log("ID de empresa creada: ", response.id)
+      }
+
     } catch (error) {
       console.error("Error crear Empresa: ", error)
     }
     //onAddEmpresa(newEmpresa);
   };
 
+  const handleUpdateEmpresa = async (empresaModificada: IUpdateEmpresaDto) => {
+    try {
+      await serviceEmpresa.editOneEmpresa(empresaId, empresaModificada)
+    }catch(error){
+      console.error("Error al editar empresa: ", error)
+    }
+  }
+
 
 
   const addForm = () => {
-    const newEmpresa: IEmpresa = {
-      id: Date.now(),
+    const newEmpresa: ICreateEmpresaDto = {
       nombre: nombre,
       razonSocial: razonSocial,
       cuit: cuil,
       logo: imagen,
-      sucursales: [],
-      pais: null
     };
     handleCreateEmpresa(newEmpresa);
-    console.log(newEmpresa.id)
     resetForm(); // Cerrar el modal
     onClose()
   }  

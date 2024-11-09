@@ -7,7 +7,7 @@ export class ServiceSucursal {
   private baseURL: string;
 
   constructor() {
-    this.baseURL = "http://190.221.207.224:8090";
+    this.baseURL = "http://190.221.207.224:8090/sucursales";
   }
 
   // public async getIsCasaMatriz(id: number): Promise<AxiosResponse<any>> {
@@ -19,8 +19,8 @@ export class ServiceSucursal {
   //   });
   // }
 
-  public async createOneSucursal(sucursal: ISucursal): Promise<ISucursal> {
-    const response = await fetch(`${this.baseURL}/sucursales`, {
+  public async createOneSucursal(sucursal: ICreateSucursal): Promise<IUpdateSucursal> {
+    const response = await fetch(`${this.baseURL}/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

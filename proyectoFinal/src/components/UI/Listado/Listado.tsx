@@ -40,7 +40,7 @@ export const Listado: FC = () => {
           </div>
           {
             empresas.map((empresa) => (
-              <p>{empresa.nombre}</p>
+              <p key = {empresa.id}>{empresa.nombre}</p>
             ))
           }
         </section>
