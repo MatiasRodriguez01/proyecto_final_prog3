@@ -4,10 +4,15 @@ import styleListado from "./Listado.module.css";
 import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
 import { ServiceEmpresa } from "../../../services/EmpresaService";
 import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaListado";
+import { ModalCrearSucursal } from "../../views/Sucursales/ModalCrearSucursal/ModalCrearSucursal";
+import { Button } from "react-bootstrap";
+import { useListado } from "../../../hooks/useListado";
 
 export const Listado: FC = () => {
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
   const serviceEmpresa = new ServiceEmpresa();
+
+  const {isPopUpVisible, HandlePopUp} = useListado()
 
   const [clickEmpresa, setClickEmpresa] = useState<boolean>(false);
 
@@ -37,6 +42,12 @@ export const Listado: FC = () => {
           <div className={styleListado.titulo}>
             <h2>Sucursales</h2>
           </div>
+          <Button onClick={HandlePopUp}>Agregar Sucursal</Button>
+          {
+            empresas.map((empresa) => (
+              <ModalCrearSucursal empresa={empresa} visible={isPopUpVisible} onClose={HandlePopUp}></ModalCrearSucursal>
+            ))
+          }
         </section>
 
       </article>

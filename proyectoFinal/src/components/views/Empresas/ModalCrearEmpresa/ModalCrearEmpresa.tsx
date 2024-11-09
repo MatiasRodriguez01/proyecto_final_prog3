@@ -6,7 +6,6 @@ import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
 import { ServiceEmpresa } from "../../../../services/EmpresaService";
 import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
-import { IUpdateEmpresaDto } from "../../../../types/dtos/empresa/IUpdateEmpresaDto";
 
 interface PopUpPropsEmpresa {
   visible: boolean;
@@ -44,7 +43,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
     }
     //onAddEmpresa(newEmpresa);
   };
-  
+
   const addForm = () => {
     const newEmpresa: ICreateEmpresaDto = {
       nombre: nombre,

@@ -1,5 +1,4 @@
 import { ChangeEvent, FC } from 'react'
-import { ICreateEmpresaDto } from '../../../../types/dtos/empresa/ICreateEmpresaDto'
 import styleModalEditar from './ModalEditarEmpresa.module.css'
 import { IEmpresa } from '../../../../types/dtos/empresa/IEmpresa';
 import { useForm } from '../../../../hooks/useForm';
