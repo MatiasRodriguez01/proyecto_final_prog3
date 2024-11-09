@@ -4,7 +4,6 @@ import styleListado from "./Listado.module.css";
 import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
 import { ServiceEmpresa } from "../../../services/EmpresaService";
 import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaListado";
-import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
 
 export const Listado: FC = () => {
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
