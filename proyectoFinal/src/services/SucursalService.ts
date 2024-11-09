@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { IUpdateSucursal } from "../types/dtos/sucursal/IUpdateSucursal";
 import { ISucursal } from "../types/dtos/sucursal/ISucursal";
+import { ICreateSucursal } from "../types/dtos/sucursal/ICreateSucursal";
 
 export class ServiceSucursal {
   private baseURL: string;
@@ -9,7 +10,16 @@ export class ServiceSucursal {
     this.baseURL = "http://190.221.207.224:8090/sucursales";
   }
 
-  public async createOneSucursal(sucursal: ISucursal): Promise<ISucursal> {
+  // public async getIsCasaMatriz(id: number): Promise<AxiosResponse<any>> {
+  //   const url = `${this.baseURL}/existCasaMatriz/${id}`;
+  //   return axios.get(url, {
+  //     headers: {
+  //       'User-Agent': 'insomnia/9.3.2',
+  //     },
+  //   });
+  // }
+
+  public async createOneSucursal(sucursal: ICreateSucursal): Promise<IUpdateSucursal> {
     const response = await fetch(`${this.baseURL}/create`, {
       method: "POST",
       headers: {
