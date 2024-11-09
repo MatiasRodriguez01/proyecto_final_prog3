@@ -18,7 +18,7 @@ interface IProsListado {
 export const Listado: FC<IProsListado> = ({ isLoggin }) => {
   const { empresas, handleAddEmpresa, handleDeleteEmpresa } = useEmpresas();
 
-  const { sucursales, handleAddSucursal, handleDeleteSucursal } = useSucursales(0); //Corregir useSucursale
+  const { sucursales, handleAddSucursal, handleDeleteSucursal } = useSucursales(); //Corregir useSucursale
 
 
   const {
@@ -37,15 +37,6 @@ export const Listado: FC<IProsListado> = ({ isLoggin }) => {
   const handleEmpresaActiva = (id: string) => {
     setEmpresaActiva(id)
   }
-
-  /*useEffect(() => {
-    if (empresaActiva){
-      fetchSucursales(empresaActiva)
-    }
-  },[empresaActiva,fetchSucursales])*/
-
-
-  //const [listadoEmpresasActivas, setEmpresasActivas] = useState<IEmpresa[]>([])
 
   return (
     <>
@@ -85,8 +76,8 @@ export const Listado: FC<IProsListado> = ({ isLoggin }) => {
                     <EmpresaInfo
                       nombre={e.nombre}
                       razonSocial={e.razonSocial}
-                      cuil={e.cuil}
-                      imagen={e.imagen}
+                      cuil={e.cuit}
+                      imagen={e.logo ?? ''}
                       onVerEmpresa={cerrarInformacion}
                     />
                   )}

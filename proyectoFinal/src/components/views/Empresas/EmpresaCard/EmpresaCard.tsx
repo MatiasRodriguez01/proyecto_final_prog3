@@ -1,7 +1,7 @@
 import { Button, Card } from "react-bootstrap";
 import { FC } from "react";
-import { IEmpresa } from "../../../../interfaces/IEmpresa";
 import stylesEmpresaCard from "./EmpresaCard.module.css";
+import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 
 interface EmpresaCardProps {
   empresa: IEmpresa;
@@ -24,7 +24,7 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({
             {empresa.nombre}
           </Card.Title>
           <img
-            src={empresa.imagen}
+            src={empresa.logo ?? 'default-logo.png'}
             alt={`${empresa.nombre} logo`}
             style={{
               width: "100%",

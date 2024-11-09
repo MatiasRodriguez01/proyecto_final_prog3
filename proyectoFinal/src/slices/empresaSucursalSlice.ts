@@ -5,6 +5,7 @@ import { ICreateEmpresaDto } from '../types/dtos/empresa/ICreateEmpresaDto';
 import { ICreateSucursal } from '../types/dtos/sucursal/ICreateSucursal';
 import { ServiceEmpresa } from '../servicios/EmpresaService';
 import { ServiceSucursal } from '../servicios/SucursalService';
+import axios from 'axios';
 
 
 // Instancias de los servicios
@@ -27,17 +28,20 @@ const initialState: EmpresaSucursalState = {
 
 // Acción para crear una nueva empresa
 export const createEmpresa = createAsyncThunk(
-  'empresaSucursal/createEmpresa',
-  async (empresaData: ICreateEmpresaDto, { rejectWithValue }) => {
-    try {
-      const response = await serviceEmpresa.createOneEmpresa(empresaData);
-      return response.data; // Retorna los datos de la empresa creada
-    } catch (error) {
-      return rejectWithValue(error);
+    'empresaSucursal/createEmpresa',
+    async (empresaData: ICreateEmpresaDto, { rejectWithValue }) => {
+      try {
+        const response = await serviceEmpresa.createOneEmpresa(empresaData);
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          // Simplifica el error para que sea serializable
+          return rejectWithValue({ message: error.message, code: error.code });
+        }
+        return rejectWithValue({ message: 'Unknown error' });
+      }
     }
-  }
-);
-
+  );
 // Acción para crear una nueva sucursal
 export const createSucursal = createAsyncThunk(
   'empresaSucursal/createSucursal',

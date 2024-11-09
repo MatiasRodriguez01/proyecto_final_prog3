@@ -26,18 +26,18 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({
   const { values, handleChange, resetForm } = useForm({
     nombre: "",
     razonSocial: "",
-    cuil: 0,
-    imagen: "",
+    cuit: 0,
+    logo: "",
   });
 
-  const { nombre, razonSocial, cuil, imagen } = values;
+  const { nombre, razonSocial, cuit, logo } = values;
 
   const handleCreateEmpresa = () => {
     const newEmpresa: ICreateEmpresaDto = {
       nombre,
       razonSocial,
-      cuil,
-      imagen
+      cuit,
+      logo
     };
 
     dispatch(createEmpresa(newEmpresa));
@@ -45,7 +45,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({
 
   const addForm = () => {
     // Agregar empresa
-    onAddEmpresa(nombre, razonSocial, cuil, imagen);
+    onAddEmpresa(nombre, razonSocial, cuit, logo);
     //se crea la empresa en la api
     handleCreateEmpresa();
     // Resetear el form cuando se cierra
@@ -100,7 +100,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({
               type="number"
               name="cuil"
               placeholder="Ingrese un cuil"
-              value={cuil}
+              value={cuit}
               onChange={handleChange}
               required
             />
@@ -110,7 +110,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({
                 type="text"
                 name="imagen"
                 placeholder="Ingresa una imagen"
-                value={imagen}
+                value={logo}
                 onChange={handleChange}
               />
               <img src={addImagen} alt="imagen del boton" />
