@@ -1,55 +1,55 @@
-
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from "axios";
 import { ICreateSucursal } from "../types/dtos/sucursal/ICreateSucursal";
-import { IUpdateSucursal } from '../types/dtos/sucursal/IUpdateSucursal';
+import { IUpdateSucursal } from "../types/dtos/sucursal/IUpdateSucursal";
+import { ISucursal } from "../types/dtos/sucursal/ISucursal";
 
 export class ServiceSucursal {
-    private baseURL: string;
-  
-    constructor() {
-      this.baseURL = 'http://190.221.207.224:8090/sucursales';
-    }
-  
+  private baseURL: string;
 
-    public async getIsCasaMatriz(id: number): Promise<AxiosResponse<any>> {
-      const url = `${this.baseURL}/existCasaMatriz/${id}`;
-      return axios.get(url, {
-        headers: {
-          'User-Agent': 'insomnia/9.3.2',
-        },
-      });
-    }
-  
-
-    public async createOneSucursalByEmpresa(sucursal: ICreateSucursal): Promise<AxiosResponse<any>> {
-      const url = `${this.baseURL}/create`;
-      return axios.post(url, sucursal, {
-        headers: {
-          'Content-Type': 'application/json',
-          //'User-Agent': 'insomnia/9.3.2',
-        },
-      });
-    }
-  
-
-    public async editOneSucursal(id: number, sucursal: IUpdateSucursal): Promise<AxiosResponse<any>> {
-      const url = `${this.baseURL}/update/${id}`;
-      return axios.put(url, sucursal, {
-        headers: {
-          'Content-Type': 'application/json',
-          //'User-Agent': 'insomnia/9.3.2',
-        },
-      });
-    }
-  
-
-    public async getAllSucursalesByEmpresa(idEmpresa: number): Promise<AxiosResponse<any>> {
-      const url = `${this.baseURL}/porEmpresa/${idEmpresa}`;
-      return axios.get(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          //'User-Agent': 'insomnia/9.3.2',
-        },
-      });
-    }
+  constructor() {
+    this.baseURL = "http://190.221.207.224:8090";
   }
+
+  // public async getIsCasaMatriz(id: number): Promise<AxiosResponse<any>> {
+  //   const url = `${this.baseURL}/existCasaMatriz/${id}`;
+  //   return axios.get(url, {
+  //     headers: {
+  //       'User-Agent': 'insomnia/9.3.2',
+  //     },
+  //   });
+  // }
+
+  public async createOneSucursal(sucursal: ISucursal): Promise<ISucursal> {
+    const response = await fetch(`${this.baseURL}/sucursales`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(sucursal),
+    });
+    const data = await response.json();
+    return data;
+  }
+
+  public async editOneSucursal(id: number,sucursal: IUpdateSucursal): Promise<AxiosResponse<any>> {
+    const url = `${this.baseURL}/update/${id}`;
+    return axios.put(url, sucursal, {
+      headers: {
+        "Content-Type": "application/json",
+        //'User-Agent': 'insomnia/9.3.2',
+      },
+    });
+  }
+
+  public async getAllSucursales(): Promise<ISucursal[]> {
+    const response = await fetch(`${this.baseURL}/sucursales`);
+    const data = await response.json();
+    return data;
+  }
+
+  public async getSucursal(id: number): Promise<ISucursal> {
+    const response = await fetch(`${this.baseURL}/sucursales/${id}`);
+    const data = await response.json();
+    return data;
+  }
+}

@@ -4,19 +4,17 @@ import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 import stylesEmpresaCard from "./EmpresaCard.module.css";
 
 interface EmpresaCardProps {
-  empresa: IEmpresa;
-  onVerEmpresa: () => void;
-  onClick: () => void;
+  empresa: IEmpresa
+  onVerEmpresa: () => void
+  onEmpresaActiva:() => void
 }
 
-export const EmpresaCard: FC<EmpresaCardProps> = ({
-  empresa,
-  onVerEmpresa,
-  onClick,
-}) => {
+export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa, onEmpresaActiva }) => {
+
+  
   return (
     <>
-      <Card onClick={onClick} className={stylesEmpresaCard.card}>
+      <Card onClick={onEmpresaActiva} className={stylesEmpresaCard.card}>
         <Card.Body className={stylesEmpresaCard.bodyContainer}>
           <Card.Title style={{ height: "auto", margin: "0" }}>
             {empresa.nombre}

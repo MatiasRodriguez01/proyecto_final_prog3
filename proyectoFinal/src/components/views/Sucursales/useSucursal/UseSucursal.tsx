@@ -1,7 +1,5 @@
 import { Button } from "react-bootstrap";
 import { FC, useState, useEffect } from "react";
-import { IEmpresa } from "../../../../interfaces/IEmpresa";
-import { ISucursal } from "../../../../interfaces/ISucursal";
 
 import { SucursalCard } from "../SucursalCard/SucursalCard";
 import { Sucursalnfo } from "../sucursalnfo/Sucursalnfo";
@@ -9,59 +7,51 @@ import { ModalCrearSucursal } from "../ModalCrearSucursal/ModalCrearSucursal";
 
 import styleSucursal from "../useSucursal/UseSucursal.module.css";
 import { useInformacion } from "../../../../hooks/useInformacion";
+import { ISucursal } from "../../../../types/dtos/sucursal/ISucursal";
+import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
+import { useListado } from "../../../../hooks/useListado";
 
 interface IPropsSucursal {
   empresa: IEmpresa;
-  empresaActiva: string;
-  prop_sucursales: ISucursal[],
-  onAddSucursal: Function,
-  onDeleteSucursal: Function;
-  isLoggin: () => void;
+  isClick: boolean
 }
 
-export const UseSucursal: FC<IPropsSucursal> = ({ empresa, empresaActiva, prop_sucursales, onAddSucursal, onDeleteSucursal, isLoggin }) => {
+export const UseSucursal: FC<IPropsSucursal> = ({ empresa, isClick }) => {
 
-  const [sucursales, setSucursales] = useState<ISucursal[]>(prop_sucursales);
+  const [sucursales, setSucursales] = useState<ISucursal[]>(empresa.sucursales);
 
-  const [isPopUpVisible, setIsPopUpVisible] = useState<boolean>(false);
+  const { isPopUpVisible, HandlePopUp } = useListado()
 
-  const {  informacion, mostrarInformacion, cerrarInformacion } = useInformacion()
+  const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion()
 
-  
-  const handleAddSucursal = () => {
-    setIsPopUpVisible(!isPopUpVisible)
-    
-  };
-  
+
   useEffect(() => {
     setSucursales(empresa.sucursales);
-    prop_sucursales = sucursales;
-  }, [empresaActiva, prop_sucursales]);
+  }, [sucursales]);
 
-  if (empresa.id === empresaActiva) {
+
+  if (isClick) {
     return (
       <>
         <h3 className={styleSucursal.title}>{empresa.nombre}</h3>
         <div className={styleSucursal.boton_agregar}>
-          <Button onClick={handleAddSucursal}>Agregar sucursal</Button>
+          <Button onClick={HandlePopUp} style={{ width: '10vw', height: '6vh' }}>Agregar sucursal</Button>
         </div>
         <div className={styleSucursal.containerPrincipal}>
           <div className={styleSucursal.containerSucursal}>
-            {prop_sucursales.map((sucursal) => (
+            {sucursales.map((sucursal) => (
               <div key={sucursal.id}>
                 <SucursalCard
                   sucursal={sucursal}
                   onSucursalActiva={() => mostrarInformacion(sucursal.id)}
-                  onDeleteSucursal={() => onDeleteSucursal(sucursal.id)}
-                  isLoggin={isLoggin}
                 />
 
                 {
                   (informacion === sucursal.id) && (
-                    <Sucursalnfo 
+                    <Sucursalnfo
                       sucursal={sucursal}
                       onVerSucursal={cerrarInformacion}
-                      />
+                    />
                   )
                 }
               </div>
@@ -69,15 +59,15 @@ export const UseSucursal: FC<IPropsSucursal> = ({ empresa, empresaActiva, prop_s
           </div>
         </div>
 
-        
+
         {
-          isPopUpVisible && ( 
-            <ModalCrearSucursal visible={isPopUpVisible} onClose={() => setIsPopUpVisible(false)} onAddSucursal={onAddSucursal}/>
+          isPopUpVisible && (
+            <ModalCrearSucursal visible={isPopUpVisible} onClose={HandlePopUp} />
           )
         }
       </>
     );
   }
-
-  return null;
 };
+
+

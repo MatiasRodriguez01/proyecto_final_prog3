@@ -8,15 +8,15 @@ import ModalCrearEmpresa from '../ModalCrearEmpresa/ModalCrearEmpresa';
 import { useListado } from '../../../../hooks/useListado';
 
 interface IPropsListado {
-    empresas: IEmpresa[]
-    onEmpresaActiva: Function
+    empresas: IEmpresa[];
+    onClickEmpresa: () => void;
 }
 
 
-export const EmpresaListado: FC<IPropsListado> = ({ empresas, onEmpresaActiva }) => {
+export const EmpresaListado: FC<IPropsListado> = ({ empresas, onClickEmpresa }) => {
     const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion();
     const { isPopUpVisible, HandlePopUp } = useListado();
-    
+
     return (
         <>
             <div className={styleListado.titulo}>
@@ -41,7 +41,7 @@ export const EmpresaListado: FC<IPropsListado> = ({ empresas, onEmpresaActiva })
                             <EmpresaCard
                                 empresa={e}
                                 onVerEmpresa={() => mostrarInformacion(e.id)}
-                                onClick={() => onEmpresaActiva(e.id)}
+                                onEmpresaActiva={onClickEmpresa}
                             />
                             {informacion === e.id && (
                                 <EmpresaInfo

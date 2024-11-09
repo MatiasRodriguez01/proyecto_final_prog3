@@ -8,13 +8,11 @@ import { useForm } from "../../../../hooks/useForm";
 interface PopUpPropsSucursal {
   visible: boolean;
   onClose(): void;
-  onAddSucursal: Function;
 }
 
 export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
   visible,
-  onClose,
-  onAddSucursal,
+  onClose
 }) => {
   const { values, handleChange, resetForm } = useForm({
     nombre: "",
@@ -52,22 +50,6 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
 
   const addForm = () => {
     // Agregar empresa
-    onAddSucursal(
-      nombre,
-      horarioApertura,
-      horarioCierre,
-      pais,
-      provincia,
-      localidad,
-      latitud,
-      longitud,
-      nombreCalle,
-      numeroCalle,
-      codigoPostal,
-      numeroPiso,
-      numeroDepartamento,
-      imagen
-    );
     // Cerrar el modal
     resetForm(); 
     onClose();
@@ -130,7 +112,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
               {/* SELECCIONAR UN PAIS */}
               <select name="pais" required>
                 {" "}
-                <option value="" disabled selected>
+                <option value={pais} disabled selected>
                   País
                 </option>
                 <option value="argentina">Argentina</option>
@@ -140,7 +122,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
               {/* SELECCIONAR UNA PROVINCIA */}
               <select name="provincia" required>
                 {" "}
-                <option value="" disabled selected>
+                <option value={provincia} disabled selected>
                   Provincia
                 </option>
                 <option value="mendoza">Mendoza</option>
@@ -150,7 +132,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
               {/* SELECCIONAR UNA LOCALIDAD */}
               <select name="localidad" required>
                 {" "}
-                <option value="" disabled selected>
+                <option value={localidad} disabled selected>
                   Localidad
                 </option>
                 <option value="lujan de cuyo">Lujan de Cuyo, Mendoza</option>
@@ -180,7 +162,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
                 type="text"
                 name="longitud"
                 placeholder="Longitud"
-                value={latitud}
+                value={longitud}
                 onChange={handleChange}
                 required
               />
