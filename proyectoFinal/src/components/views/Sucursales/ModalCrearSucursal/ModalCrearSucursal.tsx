@@ -1,19 +1,31 @@
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { Button } from "react-bootstrap";
 
 import addImagen from "../../Empresas/ModalCrearEmpresa/imagen.png";
 import styleModalSucursal from "./ModalCrearSucursal.module.css";
 import { useForm } from "../../../../hooks/useForm";
+import { ICreateSucursal } from "../../../../types/dtos/sucursal/ICreateSucursal";
+import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
+import { ServiceSucursal } from "../../../../services/SucursalService";
+
 
 interface PopUpPropsSucursal {
+  empresa: IEmpresa,
   visible: boolean;
   onClose(): void;
 }
 
-export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
+export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
   visible,
   onClose
 }) => {
+
+  const serviceSucursal = new ServiceSucursal()
+
+  const [esCasaMatriz, setEsCasaMatriz] = useState(false)
+
+  const [idLocalidad, setIdLocalidad] = useState(1)
+
   const { values, handleChange, resetForm } = useForm({
     nombre: "",
     horarioApertura: "",
@@ -21,8 +33,8 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
     pais: "",
     provincia: "",
     localidad: "",
-    latitud: "",
-    longitud: "",
+    latitud: 0,
+    longitud: 0,
     nombreCalle: "",
     numeroCalle: 0,
     codigoPostal: 0,
@@ -48,9 +60,34 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
     imagen,
   } = values;
 
+  const handleCreateSucursal = async (newSucursal: ICreateSucursal) => {
+    try{
+      await serviceSucursal.createOneSucursal(newSucursal)
+    }catch(error){
+      console.log("Error creando sucursal, ", error)
+    }
+  }
+
   const addForm = () => {
-    // Agregar empresa
-    // Cerrar el modal
+    const newSucursal: ICreateSucursal = {
+      nombre: nombre,
+      horarioApertura: horarioApertura,
+      horarioCierre: horarioCierre,
+      esCasaMatriz: esCasaMatriz,
+      latitud: latitud,
+      longitud: longitud,
+      domicilio: {
+        calle: nombreCalle,
+        numero: numeroCalle,
+        cp: codigoPostal,
+        piso: numeroPiso,
+        nroDpto: numeroDepartamento,
+        idLocalidad: idLocalidad
+      },
+      idEmpresa: empresa.id,
+      logo: imagen
+    }
+    handleCreateSucursal(newSucursal)
     resetForm(); 
     onClose();
   };
