@@ -1,66 +1,71 @@
-import React, { ChangeEvent, FC } from 'react'
+import { ChangeEvent, FC } from 'react'
 import { ICreateEmpresaDto } from '../../../../types/dtos/empresa/ICreateEmpresaDto'
 import styleModalEditar from './ModalEditarEmpresa.module.css'
 import { IEmpresa } from '../../../../types/dtos/empresa/IEmpresa';
 import { useForm } from '../../../../hooks/useForm';
 import { ServiceEmpresa } from '../../../../services/EmpresaService';
 import { Button } from 'react-bootstrap';
+import { IUpdateEmpresaDto } from '../../../../types/dtos/empresa/IUpdateEmpresaDto';
 
 interface IProsEditarEmpresa {
-    empresa: ICreateEmpresaDto;
+    empresa: IEmpresa;
+    visible: boolean;
     onClose: () => void;
 }
 
-export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, onClose }) => {
+export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, onClose }) => {
 
     //const dispatch = useDispatch<AppDispatch>();
-  const serviceEmpresa = new ServiceEmpresa();
+    const serviceEmpresa = new ServiceEmpresa();
 
-  const { values, handleChange, resetForm } = useForm({
-    nombre: "",
-    razonSocial: "",
-    cuil: 0,
-    imagen: "",
-  });
+    const { values, handleChange, resetForm } = useForm({
+        nombre: empresa.nombre,
+        razonSocial: empresa.razonSocial,
+        cuil: empresa.cuit,
+        imagen: empresa.logo,
+    });
 
-  const { nombre, razonSocial, cuil, imagen } = values;
+    const { nombre, razonSocial, cuil, imagen } = values;
 
-  const handleCreateEmpresa = async (empresa: IEmpresa) => {
-
-    try {
-      await serviceEmpresa.createOneEmpresa(empresa)
-    } catch (error) {
-      console.error("Error crear Empresa: ", error)
-    }
-    //onAddEmpresa(newEmpresa);
-  };
-
-
-
-  const addForm = () => {
-    const newEmpresa: IEmpresa = {
-      id: Date.now(),
-      nombre: nombre,
-      razonSocial: razonSocial,
-      cuit: cuil,
-      logo: imagen,
-      sucursales: [],
-      pais: null
+    const handleEditarEmpresa = async (empresaEditar: IUpdateEmpresaDto) => {
+        try {
+            await serviceEmpresa.editOneEmpresa(empresaEditar.id, empresaEditar)
+        } catch (error) {
+            console.error("Error crear Empresa: ", error)
+        }
+        //onAddEmpresa(newEmpresa);
     };
-    handleCreateEmpresa(newEmpresa);
-    console.log(newEmpresa.id)
-    resetForm(); // Cerrar el modal
-    onClose()
-  }  
 
-  const cancelForm = () => {
-    resetForm();
-    onClose();
-  };
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
+
+    const addForm = () => {
+        const newEmpresa: IUpdateEmpresaDto = {
+            id: empresa.id,
+            eliminado: false,
+            nombre: nombre,
+            razonSocial: razonSocial,
+            cuit: cuil,
+            logo: imagen,
+        };
+        handleEditarEmpresa(newEmpresa);
+        console.log(newEmpresa.id)
+        resetForm(); // Cerrar el modal
+        onClose()
+    }
+
+    const cancelForm = () => {
+        resetForm();
+        onClose();
+    };
+
+    const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+        event.preventDefault();
+    };
+
+    // Si no está visible, no renderiza nada
+    if (!visible) {
+        return null;
+    }
 
     return (
         <div className={styleModalEditar.containerPopUp}>
@@ -78,7 +83,7 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, onClose })
                             type="text"
                             name="nombre"
                             placeholder="Ingrese un nombre"
-                            value={empresa.nombre}
+                            value={nombre}
                             onChange={handleChange}
                             required
                         />
@@ -87,7 +92,7 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, onClose })
                             type="text"
                             name="razonSocial"
                             placeholder="Ingrese una razon social"
-                            value={empresa.razonSocial}
+                            value={razonSocial}
                             onChange={handleChange}
                             required
                         />
@@ -96,7 +101,7 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, onClose })
                             type="number"
                             name="cuil"
                             placeholder="Ingrese un cuil"
-                            value={empresa.cuit}
+                            value={cuil}
                             onChange={handleChange}
                             required
                         />
@@ -106,10 +111,10 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, onClose })
                                 type="text"
                                 name="imagen"
                                 placeholder="Ingresa una imagen"
-                                value={empresa.logo || undefined}
+                                value={imagen || undefined}
                                 onChange={handleChange}
                             />
-                            <img src={empresa.logo || undefined} alt="imagen del boton" />
+                            <img src={imagen || undefined} alt="imagen del boton" />
                             {/* AGREGAR FUNCIONALIDAD PARA SUBIR UNA IMAGEN */}
                         </div>
                         <div className={styleModalEditar.containerButtonsForm}>

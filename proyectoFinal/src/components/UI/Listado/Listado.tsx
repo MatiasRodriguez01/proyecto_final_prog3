@@ -37,11 +37,6 @@ export const Listado: FC = () => {
           <div className={styleListado.titulo}>
             <h2>Sucursales</h2>
           </div>
-          {
-            empresas.map((empresa) => (
-              <p key = {empresa.id}>{empresa.nombre}</p>
-            ))
-          }
         </section>
 
       </article>

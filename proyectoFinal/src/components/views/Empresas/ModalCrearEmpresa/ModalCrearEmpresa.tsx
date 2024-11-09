@@ -4,7 +4,6 @@ import { useForm } from "../../../../hooks/useForm";
 
 import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
-import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 import { ServiceEmpresa } from "../../../../services/EmpresaService";
 import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
 import { IUpdateEmpresaDto } from "../../../../types/dtos/empresa/IUpdateEmpresaDto";
@@ -45,17 +44,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
     }
     //onAddEmpresa(newEmpresa);
   };
-
-  const handleUpdateEmpresa = async (empresaModificada: IUpdateEmpresaDto) => {
-    try {
-      await serviceEmpresa.editOneEmpresa(empresaId, empresaModificada)
-    }catch(error){
-      console.error("Error al editar empresa: ", error)
-    }
-  }
-
-
-
+  
   const addForm = () => {
     const newEmpresa: ICreateEmpresaDto = {
       nombre: nombre,

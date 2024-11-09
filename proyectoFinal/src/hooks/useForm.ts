@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react"
 
 // interface generica
 interface FormValues {
-    [key:string]:string | number
+    [key:string]:string | number | null
 }
 
 export const useForm = <T extends FormValues> (initialValues:T) => {
