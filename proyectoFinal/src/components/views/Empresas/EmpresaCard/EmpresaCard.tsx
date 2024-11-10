@@ -8,7 +8,7 @@ import { useListado } from "../../../../hooks/useListado";
 interface EmpresaCardProps {
   empresa: IEmpresa
   onVerEmpresa: () => void
-  onEmpresaActiva: () => void
+  onEmpresaActiva: Function
 }
 
 export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa, onEmpresaActiva }) => {
@@ -17,7 +17,7 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa, onEmp
 
   return (
     <>
-      <Card onClick={onEmpresaActiva} className={stylesEmpresaCard.card}>
+      <Card onClick={() => onEmpresaActiva(empresa.id)} className={stylesEmpresaCard.card}>
         <Card.Body className={stylesEmpresaCard.bodyContainer}>
           <Card.Title style={{ height: "auto", margin: "0" }}>
             {empresa.nombre}

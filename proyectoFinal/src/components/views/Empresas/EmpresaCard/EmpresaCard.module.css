@@ -36,7 +36,7 @@ button:hover {
 
 .buttonContainer {
   display: flex;
-  gap: 1vh;
+  gap: 0vh;
   justify-content: center;
   align-items: center;
   margin: 1vh;

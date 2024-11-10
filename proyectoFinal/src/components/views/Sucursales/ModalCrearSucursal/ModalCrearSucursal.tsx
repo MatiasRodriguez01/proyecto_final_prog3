@@ -90,6 +90,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
       logo: imagen
     }
     handleCreateSucursal(newSucursal)
+    console.log(newSucursal)
     resetForm(); 
     onClose();
   };
@@ -151,7 +152,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
               {/* SELECCIONAR UN PAIS */}
               <select name="pais" required>
                 {" "}
-                <option value={pais} disabled selected>
+                <option value={pais} disabled>
                   País
                 </option>
                 <option value="argentina">Argentina</option>
@@ -161,7 +162,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
               {/* SELECCIONAR UNA PROVINCIA */}
               <select name="provincia" required>
                 {" "}
-                <option value={provincia} disabled selected>
+                <option value={provincia} disabled>
                   Provincia
                 </option>
                 <option value="mendoza">Mendoza</option>
@@ -171,7 +172,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
               {/* SELECCIONAR UNA LOCALIDAD */}
               <select name="localidad" required>
                 {" "}
-                <option value={localidad} disabled selected>
+                <option value={localidad} disabled>
                   Localidad
                 </option>
                 <option value="lujan de cuyo">Lujan de Cuyo, Mendoza</option>
