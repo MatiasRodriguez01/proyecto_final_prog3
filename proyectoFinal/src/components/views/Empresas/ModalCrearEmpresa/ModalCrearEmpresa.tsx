@@ -4,7 +4,7 @@ import { useForm } from "../../../../hooks/useForm";
 
 import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
-import { ServiceEmpresa } from "../../../../services/EmpresaService";
+import { ServiceEmpresa } from "../../../../services/ServiceEmpresa";
 import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
 
 interface PopUpPropsEmpresa {

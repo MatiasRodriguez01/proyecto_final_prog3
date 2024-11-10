@@ -2,7 +2,7 @@ import { ChangeEvent, FC } from 'react'
 import styleModalEditar from './ModalEditarEmpresa.module.css'
 import { IEmpresa } from '../../../../types/dtos/empresa/IEmpresa';
 import { useForm } from '../../../../hooks/useForm';
-import { ServiceEmpresa } from '../../../../services/EmpresaService';
+import { ServiceEmpresa } from '../../../../services/ServiceEmpresa';
 import { Button } from 'react-bootstrap';
 import { IUpdateEmpresaDto } from '../../../../types/dtos/empresa/IUpdateEmpresaDto';
 

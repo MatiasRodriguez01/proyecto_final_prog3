@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ServiceEmpresa } from "../services/EmpresaService";
+import { ServiceEmpresa } from "../services/ServiceEmpresa";
 import { ICreateEmpresaDto } from "../types/dtos/empresa/ICreateEmpresaDto";
 import { IEmpresa } from "../types/dtos/empresa/IEmpresa";
 

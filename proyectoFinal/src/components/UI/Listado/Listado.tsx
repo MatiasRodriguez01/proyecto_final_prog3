@@ -2,15 +2,21 @@ import { FC, useEffect, useState } from "react";
 
 import styleListado from "./Listado.module.css";
 import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
-import { ServiceEmpresa } from "../../../services/EmpresaService";
+import { ServiceEmpresa } from "../../../services/ServiceEmpresa";
 import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaListado";
 import { ModalCrearSucursal } from "../../views/Sucursales/ModalCrearSucursal/ModalCrearSucursal";
 import { Button } from "react-bootstrap";
 import { useListado } from "../../../hooks/useListado";
+import { ServiceSucursal } from "../../../services/ServiceSucursal";
+import { ISucursal } from "../../../types/dtos/sucursal/ISucursal";
 
 export const Listado: FC = () => {
+
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
+  const [sucursales, setSucursales] = useState<ISucursal[]>([])
+
   const serviceEmpresa = new ServiceEmpresa();
+  const serviceSucursal = new ServiceSucursal()
 
   const {isPopUpVisible, HandlePopUp} = useListado()
 
@@ -26,8 +32,13 @@ export const Listado: FC = () => {
       const e = await serviceEmpresa.getAllEmpresas();
       setEmpresas(e); // Verifica si `empresas` contiene datos
     }
-    fetchEmpresas()
-  }, [empresas]);
+    const fetchSucursales = async () => {
+      const s = await serviceSucursal.getAllSucursales();
+      setSucursales(s);
+    }
+    fetchEmpresas();
+    fetchSucursales();
+  }, [empresas, sucursales]);
 
 
   return (
@@ -42,7 +53,8 @@ export const Listado: FC = () => {
           <div className={styleListado.titulo}>
             <h2>Sucursales</h2>
           </div>
-          <Button onClick={HandlePopUp}>Agregar Sucursal</Button>
+          <Button style={{width: '12vw', height: 'auto'}} onClick={HandlePopUp}>Agregar Sucursal</Button>
+          <hr style={{width:'95%'}}/>
           {
             empresas.map((empresa) => (
               <ModalCrearSucursal empresa={empresa} visible={isPopUpVisible} onClose={HandlePopUp}></ModalCrearSucursal>

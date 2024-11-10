@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { IEmpresa } from '../types/dtos/empresa/IEmpresa';
 import { ICreateEmpresaDto } from '../types/dtos/empresa/ICreateEmpresaDto';
-import { ServiceEmpresa } from '../services/EmpresaService';
+import { ServiceEmpresa } from '../services/ServiceEmpresa';
 
 const serviceEmpresa = new ServiceEmpresa();
 

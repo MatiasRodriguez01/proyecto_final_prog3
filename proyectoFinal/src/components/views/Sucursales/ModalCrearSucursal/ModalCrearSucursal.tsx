@@ -6,7 +6,7 @@ import styleModalSucursal from "./ModalCrearSucursal.module.css";
 import { useForm } from "../../../../hooks/useForm";
 import { ICreateSucursal } from "../../../../types/dtos/sucursal/ICreateSucursal";
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
-import { ServiceSucursal } from "../../../../services/SucursalService";
+import { ServiceSucursal } from "../../../../services/ServiceSucursal";
 
 
 interface PopUpPropsSucursal {
