@@ -42,13 +42,13 @@ export class ServiceSucursal {
   }
 
   public async getAllSucursales(): Promise<ISucursal[]> {
-    const response = await fetch(`${this.baseURL}/sucursales`);
+    const response = await fetch(`${this.baseURL}`);
     const data = await response.json();
     return data;
   }
 
   public async getSucursal(id: number): Promise<ISucursal> {
-    const response = await fetch(`${this.baseURL}/sucursales/${id})`);
+    const response = await fetch(`${this.baseURL}/${id})`);
     const data = await response.json();
     return data;
   }
