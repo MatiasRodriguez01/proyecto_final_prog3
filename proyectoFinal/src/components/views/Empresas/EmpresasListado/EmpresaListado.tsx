@@ -9,11 +9,11 @@ import { useListado } from '../../../../hooks/useListado';
 
 interface IPropsListado {
     empresas: IEmpresa[];
-    onClickEmpresa: () => void;
+    EmpresaActiva: Function;
 }
 
 
-export const EmpresaListado: FC<IPropsListado> = ({ empresas, onClickEmpresa }) => {
+export const EmpresaListado: FC<IPropsListado> = ({ empresas, EmpresaActiva }) => {
     const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion();
     const { isPopUpVisible, HandlePopUp } = useListado();
 
@@ -41,7 +41,7 @@ export const EmpresaListado: FC<IPropsListado> = ({ empresas, onClickEmpresa }) 
                             <EmpresaCard
                                 empresa={e}
                                 onVerEmpresa={() => mostrarInformacion(e.id)}
-                                onEmpresaActiva={onClickEmpresa}
+                                onEmpresaActiva={EmpresaActiva}
                             />
                             {informacion === e.id && (
                                 <EmpresaInfo

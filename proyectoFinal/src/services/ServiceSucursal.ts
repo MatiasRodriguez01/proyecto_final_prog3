@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from "axios";
 import { IUpdateSucursal } from "../types/dtos/sucursal/IUpdateSucursal";
 import { ISucursal } from "../types/dtos/sucursal/ISucursal";
 import { ICreateSucursal } from "../types/dtos/sucursal/ICreateSucursal";
@@ -7,7 +6,7 @@ export class ServiceSucursal {
   private baseURL: string;
 
   constructor() {
-    this.baseURL = "http://190.221.207.224:8090/sucursales";
+    this.baseURL = "http://190.221.207.224:8090";
   }
 
   // public async getIsCasaMatriz(id: number): Promise<AxiosResponse<any>> {
@@ -20,10 +19,11 @@ export class ServiceSucursal {
   // }
 
   public async createOneSucursal(sucursal: ICreateSucursal): Promise<IUpdateSucursal> {
-    const response = await fetch(`${this.baseURL}/create`, {
+    const response = await fetch(`${this.baseURL}/sucursales/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "User-Agent" : "insomnia/9.3.2"
       },
       body: JSON.stringify(sucursal),
     });
@@ -31,14 +31,15 @@ export class ServiceSucursal {
     return data;
   }
 
-  public async editOneSucursal(id: number,sucursal: IUpdateSucursal): Promise<AxiosResponse<any>> {
-    const url = `${this.baseURL}/update/${id}`;
-    return axios.put(url, sucursal, {
+  public async getAllSucursalesByEmpresa(idEmpresa: number): Promise<ISucursal[]>{
+    const response = await fetch(`${this.baseURL}/sucursales/porEmpresa/${idEmpresa}`, {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        //'User-Agent': 'insomnia/9.3.2',
-      },
+        "User-Agent": "insomnia/9.3.2"
+      }
     });
+    const data = await response.json();
+    return data;
   }
 
   public async getAllSucursales(): Promise<ISucursal[]> {
@@ -52,4 +53,14 @@ export class ServiceSucursal {
     const data = await response.json();
     return data;
   }
+
 }
+    // public async editOneSucursal(id: number,sucursal: IUpdateSucursal): Promise<AxiosResponse<any>> {
+    //   const url = `${this.baseURL}/sucursales/update/${id}`;
+    //   return axios.put(url, sucursal, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       //'User-Agent': 'insomnia/9.3.2',
+    //     },
+    //   });
+    // }
