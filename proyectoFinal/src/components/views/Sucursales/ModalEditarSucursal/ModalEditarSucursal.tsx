@@ -7,6 +7,8 @@ import { ISucursal } from "../../../../types/dtos/sucursal/ISucursal";
 import addImagen from "../../Empresas/ModalCrearEmpresa/imagen.png";
 import styleModalSucursal from "../ModalCrearSucursal/ModalCrearSucursal.module.css";
 import { IUpdateSucursal } from "../../../../types/dtos/sucursal/IUpdateSucursal";
+import { useDispatch } from "react-redux";
+import { actualizarSucursal } from "../../../../slices/sucursalSlice";
 
 interface IPopUpPropsEditarSucursal {
     sucursal: ISucursal;
@@ -16,6 +18,8 @@ interface IPopUpPropsEditarSucursal {
 }
 
 export const ModalEditarSucursal: FC<IPopUpPropsEditarSucursal> = ({ sucursal, id, visible, onClose }) => {
+
+    const dispatch = useDispatch();
 
     const serviceSucursal = new ServiceSucursal()
 
@@ -55,7 +59,8 @@ export const ModalEditarSucursal: FC<IPopUpPropsEditarSucursal> = ({ sucursal, i
 
     const handleEditSucursal = async (newSucursal: IUpdateSucursal) => {
         try {
-            await serviceSucursal.EditOneSucursal(newSucursal.id, newSucursal)
+            await serviceSucursal.EditOneSucursal(newSucursal.id, newSucursal);
+            dispatch(actualizarSucursal(newSucursal));
         } catch (error) {
             console.log("Error creando sucursal, ", error)
         }

@@ -17,7 +17,7 @@ export const AppRouter = () => {
         {isLoggin ? (
           <Route path="/*" element={<ProtectedRoutes isBack={changeRoute} />} />
         ) : (
-          <Route path="/*" element={<Listado isLoggin={changeRoute} />} />
+          <Route path="/*" element={<Listado/>} />
         )}
       </Routes>
     </>

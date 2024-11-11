@@ -8,5 +8,5 @@ export interface IDomicilio {
   piso: number;
   eliminado?: boolean;
   nroDpto: number;
-  localidad: ILocalidad;
+  localidad: ILocalidad | null;
 }

@@ -1,16 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import empresaSucursalReducer from '../slices/empresaSucursalSlice'
-
-
+import empresaReducer from '../slices/empresaSlice';
+import sucursalReducer from '../slices/sucursalSlice';
 
 const store = configureStore({
-    reducer:{
-        empresaSucursal: empresaSucursalReducer
-    }
-})
+    reducer: {
+        empresa: empresaReducer,  // Aquí se añade el reducer de la slice
+        sucursal: sucursalReducer,
+    },
+});
 
+// Exporta los tipos para uso en el componente y en el dispatch
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-
-export default store
+export default store;

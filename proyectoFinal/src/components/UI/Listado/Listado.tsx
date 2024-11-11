@@ -1,16 +1,23 @@
 import { FC, useEffect, useState } from "react";
 
-import styleListado from "./Listado.module.css";
-import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
 import { ServiceEmpresa } from "../../../services/ServiceEmpresa";
 import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaListado";
 import { ServiceSucursal } from "../../../services/ServiceSucursal";
 import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
 
+import { RootState } from "../../../store/store"; // Importa RootState para acceder al estado
+
+import styleListado from "./Listado.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setEmpresas } from "../../../slices/empresaSlice";
+
 export const Listado: FC = () => {
 
-  // las empresas y sucursales
-  const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
+  // Usamos dispatch para enviar acciones a Redux
+  const dispatch = useDispatch();
+
+  // Obtenemos las empresas del store usando useSelector
+  const empresas = useSelector((state: RootState) => state.empresa.empresas);  
 
   // los servicios 
   const serviceEmpresa = new ServiceEmpresa();
@@ -23,35 +30,31 @@ export const Listado: FC = () => {
     setClickEmpresa(newNumber)
   }
 
-  // const handleAddSucursalesEmpresas = async (id: number) => {
-  //   return await serviceSucursal.getAllSucursalesByEmpresa(id)
-  // }
   // el useEffecth lo usamos para crear las empresas y sucursales
   useEffect(() => {
-
-    // const fetchSucursales = async () => {
-    //   const s = await serviceSucursal.getAllSucursales();
-    //   setSucursales(s);
-    // }
     const fetchEmpresasConSucursales = async () => {
-      // Primero obtenemos todas las empresas
-      const empresas = await serviceEmpresa.getAllEmpresas();
+      try {
+        // Primero obtenemos todas las empresas
+        const empresas = await serviceEmpresa.getAllEmpresas();
 
-      // Luego obtenemos las sucursales para cada empresa y las añadimos al objeto `empresa`
-      const empresasConSucursales = await Promise.all(
-        empresas.map(async (empresa) => {
-          const sucursales = await serviceSucursal.getAllSucursalesByEmpresa(empresa.id);
-          return { ...empresa, sucursales };
-        })
-      );
+        // Luego obtenemos las sucursales para cada empresa y las añadimos al objeto `empresa`
+        const empresasConSucursales = await Promise.all(
+          empresas.map(async (empresa) => {
+            const sucursales = await serviceSucursal.getAllSucursalesByEmpresa(empresa.id);
+            return { ...empresa, sucursales };
+          })
+        );
 
-      // Actualizamos el estado con las empresas que ya incluyen sus sucursales
-      setEmpresas(empresasConSucursales);
+        // Actualizamos el estado de empresas en Redux
+        dispatch(setEmpresas(empresasConSucursales));
+      } catch (error) {
+        console.error("Error al obtener las empresas con sucursales:", error);
+      }
     };
 
     fetchEmpresasConSucursales();
     // fetchSucursales()
-  }, [empresas]);
+  }, [empresas, dispatch]);
 
   return (
     <>

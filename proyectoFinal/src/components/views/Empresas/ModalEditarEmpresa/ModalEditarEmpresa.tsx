@@ -1,10 +1,13 @@
-import { ChangeEvent, FC } from 'react'
+import { ChangeEvent, FC, useEffect } from 'react'
 import styleModalEditar from './ModalEditarEmpresa.module.css'
 import { IEmpresa } from '../../../../types/dtos/empresa/IEmpresa';
 import { useForm } from '../../../../hooks/useForm';
 import { ServiceEmpresa } from '../../../../services/ServiceEmpresa';
 import { Button } from 'react-bootstrap';
 import { IUpdateEmpresaDto } from '../../../../types/dtos/empresa/IUpdateEmpresaDto';
+import { useDispatch } from 'react-redux';
+
+import { actualizarEmpresa } from '../../../../slices/empresaSlice';
 
 interface IProsEditarEmpresa {
     empresa: IEmpresa;
@@ -13,6 +16,9 @@ interface IProsEditarEmpresa {
 }
 
 export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, onClose }) => {
+
+    // dispatch para actualizar la empresa
+    const dispatch = useDispatch()
 
     //const dispatch = useDispatch<AppDispatch>();
     const serviceEmpresa = new ServiceEmpresa();
@@ -29,13 +35,12 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, o
     const handleEditarEmpresa = async (empresaEditar: IUpdateEmpresaDto) => {
         try {
             await serviceEmpresa.editOneEmpresa(empresaEditar.id, empresaEditar)
+            dispatch(actualizarEmpresa(empresaEditar))
         } catch (error) {
-            console.error("Error crear Empresa: ", error)
+            console.error("Error editar Empresa: ", error)
         }
         //onAddEmpresa(newEmpresa);
     };
-
-
 
     const addForm = () => {
         const newEmpresa: IUpdateEmpresaDto = {
@@ -51,7 +56,6 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, o
         resetForm(); // Cerrar el modal
         onClose()
     }
-
     const cancelForm = () => {
         resetForm();
         onClose();
