@@ -148,7 +148,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
             {/* CONTENEDOR DE LA SEGUNDA COLUMNA DEL MODAL */}
             <div className={styleModalSucursal.columnaDos}>
               {/* SELECCIONAR UN PAIS */}
-              <select name="pais" required>
+              <select name="pais" onChange={handleChange} required>
                 {" "}
                 <option value={pais} disabled>
                   País
@@ -158,7 +158,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
                 <option value="mexico">Mexico</option>
               </select>
               {/* SELECCIONAR UNA PROVINCIA */}
-              <select name="provincia" required>
+              <select name="provincia" onChange={handleChange} required>
                 {" "}
                 <option value={provincia} disabled>
                   Provincia
@@ -168,7 +168,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
                 <option value="monterrey">Monterrey</option>
               </select>
               {/* SELECCIONAR UNA LOCALIDAD */}
-              <select name="localidad" required>
+              <select name="localidad" onChange={handleChange} required>
                 {" "}
                 <option value={localidad} disabled>
                   Localidad
