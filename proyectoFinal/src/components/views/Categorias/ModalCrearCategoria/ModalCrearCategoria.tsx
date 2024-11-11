@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-
+import stylesCrearCategoria from "./ModalCrearCategoria.module.css";
 interface ModalCrearCategoriaProps {
   show: boolean;
   onClose: () => void;
@@ -13,7 +13,6 @@ const ModalCrearCategoria: React.FC<ModalCrearCategoriaProps> = ({
 }) => {
   // Estado para manejar los valores del formulario
   const [categoryName, setCategoryName] = useState<string>("");
-  const [categoryDescription, setCategoryDescription] = useState<string>("");
 
   // Función para manejar el envío del formulario
   const handleSubmit = () => {
@@ -23,7 +22,7 @@ const ModalCrearCategoria: React.FC<ModalCrearCategoriaProps> = ({
     }
 
     // Aquí podrías agregar la lógica para guardar la nueva categoría
-    console.log("Categoría creada:", { categoryName, categoryDescription });
+    console.log("Categoría creada:", { categoryName });
 
     // Llamada para cerrar el modal después de guardar la categoría
     onClose();
@@ -31,42 +30,36 @@ const ModalCrearCategoria: React.FC<ModalCrearCategoriaProps> = ({
 
   return (
     <Modal show={show} onHide={onClose}>
-      <Modal.Header closeButton>
+      <Modal.Header >
         <Modal.Title>Crear Categoría</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {/* Formulario para crear categoría */}
         <div className="mb-3">
-          <label htmlFor="categoryName" className="form-label">
-            Nombre de la Categoría
-          </label>
           <input
             type="text"
             className="form-control"
             id="categoryName"
             value={categoryName}
+            placeholder="Ingrese una denominacion"
             onChange={(e) => setCategoryName(e.target.value)}
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="categoryDescription" className="form-label">
-            Descripción
-          </label>
-          <textarea
-            className="form-control"
-            id="categoryDescription"
-            rows={3}
-            value={categoryDescription}
-            onChange={(e) => setCategoryDescription(e.target.value)}
-          ></textarea>
-        </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>
+        <Button
+          variant="primary"
+          onClick={onClose}
+          className={stylesCrearCategoria.botonCancelar}
+        >
           Cancelar
         </Button>
-        <Button variant="primary" onClick={handleSubmit}>
-          Guardar Categoría
+        <Button
+          variant="primary"
+          onClick={handleSubmit}
+          className={stylesCrearCategoria.botonAceptar}
+        >
+          Guardar
         </Button>
       </Modal.Footer>
     </Modal>
