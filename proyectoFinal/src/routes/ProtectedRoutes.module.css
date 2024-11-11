@@ -1,10 +1,12 @@
+.navBar{
+    background-color: #252422;
+}
+
 .container{
     display: flex;
     width: 20vw;
     margin: 10px;
     border-right: #252422 1px solid;
-
-
 }
 
 .administracion{

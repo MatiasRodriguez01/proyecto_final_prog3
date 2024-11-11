@@ -21,19 +21,36 @@
     gap: 5vh;
 }
 
-.buttons {
+.buttonsContainer {
     height: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 3vh;
+    display: grid;
+    grid-template-columns: repeat(2,50%);
+    cursor: pointer;
 }
 
-.button {
-    width: 50px; 
+.buttonsContainer Button{
+    width: auto;
 }
 
+.buttonVerSucursal{
+    background-color: #3B82F6; 
+    border: 2px solid #2563EB;
+}
+
+.buttonEliminarSucursal{
+    background-color: #EF4444; 
+    border: 2px solid #B91C1C; 
+}
+
+.buttonEditarSucursal{
+    background-color: #FBBF24; 
+    border: 2px solid #F59E0B;
+}
+
+.buttonVistaAdmin{
+    background-color: #1E3A8A; 
+    border: 2px solid #1E40AF;
+}
 .boton_agregar {
     height: 10vh;
     display: flex;

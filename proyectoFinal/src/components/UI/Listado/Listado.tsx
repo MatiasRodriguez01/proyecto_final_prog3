@@ -4,33 +4,35 @@ import { ServiceEmpresa } from "../../../services/ServiceEmpresa";
 import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaListado";
 import { ServiceSucursal } from "../../../services/ServiceSucursal";
 import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
-
-import { RootState } from "../../../store/store"; // Importa RootState para acceder al estado
-
-import styleListado from "./Listado.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmpresas } from "../../../slices/empresaSlice";
 
-export const Listado: FC = () => {
+import styleListado from './Listado.module.css'
+import { RootState } from "../../../store/store";
 
-  // Usamos dispatch para enviar acciones a Redux
-  const dispatch = useDispatch();
+interface IPropsListado {
+  onVistaAdmin: () => void;
+}
 
-  // Obtenemos las empresas del store usando useSelector
-  const empresas = useSelector((state: RootState) => state.empresa.empresas);  
+export const Listado: FC<IPropsListado> = ({onVistaAdmin}) => {
+  
+   // Usamos dispatch para enviar acciones a Redux
+   const dispatch = useDispatch();
 
-  // los servicios 
+   // Obtenemos las empresas del store usando useSelector
+   const empresas = useSelector((state: RootState) => state.empresa.empresas);  
+
+  // los servicios
   const serviceEmpresa = new ServiceEmpresa();
-  const serviceSucursal = new ServiceSucursal()
+  const serviceSucursal = new ServiceSucursal();
 
-  // usamos el   
+  // usamos el
   const [clickEmpresa, setClickEmpresa] = useState<number>(0);
 
   const handleChangeEmpresa = (newNumber: number) => {
-    setClickEmpresa(newNumber)
-  }
+    setClickEmpresa(newNumber);
+  };
 
-  // el useEffecth lo usamos para crear las empresas y sucursales
   useEffect(() => {
     const fetchEmpresasConSucursales = async () => {
       try {
@@ -59,22 +61,23 @@ export const Listado: FC = () => {
   return (
     <>
       <article className={styleListado.container}>
-
         <section className={styleListado.containerEmpresas}>
-          <EmpresaListado empresas={empresas} EmpresaActiva={handleChangeEmpresa} />
+          <EmpresaListado
+            empresas={empresas}
+            EmpresaActiva={handleChangeEmpresa}
+          />
         </section>
 
         <section className={styleListado.containerSucursales}>
           <h2>Sucursales</h2>
-          {
-            empresas.map((e) => (
-              (clickEmpresa === e.id) && <UseSucursal empresa={e}/>
-            ))
-          }
+          {empresas.map((e) =>
+            clickEmpresa === e.id && (
+              <UseSucursal empresa={e} onVistaAdmin={onVistaAdmin} />
+            )
+        )}
         </section>
-
       </article>
     </>
   );
 };
-// 
+//
