@@ -28,22 +28,22 @@ export const createEmpresa = createAsyncThunk(
   }
 );
 
-const empresaSucursalSlice = createSlice({
-  name: 'empresaSucursal',
-  initialState,
-  reducers: {
-    setEmpresaActiva(state, action: PayloadAction<IEmpresa>) {
-      state.empresaActiva = action.payload;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(createEmpresa.fulfilled, (state, action) => {
-        state.empresas.push(action.payload);
-        state.empresaActiva = action.payload;
-      });
-  },
-});
+// const empresaSucursalSlice = createSlice({
+//   name: 'empresaSucursal',
+//   initialState,
+//   reducers: {
+//     setEmpresaActiva(state, action: PayloadAction<IEmpresa>) {
+//       state.empresaActiva = action.payload;
+//     },
+//   },
+//   extraReducers: (builder) => {
+//     builder
+//       .addCase(createEmpresa.fulfilled, (state, action) => {
+//         state.empresas.push(action.payload);
+//         state.empresaActiva = action.payload;
+//       });
+//   },
+// });
 
-export const { setEmpresaActiva } = empresaSucursalSlice.actions;
-export default empresaSucursalSlice.reducer;
+// export const { setEmpresaActiva } = empresaSucursalSlice.actions;
+// export default empresaSucursalSlice.reducer;

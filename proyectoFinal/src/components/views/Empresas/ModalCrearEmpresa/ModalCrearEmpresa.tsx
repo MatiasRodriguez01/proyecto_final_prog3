@@ -22,11 +22,11 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
   const { values, handleChange, resetForm } = useForm({
     nombre: "",
     razonSocial: "",
-    cuil: 0,
-    imagen: "",
+    cuit: 0,
+    logo: "",
   });
 
-  const { nombre, razonSocial, cuil, imagen } = values;
+  const { nombre, razonSocial, cuit, logo } = values;
 
   const handleCreateEmpresa = async (empresa: ICreateEmpresaDto) => {
 
@@ -48,8 +48,8 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
     const newEmpresa: ICreateEmpresaDto = {
       nombre: nombre,
       razonSocial: razonSocial,
-      cuit: cuil,
-      logo: imagen,
+      cuit: cuit,
+      logo: logo,
     };
     handleCreateEmpresa(newEmpresa);
     resetForm(); // Cerrar el modal
@@ -104,7 +104,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
               type="number"
               name="cuil"
               placeholder="Ingrese un cuil"
-              value={cuil}
+              value={cuit}
               onChange={handleChange}
               required
             />
@@ -114,7 +114,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
                 type="text"
                 name="imagen"
                 placeholder="Ingresa una imagen"
-                value={imagen}
+                value={logo}
                 onChange={handleChange}
               />
               <img src={addImagen} alt="imagen del boton" />
