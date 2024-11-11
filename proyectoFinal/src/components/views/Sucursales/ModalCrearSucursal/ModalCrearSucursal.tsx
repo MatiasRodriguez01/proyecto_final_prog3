@@ -69,6 +69,8 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
   }
 
   const addForm = () => {
+    setEsCasaMatriz(true)
+    setIdLocalidad(5)
     const newSucursal: ICreateSucursal = {
       nombre: nombre,
       horarioApertura: horarioApertura,
