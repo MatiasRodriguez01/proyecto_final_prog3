@@ -33,10 +33,10 @@ export const Listado: FC = () => {
   // el useEffecth lo usamos para crear las empresas y sucursales
   useEffect(() => {
 
-    const fetchSucursales = async () => {
+    /*const fetchSucursales = async () => {
       const s = await serviceSucursal.getAllSucursales();
       setSucursales(s);
-    }
+    }*/
     const fetchEmpresasConSucursales = async () => {
       // Primero obtenemos todas las empresas
       const empresas = await serviceEmpresa.getAllEmpresas();
@@ -54,7 +54,7 @@ export const Listado: FC = () => {
     };
 
     fetchEmpresasConSucursales();
-    fetchSucursales()
+    //fetchSucursales()
   }, [empresas, sucursales]);
 
   // modal crear empresa

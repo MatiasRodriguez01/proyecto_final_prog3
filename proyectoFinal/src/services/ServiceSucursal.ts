@@ -42,17 +42,17 @@ export class ServiceSucursal {
     return data;
   }
 
-  public async getAllSucursales(): Promise<ISucursal[]> {
-    const response = await fetch(`${this.baseURL}`);
+  /*public async getAllSucursales(): Promise<ISucursal[]> {
+    const response = await fetch(`${this.baseURL}/sucursales`);
     const data = await response.json();
     return data;
-  }
+  }*/
 
-  public async getSucursal(id: number): Promise<ISucursal> {
-    const response = await fetch(`${this.baseURL}/${id})`);
+  /*public async getSucursal(id: number): Promise<ISucursal> {
+    const response = await fetch(`${this.baseURL}/sucursales/${id})`);
     const data = await response.json();
     return data;
-  }
+  }*/
 
 }
     // public async editOneSucursal(id: number,sucursal: IUpdateSucursal): Promise<AxiosResponse<any>> {
