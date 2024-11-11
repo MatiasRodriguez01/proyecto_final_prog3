@@ -12,12 +12,8 @@ document.head.appendChild(link);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-<<<<<<< HEAD
     <Provider store={store}>
       <App/>
     </Provider>
-=======
-    <App />
->>>>>>> rama_mati
   </StrictMode>
 );
