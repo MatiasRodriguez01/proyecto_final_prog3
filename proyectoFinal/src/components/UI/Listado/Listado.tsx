@@ -4,14 +4,8 @@ import styleListado from "./Listado.module.css";
 import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
 import { ServiceEmpresa } from "../../../services/ServiceEmpresa";
 import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaListado";
-import { Button } from "react-bootstrap";
-import { useListado } from "../../../hooks/useListado";
 import { ServiceSucursal } from "../../../services/ServiceSucursal";
 import { ISucursal } from "../../../types/dtos/sucursal/ISucursal";
-import { ModalCrearSucursal } from "../../views/Sucursales/ModalCrearSucursal/ModalCrearSucursal";
-import { SucursalCard } from "../../views/Sucursales/SucursalCard/SucursalCard";
-import { Sucursalnfo } from "../../views/Sucursales/sucursalnfo/Sucursalnfo";
-import { useInformacion } from "../../../hooks/useInformacion";
 import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
 
 export const Listado: FC = () => {
@@ -61,11 +55,6 @@ export const Listado: FC = () => {
     // fetchSucursales()
   }, [empresas, sucursales]);
 
-  // modal crear empresa
-  const { isPopUpVisible, HandlePopUp } = useListado();
-
-  const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion()
-
   return (
     <>
       <article className={styleListado.container}>
@@ -79,27 +68,8 @@ export const Listado: FC = () => {
           {
             empresas.map((e) => (
               (clickEmpresa === e.id) && <UseSucursal empresa={e}/>
-              // (
-              //   <div key={e.id} className={styleListado.sucursales}>
-              //     {
-              //       e.sucursales.map((sucursal) => (
-              //         <div key={sucursal.id} className={styleListado.sucursal}>
-              //           <SucursalCard sucursal={sucursal} onSucursalActiva={() => mostrarInformacion(sucursal.id)} />
-              //           <Sucursalnfo sucursal={sucursal} onVerSucursal={cerrarInformacion} />
-              //         </div>
-              //       ))
-              //     }
-
-              //   </div>
-              // )
-
             ))
           }
-          {/* {
-            empresas.map((empresa) => (
-              
-            ))
-          } */}
         </section>
 
       </article>

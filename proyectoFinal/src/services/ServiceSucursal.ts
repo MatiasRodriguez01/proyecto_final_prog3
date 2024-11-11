@@ -36,7 +36,7 @@ export class ServiceSucursal {
     return data;
   }
 
-  public async EditOneSucursal(idSucursal: number,newSucursal: IUpdateSucursal): Promise<ISucursal> {
+  public async EditOneSucursal(idSucursal: number,newSucursal: IUpdateSucursal): Promise<IUpdateSucursal> {
     const response = await fetch(
       `${this.baseURL}/sucursales/update/${idSucursal}`,
       {

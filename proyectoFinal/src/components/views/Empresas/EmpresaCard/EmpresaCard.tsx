@@ -3,7 +3,7 @@ import { FC } from "react";
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 import stylesEmpresaCard from "./EmpresaCard.module.css";
 import { ModalEditarEmpresa } from "../ModalEditarEmpresa/ModalEditarEmpresa";
-import { useListado } from "../../../../hooks/useListado";
+import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
 
 interface EmpresaCardProps {
   empresa: IEmpresa
@@ -13,7 +13,7 @@ interface EmpresaCardProps {
 
 export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa, onEmpresaActiva }) => {
 
-  const { isPopUpVisible, HandlePopUp } = useListado();
+  const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
 
   return (
     <>

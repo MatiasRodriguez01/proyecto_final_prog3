@@ -16,5 +16,5 @@ export interface ISucursal {
   horarioApertura: string;
   eliminado: boolean;
   horarioCierre: string;
-  logo?: string;
+  logo?: string | null;
 }
