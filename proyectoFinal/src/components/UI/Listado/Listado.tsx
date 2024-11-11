@@ -9,6 +9,10 @@ import { useListado } from "../../../hooks/useListado";
 import { ServiceSucursal } from "../../../services/ServiceSucursal";
 import { ISucursal } from "../../../types/dtos/sucursal/ISucursal";
 import { ModalCrearSucursal } from "../../views/Sucursales/ModalCrearSucursal/ModalCrearSucursal";
+import { SucursalCard } from "../../views/Sucursales/SucursalCard/SucursalCard";
+import { Sucursalnfo } from "../../views/Sucursales/sucursalnfo/Sucursalnfo";
+import { useInformacion } from "../../../hooks/useInformacion";
+import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
 
 export const Listado: FC = () => {
 
@@ -60,6 +64,8 @@ export const Listado: FC = () => {
   // modal crear empresa
   const { isPopUpVisible, HandlePopUp } = useListado();
 
+  const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion()
+
   return (
     <>
       <article className={styleListado.container}>
@@ -70,24 +76,22 @@ export const Listado: FC = () => {
 
         <section className={styleListado.containerSucursales}>
           <h2>Sucursales</h2>
-          <Button style={{ width: '12vw', height: 'auto' }} onClick={HandlePopUp}>Agregar Sucursal</Button>
-          <hr style={{ width: '95%' }} />
           {
             empresas.map((e) => (
-              (clickEmpresa === e.id) && (
-                
-                  <div key={e.id} className={styleListado.sucursales}>
-                    {
-                      e.sucursales.map((sucursal) => (
-                        <div key={sucursal.id} className={styleListado.sucursal}>
-                          <p style={{ fontSize: '10px', margin: '0' }}><strong>id: </strong>{sucursal.id}</p>
-                          <p style={{ fontSize: '10px', textAlign: 'center' }}><strong>nombre: </strong>{sucursal.nombre}</p>
-                        </div>
-                      ))
-                    }
-                    <ModalCrearSucursal empresa={e} visible={isPopUpVisible} onClose={HandlePopUp} />
-                  </div>
-              )
+              (clickEmpresa === e.id) && <UseSucursal empresa={e}/>
+              // (
+              //   <div key={e.id} className={styleListado.sucursales}>
+              //     {
+              //       e.sucursales.map((sucursal) => (
+              //         <div key={sucursal.id} className={styleListado.sucursal}>
+              //           <SucursalCard sucursal={sucursal} onSucursalActiva={() => mostrarInformacion(sucursal.id)} />
+              //           <Sucursalnfo sucursal={sucursal} onVerSucursal={cerrarInformacion} />
+              //         </div>
+              //       ))
+              //     }
+
+              //   </div>
+              // )
 
             ))
           }

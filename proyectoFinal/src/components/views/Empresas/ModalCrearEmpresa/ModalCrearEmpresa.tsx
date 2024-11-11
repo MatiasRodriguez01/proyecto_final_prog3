@@ -72,8 +72,9 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
   return (
     <div className={styleModalEmpresa.containerPopUp}>
       <div className={styleModalEmpresa.popUpContainer}>
+          <h2 style={{width:'100%', color:'black', textAlign:'center', margin:'0'}}>Crear Empresa</h2>
         <div className={styleModalEmpresa.contenido}>
-          <h2>Crear empresa</h2>
+          {/* <h2>Crear empresa</h2> */}
 
           {/* FORMULARIO PARA AGREGAR EMPRESA */}
           <form
