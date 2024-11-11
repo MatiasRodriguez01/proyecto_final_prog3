@@ -4,7 +4,7 @@ import { ICategorias } from "../categorias/ICategorias";
 export interface IUpdateSucursal extends baseDto {
   nombre: string;
   idEmpresa: number;
-  eliminado: boolean;
+  //eliminado: boolean;
   latitud: number;
   longitud: number;
   domicilio: {

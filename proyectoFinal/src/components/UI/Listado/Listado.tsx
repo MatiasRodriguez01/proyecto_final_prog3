@@ -4,17 +4,13 @@ import styleListado from "./Listado.module.css";
 import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
 import { ServiceEmpresa } from "../../../services/ServiceEmpresa";
 import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaListado";
-import { Button } from "react-bootstrap";
-import { useListado } from "../../../hooks/useListado";
 import { ServiceSucursal } from "../../../services/ServiceSucursal";
-import { ISucursal } from "../../../types/dtos/sucursal/ISucursal";
-import { ModalCrearSucursal } from "../../views/Sucursales/ModalCrearSucursal/ModalCrearSucursal";
+import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
 
 export const Listado: FC = () => {
 
   // las empresas y sucursales
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
-  const [sucursales, setSucursales] = useState<ISucursal[]>([])
 
   // los servicios 
   const serviceEmpresa = new ServiceEmpresa();
@@ -33,10 +29,10 @@ export const Listado: FC = () => {
   // el useEffecth lo usamos para crear las empresas y sucursales
   useEffect(() => {
 
-    /*const fetchSucursales = async () => {
-      const s = await serviceSucursal.getAllSucursales();
-      setSucursales(s);
-    }*/
+    // const fetchSucursales = async () => {
+    //   const s = await serviceSucursal.getAllSucursales();
+    //   setSucursales(s);
+    // }
     const fetchEmpresasConSucursales = async () => {
       // Primero obtenemos todas las empresas
       const empresas = await serviceEmpresa.getAllEmpresas();
@@ -54,11 +50,8 @@ export const Listado: FC = () => {
     };
 
     fetchEmpresasConSucursales();
-    //fetchSucursales()
-  }, [empresas, sucursales]);
-
-  // modal crear empresa
-  const { isPopUpVisible, HandlePopUp } = useListado();
+    // fetchSucursales()
+  }, [empresas]);
 
   return (
     <>
@@ -70,32 +63,11 @@ export const Listado: FC = () => {
 
         <section className={styleListado.containerSucursales}>
           <h2>Sucursales</h2>
-          <Button style={{ width: '12vw', height: 'auto' }} onClick={HandlePopUp}>Agregar Sucursal</Button>
-          <hr style={{ width: '95%' }} />
           {
             empresas.map((e) => (
-              (clickEmpresa === e.id) && (
-                
-                  <div key={e.id} className={styleListado.sucursales}>
-                    {
-                      e.sucursales.map((sucursal) => (
-                        <div key={sucursal.id} className={styleListado.sucursal}>
-                          <p style={{ fontSize: '10px', margin: '0' }}><strong>id: </strong>{sucursal.id}</p>
-                          <p style={{ fontSize: '10px', textAlign: 'center' }}><strong>nombre: </strong>{sucursal.nombre}</p>
-                        </div>
-                      ))
-                    }
-                    <ModalCrearSucursal empresa={e} visible={isPopUpVisible} onClose={HandlePopUp} />
-                  </div>
-              )
-
+              (clickEmpresa === e.id) && <UseSucursal empresa={e}/>
             ))
           }
-          {/* {
-            empresas.map((empresa) => (
-              
-            ))
-          } */}
         </section>
 
       </article>

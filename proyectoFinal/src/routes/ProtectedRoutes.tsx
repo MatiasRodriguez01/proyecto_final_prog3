@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
-import { useListado } from "../hooks/useListado";
+import { usePopUpVisible } from "../hooks/usePopUpVisible";
 
 interface IProsProyectedRoutes {
   isBack: () => void;
@@ -12,7 +12,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
   const {
     isPopUpVisible,
     HandlePopUp
-  } = useListado()
+  } = usePopUpVisible()
 
   return (
     <>

@@ -43,7 +43,8 @@
   height: auto;
   display: grid;
   grid-template-columns: 0.3fr 0.7fr;
-  gap: 2vw;
+  gap: 1vw;
+  justify-content: space-between;
 }
 .columnaUno {
   display: flex;
@@ -63,7 +64,7 @@
   border-radius: 5px;
 }
 .formulario select {
-  height: 5vh;
+  height: 100%;
   padding: 10px;
   font-size: 10px;
   border: 1px solid #ccc;
@@ -74,7 +75,7 @@
   width: 60%;
   height: 15vh;
   padding: 10px;
-  margin: 6vh;
+  margin: 4vh;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 0.2rem;

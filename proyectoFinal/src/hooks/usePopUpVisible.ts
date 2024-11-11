@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useListado = () => {
+export const usePopUpVisible = () => {
   const [isPopUpVisible, setIsPopUpVisible] = useState<boolean>(false);
 
   const HandlePopUp = () => {

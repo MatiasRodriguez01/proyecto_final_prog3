@@ -5,7 +5,7 @@ import EmpresaCard from '../EmpresaCard/EmpresaCard'
 import { EmpresaInfo } from '../EmpresaInfo/EmpresaInfo';
 import styleListado from './EmpresaListado.module.css'
 import ModalCrearEmpresa from '../ModalCrearEmpresa/ModalCrearEmpresa';
-import { useListado } from '../../../../hooks/useListado';
+import { usePopUpVisible } from '../../../../hooks/usePopUpVisible';
 
 interface IPropsListado {
     empresas: IEmpresa[];
@@ -15,7 +15,7 @@ interface IPropsListado {
 
 export const EmpresaListado: FC<IPropsListado> = ({ empresas, EmpresaActiva }) => {
     const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion();
-    const { isPopUpVisible, HandlePopUp } = useListado();
+    const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
 
     return (
         <>

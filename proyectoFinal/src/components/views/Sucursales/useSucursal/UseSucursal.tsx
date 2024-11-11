@@ -9,18 +9,17 @@ import styleSucursal from "../useSucursal/UseSucursal.module.css";
 import { useInformacion } from "../../../../hooks/useInformacion";
 import { ISucursal } from "../../../../types/dtos/sucursal/ISucursal";
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
-import { useListado } from "../../../../hooks/useListado";
+import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
 
 interface IPropsSucursal {
   empresa: IEmpresa;
-  isClick: boolean
 }
 
-export const UseSucursal: FC<IPropsSucursal> = ({ empresa, isClick }) => {
+export const UseSucursal: FC<IPropsSucursal> = ({ empresa }) => {
 
   const [sucursales, setSucursales] = useState<ISucursal[]>(empresa.sucursales);
 
-  const { isPopUpVisible, HandlePopUp } = useListado()
+  const { isPopUpVisible, HandlePopUp } = usePopUpVisible()
 
   const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion()
 
@@ -29,45 +28,46 @@ export const UseSucursal: FC<IPropsSucursal> = ({ empresa, isClick }) => {
     setSucursales(empresa.sucursales);
   }, [sucursales]);
 
+  return (
+    <>
 
-  if (isClick) {
-    return (
-      <>
-        <h3 className={styleSucursal.title}>{empresa.nombre}</h3>
-        <div className={styleSucursal.boton_agregar}>
-          <Button onClick={HandlePopUp} style={{ width: '10vw', height: '6vh' }}>Agregar sucursal</Button>
+      <hr style={{ width: '95%' }} />
+      <div style={{ display: 'flex', flexDirection:'row' }}>
+        <h3 className={styleSucursal.title} style={{margin:'0'}}>{empresa.nombre} - {''}</h3> 
+        <Button style={{ width: '13vw', height: 'auto' }} onClick={HandlePopUp}>Agregar Sucursal</Button>
+      </div>
+      <div className={styleSucursal.containerPrincipal}>
+        <div className={styleSucursal.containerSucursal}>
+          {sucursales.map((sucursal) => (
+            <div key={sucursal.id}>
+              <SucursalCard
+                sucursal={sucursal}
+                idEmpresa={empresa.id}
+                onSucursalActiva={() => mostrarInformacion(sucursal.id)}
+              />
+
+              {
+                (informacion === sucursal.id) && (
+                  <Sucursalnfo
+                    sucursal={sucursal}
+                    onVerSucursal={cerrarInformacion}
+                  />
+                )
+              }
+            </div>
+          ))}
         </div>
-        <div className={styleSucursal.containerPrincipal}>
-          <div className={styleSucursal.containerSucursal}>
-            {sucursales.map((sucursal) => (
-              <div key={sucursal.id}>
-                <SucursalCard
-                  sucursal={sucursal}
-                  onSucursalActiva={() => mostrarInformacion(sucursal.id)}
-                />
-
-                {
-                  (informacion === sucursal.id) && (
-                    <Sucursalnfo
-                      sucursal={sucursal}
-                      onVerSucursal={cerrarInformacion}
-                    />
-                  )
-                }
-              </div>
-            ))}
-          </div>
-        </div>
+      </div>
 
 
-        {
-          isPopUpVisible && (
-            <ModalCrearSucursal visible={isPopUpVisible} onClose={HandlePopUp} />
-          )
-        }
-      </>
-    );
-  }
-};
+      {
+        isPopUpVisible && (
+          <ModalCrearSucursal empresa={empresa} visible={isPopUpVisible} onClose={HandlePopUp} />
+        )
+      }
+    </>
+  );
+}
+
 
 
