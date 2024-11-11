@@ -5,14 +5,12 @@ import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
 import { ServiceEmpresa } from "../../../services/ServiceEmpresa";
 import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaListado";
 import { ServiceSucursal } from "../../../services/ServiceSucursal";
-import { ISucursal } from "../../../types/dtos/sucursal/ISucursal";
 import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
 
 export const Listado: FC = () => {
 
   // las empresas y sucursales
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
-  const [sucursales, setSucursales] = useState<ISucursal[]>([])
 
   // los servicios 
   const serviceEmpresa = new ServiceEmpresa();
@@ -53,7 +51,7 @@ export const Listado: FC = () => {
 
     fetchEmpresasConSucursales();
     // fetchSucursales()
-  }, [empresas, sucursales]);
+  }, [empresas]);
 
   return (
     <>
