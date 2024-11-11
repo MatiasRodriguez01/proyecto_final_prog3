@@ -4,11 +4,10 @@ import { Listado } from "../components/UI/Listado/Listado";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 
 export const AppRouter = () => {
-  const [isLoggin, setIsloggin] = useState<boolean>(false);
+  const [isLoggin, setIsloggin] = useState(false);
 
   const changeRoute = () => {
-    console.log(isLoggin);
-    setIsloggin(!isLoggin);
+    setIsloggin((prev) => !prev);
   };
 
   return (
@@ -17,7 +16,7 @@ export const AppRouter = () => {
         {isLoggin ? (
           <Route path="/*" element={<ProtectedRoutes isBack={changeRoute} />} />
         ) : (
-          <Route path="/*" element={<Listado isLoggin={changeRoute} />} />
+          <Route path="/*" element={<Listado onVistaAdmin={changeRoute} />} />
         )}
       </Routes>
     </>
