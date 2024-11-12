@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import stylesCrearCategoria from "./ModalCrearCategoria.module.css";
 interface ModalCrearCategoriaProps {
@@ -7,7 +7,7 @@ interface ModalCrearCategoriaProps {
   categoria?: any;
 }
 
-const ModalCrearCategoria: React.FC<ModalCrearCategoriaProps> = ({
+const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({
   show,
   onClose,
 }) => {
@@ -31,7 +31,7 @@ const ModalCrearCategoria: React.FC<ModalCrearCategoriaProps> = ({
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header >
-        <Modal.Title>Crear Categoría</Modal.Title>
+        <Modal.Title>Crear/Editar Categoría</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {/* Formulario para crear categoría */}

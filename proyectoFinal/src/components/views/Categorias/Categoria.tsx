@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ModalCrearCategoria from "./ModalCrearCategoria/ModalCrearCategoria";
+import ModalCrearCategoria from "./CategoriaPadre/ModalCrearCategoria/ModalCrearCategoria";
 
 export const Categoria = () => {
   // Estado para manejar la visibilidad del modal
