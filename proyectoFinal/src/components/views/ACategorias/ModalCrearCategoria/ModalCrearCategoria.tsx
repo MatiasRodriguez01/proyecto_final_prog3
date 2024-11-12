@@ -6,7 +6,8 @@ import { useForm } from "../../../../hooks/useForm";
 import { ICreateCategoria } from "../../../../types/dtos/categorias/ICreateCategoria";
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 
-interface ModalCrearCategoriaProps {empresa: IEmpresa,
+interface ModalCrearCategoriaProps {
+  empresa: IEmpresa,
   visible: boolean;
   onClose: () => void;
   categoria?: any;
