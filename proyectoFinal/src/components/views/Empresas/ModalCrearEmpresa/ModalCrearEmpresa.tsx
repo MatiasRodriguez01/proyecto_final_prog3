@@ -106,7 +106,6 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
               placeholder="Ingrese un cuil"
               value={cuit}
               onChange={handleChange}
-              required
             />
             {/* AGREGAR IMAGEN */}
             <div className={styleModalEmpresa.imagenContainer}>

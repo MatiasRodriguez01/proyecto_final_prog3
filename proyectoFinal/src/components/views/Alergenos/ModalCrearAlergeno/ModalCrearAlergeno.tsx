@@ -1,25 +1,19 @@
-import { ChangeEvent, FC, useState } from "react";
-import { Button } from "react-bootstrap";
+import { ChangeEvent, FC } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { useForm } from "../../../../hooks/useForm";
-import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
+import stylesModalCrearAlergeno from "./ModalCrearAlergeno.module.css"
 import addImagen from "./imagen.png";
-import { ServiceEmpresa } from "../../../../services/ServiceEmpresa";
-import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
-import {ServiceAlergenos} from "../../../../services/ServiceAlergenos"
+import { ServiceAlergenos } from "../../../../services/ServiceAlergenos";
 import { ICreateAlergeno } from "../../../../types/dtos/alergenos/ICreateAlergeno";
 import { IImagen } from "../../../../types/IImagen";
 
 interface PopUpPropsAlergeno {
-  visible: boolean;
+  show: boolean;
   onClose: () => void;
 }
 
-const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
-
-  //const dispatch = useDispatch<AppDispatch>();
-  const serviceAlergeno = new ServiceAlergenos()
-
-  //const [empresaId, setEmpresaId] = useState<number>(0)
+const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ show, onClose }) => {
+  const serviceAlergeno = new ServiceAlergenos();
 
   const { values, handleChange, resetForm } = useForm({
     denominacion: "",
@@ -30,19 +24,12 @@ const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
   const { denominacion, name, url } = values;
 
   const handleCreateAlergeno = async (alergeno: ICreateAlergeno) => {
-
     try {
-      const response = await serviceAlergeno.createOneAlergeno(alergeno)
-
-      /*if(response && response.id){
-        setEmpresaId(response.id);
-        console.log("ID de empresa creada: ", response.id)
-      }*/
-
+      const response = await serviceAlergeno.createOneAlergeno(alergeno);
+      console.log("Alergeno creado con ID: ", response?.id);
     } catch (error) {
-      console.error("Error crear Empresa: ", error)
+      console.error("Error al crear el alergeno: ", error);
     }
-    //onAddEmpresa(newEmpresa);
   };
 
   const addForm = () => {
@@ -50,13 +37,13 @@ const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
       denominacion: denominacion,
       imagen: {
         name,
-        url
-      } as IImagen
+        url,
+      } as IImagen,
     };
     handleCreateAlergeno(newAlergeno);
-    resetForm(); // Cerrar el modal
-    onClose()
-  }  
+    resetForm(); 
+    onClose();
+  };
 
   const cancelForm = () => {
     resetForm();
@@ -65,66 +52,53 @@ const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+    addForm();
   };
-  // Si no está visible, no renderiza nada
-  if (!visible) {
+
+  
+  if (!show) {
     return null;
   }
 
   return (
-    <div className={styleModalEmpresa.containerPopUp}>
-      <div className={styleModalEmpresa.popUpContainer}>
-          <h2 style={{width:'100%', color:'black', textAlign:'center', margin:'0'}}>Crear un alergeno</h2>
-        <div className={styleModalEmpresa.contenido}>
-          {/* <h2>Crear empresa</h2> */}
-
-          {/* FORMULARIO PARA AGREGAR ALERGENO */}
-          <form
-            onSubmit={handleSubmit}
-            className={styleModalEmpresa.formulario}
-          >
-            {/* DENOMINACION DEL ALERGENO */}
+    <Modal show={show} onHide={onClose}>
+      <Modal.Header>
+        <Modal.Title>Crear un alergeno</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <form onSubmit={handleSubmit} >
+          {/* DENOMINACION DEL ALERGENO */}
+          <input
+            type="text"
+            name="denominacion"
+            placeholder="Ingrese una denominación"
+            value={denominacion}
+            onChange={handleChange}
+            required
+          />
+          {/* AGREGAR IMAGEN */}
+          <div className={stylesModalCrearAlergeno.imagenContainer}>
             <input
               type="text"
-              name="denominacion"
-              placeholder="Ingrese una denominacion"
-              value={denominacion}
+              name="url"
+              placeholder="Ingresa la URL de la imagen"
+              value={url}
               onChange={handleChange}
               required
             />
-            {/* AGREGAR IMAGEN */}
-            <div className={styleModalEmpresa.imagenContainer}>
-              <input
-                type="text"
-                name="imagen"
-                placeholder="Ingresa una imagen"
-                value={url}
-                onChange={handleChange}
-              />
-              <img src={addImagen} alt={name} />
-              {/* AGREGAR FUNCIONALIDAD PARA SUBIR UNA IMAGEN */}
-            </div>
-            <div className={styleModalEmpresa.containerButtonsForm}>
-              <Button
-                variant="primary"
-                type="submit"
-                onClick={addForm}
-                className={styleModalEmpresa.formButton}
-              >
-                Enviar
-              </Button>{" "}
-              <Button
-                variant="primary"
-                onClick={cancelForm}
-                className={styleModalEmpresa.formButton}
-              >
-                Cerrar
-              </Button>{" "}
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+            <img src={addImagen} alt={name} style={{width: "10vw", height: "auto"}}/>
+          </div>
+        </form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={cancelForm} className={stylesModalCrearAlergeno.buttonCancel}>
+          Cancelar
+        </Button>
+        <Button variant="primary" onClick={addForm} className={stylesModalCrearAlergeno.buttonAccept}>
+          Guardar
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
