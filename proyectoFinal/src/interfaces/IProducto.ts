@@ -1,5 +1,5 @@
 import { ICategoria } from "./ICategoria";
-export interface IAlergeno {
+export interface IProducto {
     id: string;
     denominacion: string;
     categoria: ICategoria ;
