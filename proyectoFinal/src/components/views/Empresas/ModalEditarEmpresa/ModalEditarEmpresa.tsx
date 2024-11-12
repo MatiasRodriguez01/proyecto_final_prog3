@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect } from 'react'
+import { ChangeEvent, FC } from 'react'
 import styleModalEditar from './ModalEditarEmpresa.module.css'
 import { IEmpresa } from '../../../../types/dtos/empresa/IEmpresa';
 import { useForm } from '../../../../hooks/useForm';
@@ -26,11 +26,9 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, o
     const { values, handleChange, resetForm } = useForm({
         nombre: empresa.nombre,
         razonSocial: empresa.razonSocial,
-        cuil: empresa.cuit,
-        imagen: empresa.logo,
+        cuit: empresa.cuit,
+        logo: empresa.logo,
     });
-
-    const { nombre, razonSocial, cuil, imagen } = values;
 
     const handleEditarEmpresa = async (empresaEditar: IUpdateEmpresaDto) => {
         try {
@@ -46,10 +44,10 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, o
         const newEmpresa: IUpdateEmpresaDto = {
             id: empresa.id,
             eliminado: false,
-            nombre: nombre,
-            razonSocial: razonSocial,
-            cuit: cuil,
-            logo: imagen,
+            nombre: values.nombre,
+            razonSocial: values.razonSocial,
+            cuit: values.cuit,
+            logo: values.logo,
         };
         handleEditarEmpresa(newEmpresa);
         console.log(newEmpresa.id)
@@ -86,7 +84,7 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, o
                             type="text"
                             name="nombre"
                             placeholder="Ingrese un nombre"
-                            value={nombre}
+                            value={values.nombre}
                             onChange={handleChange}
                             required
                         />
@@ -95,16 +93,16 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, o
                             type="text"
                             name="razonSocial"
                             placeholder="Ingrese una razon social"
-                            value={razonSocial}
+                            value={values.razonSocial}
                             onChange={handleChange}
                             required
                         />
                         {/* CUIL */}
                         <input
                             type="number"
-                            name="cuil"
+                            name="cuit"
                             placeholder="Ingrese un cuil"
-                            value={cuil}
+                            value={values.cuit}
                             onChange={handleChange}
                             required
                         />
@@ -112,12 +110,12 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, o
                         <div className={styleModalEditar.imagenContainer}>
                             <input
                                 type="text"
-                                name="imagen"
+                                name="logo"
                                 placeholder="Ingresa una imagen"
-                                value={imagen || undefined}
+                                value={values.logo || undefined}
                                 onChange={handleChange}
                             />
-                            <img src={imagen || undefined} alt="imagen del boton" />
+                            <img src={values.logo || undefined} alt="imagen del boton" />
                             {/* AGREGAR FUNCIONALIDAD PARA SUBIR UNA IMAGEN */}
                         </div>
                         <div className={styleModalEditar.containerButtonsForm}>

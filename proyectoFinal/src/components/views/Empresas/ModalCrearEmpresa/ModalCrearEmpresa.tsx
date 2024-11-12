@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "../../../../hooks/useForm";
 
@@ -6,6 +6,7 @@ import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
 import { ServiceEmpresa } from "../../../../services/ServiceEmpresa";
 import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
+//import { useDispatch } from "react-redux";
 
 interface PopUpPropsEmpresa {
   visible: boolean;
@@ -14,29 +15,20 @@ interface PopUpPropsEmpresa {
 
 const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
 
-  //const dispatch = useDispatch<AppDispatch>();
+  //const dispatch = useDispatch();
   const serviceEmpresa = new ServiceEmpresa();
 
-  const [empresaId, setEmpresaId] = useState<number>(0)
-
   const { values, handleChange, resetForm } = useForm({
-    nombre: "",
-    razonSocial: "",
+    nombre: '',
+    razonSocial: '',
     cuit: 0,
-    logo: "",
+    logo: '',
   });
-
-  const { nombre, razonSocial, cuit, logo } = values;
 
   const handleCreateEmpresa = async (empresa: ICreateEmpresaDto) => {
 
     try {
-      const response = await serviceEmpresa.createOneEmpresa(empresa)
-
-      if(response && response.id){
-        setEmpresaId(response.id);
-        console.log("ID de empresa creada: ", response.id)
-      }
+      await serviceEmpresa.createOneEmpresa(empresa);
 
     } catch (error) {
       console.error("Error crear Empresa: ", error)
@@ -46,12 +38,12 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
 
   const addForm = () => {
     const newEmpresa: ICreateEmpresaDto = {
-      nombre: nombre,
-      razonSocial: razonSocial,
-      cuit: cuit,
-      logo: logo,
+      nombre: values.nombre,
+      razonSocial: values.razonSocial,
+      cuit: values.cuit,
+      logo: values.logo,
     };
-    handleCreateEmpresa(newEmpresa);
+    handleCreateEmpresa(newEmpresa)
     resetForm(); // Cerrar el modal
     onClose()
   }  
@@ -86,7 +78,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
               type="text"
               name="nombre"
               placeholder="Ingrese un nombre"
-              value={nombre}
+              value={values.nombre}
               onChange={handleChange}
               required
             />
@@ -95,16 +87,16 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
               type="text"
               name="razonSocial"
               placeholder="Ingrese una razon social"
-              value={razonSocial}
+              value={values.razonSocial}
               onChange={handleChange}
               required
             />
             {/* CUIL */}
             <input
               type="number"
-              name="cuil"
+              name="cuit"
               placeholder="Ingrese un cuil"
-              value={cuit}
+              value={values.cuit}
               onChange={handleChange}
               required
             />
@@ -112,10 +104,11 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
             <div className={styleModalEmpresa.imagenContainer}>
               <input
                 type="text"
-                name="imagen"
+                name="logo"
                 placeholder="Ingresa una imagen"
-                value={logo}
+                value={values.logo}
                 onChange={handleChange}
+                required
               />
               <img src={addImagen} alt="imagen del boton" />
               {/* AGREGAR FUNCIONALIDAD PARA SUBIR UNA IMAGEN */}

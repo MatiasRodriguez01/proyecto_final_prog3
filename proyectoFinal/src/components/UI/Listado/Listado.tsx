@@ -14,13 +14,13 @@ interface IPropsListado {
   onVistaAdmin: () => void;
 }
 
-export const Listado: FC<IPropsListado> = ({onVistaAdmin}) => {
-  
-   // Usamos dispatch para enviar acciones a Redux
-   const dispatch = useDispatch();
+export const Listado: FC<IPropsListado> = ({ onVistaAdmin }) => {
 
-   // Obtenemos las empresas del store usando useSelector
-   const empresas = useSelector((state: RootState) => state.empresa.empresas);  
+  // Usamos dispatch para enviar acciones a Redux
+  const dispatch = useDispatch();
+
+  // Obtenemos las empresas del store usando useSelector
+  const empresas = useSelector((state: RootState) => state.empresa.empresas);
 
   // los servicios
   const serviceEmpresa = new ServiceEmpresa();
@@ -70,14 +70,15 @@ export const Listado: FC<IPropsListado> = ({onVistaAdmin}) => {
 
         <section className={styleListado.containerSucursales}>
           <h2>Sucursales</h2>
-          {empresas.map((e) =>
-            clickEmpresa === e.id && (
-              <UseSucursal empresa={e} onVistaAdmin={onVistaAdmin} />
-            )
-        )}
+          {
+            empresas.map((e) =>
+              clickEmpresa === e.id && (
+                <UseSucursal key={e.id} empresa={e} onVistaAdmin={onVistaAdmin} />
+              ))
+          }
         </section>
       </article>
-    </>
+    </> 
   );
 };
 //
