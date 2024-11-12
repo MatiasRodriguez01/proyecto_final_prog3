@@ -1,85 +1,140 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import stylesCrearProducto from "./ModalCrearProducto.module.css";
+import { ICategoria } from "../../../../interfaces/ICategoria";
+import { IAlergeno } from "../../../../interfaces/IAlergeno";
+import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
+import { IAlergenos } from "../../../../types/dtos/alergenos/IAlergenos";
+import { ServiceProductos } from "../../../../services/ServiceProductos";
+import { useForm } from "../../../../hooks/useForm";
+import { ICreateProducto } from "../../../../types/dtos/productos/ICreateProducto";
+import { IImagen } from "../../../../types/IImagen";
 
-interface ModalCrearProductoProps {
-  show: boolean;
+interface ModalCrearProductoProps {categoria: ICategorias,
+  alergenos: IAlergenos,
+  visible: boolean;
   onClose: () => void;
   producto?: any;
 }
 
-const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
-  show,
+const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({categoria,
+  alergenos,
+  visible,
   onClose,
 }) => {
-  // Estado para manejar los valores del formulario
-  const [productName, setProductName] = useState<string>("");
-  const [productDescription, setProductDescription] = useState<string>("");
-  // const [productAlergeno, setProductAlergeno] = useState<string>("");
+  const serviceProducto = new ServiceProductos()
 
+  const [productoId, setProductoId] = useState(0)
 
-  // Función para manejar el envío del formulario
-  const handleSubmit = () => {
-    if (!productName) {
-      alert("Por favor ingrese el nombre del producto.");
-      return;
+  const {values, handleChange, resetForm} = useForm({
+    denominacion: "",
+    precioVenta: 0,
+    descripcion: "",
+    habilitado: false,
+    codigo: "",
+    idCategoria: 0,
+    idAlergenos: 0,
+    imagenes: "",
+  })
+
+  const [idAlergenos, setIdAlergenos] = useState<number[]>([])
+
+  const [imagenes, setImagenes] = useState<IImagen[]>([])
+
+  const handleCreateProducto = async (producto: ICreateProducto) => {
+    try{
+      const response = await serviceProducto.createOneProducto(producto)
+
+      setProductoId(response.id)
+    }catch(error){
+      console.error("Error creando categoria, ", error)
+    }
+  }
+
+  const addForm = () => {
+    const newProducto : ICreateProducto = {
+      denominacion: values.denominacion,
+      precioVenta: values.precioVenta,
+      descripcion: values.descripcion,
+      habilitado: values.habilitado,
+      codigo: values.codigo,
+      idCategoria: categoria.id,
+      idAlergenos: idAlergenos,
+      imagenes: imagenes,
     }
 
-    // Aquí podrías agregar la lógica para guardar el nuevo producto
-    console.log("Producto cargado:", { productName, productDescription });
+    handleCreateProducto(newProducto)
+    resetForm()
+    onClose()
+  }
 
-    // Llamada para cerrar el modal después de guardar la categoría
-    onClose();
-  };
+  const cancelForm = () => {
+    resetForm()
+    onClose()
+  }
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    addForm()
+  }
+
+  if (!visible){
+    return null;
+  }
 
   return (
-    <Modal show={show} onHide={onClose}>
+    <Modal show={visible} onHide={onClose}>
       <Modal.Header>
         <Modal.Title>Crear producto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {/* Formulario para crear producto */}
+        <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <input
             type="text"
             className="form-control"
             id="productName"
-            value={productName}
+            name="denominacion"
+            value={values.denominacion}
             placeholder="Ingrese una denominacion"
-            onChange={(e) => setProductName(e.target.value)}
+            onChange={handleChange}
           />
           <input
             type="text"
             className="form-control"
             id="productDescription"
-            value={productDescription}
+            name="descripcion"
+            value={values.descripcion}
             placeholder="Ingrese una descripcion"
-            onChange={(e) => setProductDescription(e.target.value)}
+            onChange={handleChange}
           />
           {/* aca se selecciona la categoria */}
-          <select id="category" name="categories">
+          <select id="category" name="categories" onChange={handleChange}>
             <option value="">Selecciona una categoria</option>
             <option value="">(categoria)</option>
           </select>
-          <select id="alergenos" name="alergenos">
+          <select id="alergenos" name="alergenos" onChange={handleChange}>
             <option value="">Selecciona un alérgeno</option>
             <option value=""></option>
           </select>
 
         </div>
+        </form>
       </Modal.Body>
       <Modal.Footer>
         <Button
           variant="primary"
-          onClick={onClose}
+          onClick={cancelForm}
           className={stylesCrearProducto.botonCancelar}
         >
           Cancelar
         </Button>
         <Button
+          type="submit"
           variant="primary"
-          onClick={handleSubmit}
           className={stylesCrearProducto.botonAceptar}
+          form="productForm"
         >
           Guardar
         </Button>

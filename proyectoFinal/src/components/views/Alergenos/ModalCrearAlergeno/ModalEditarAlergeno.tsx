@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "../../../../hooks/useForm";
 
@@ -64,8 +64,9 @@ const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
     onClose();
   };
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    addForm()
   };
   // Si no está visible, no renderiza nada
   if (!visible) {
@@ -97,7 +98,7 @@ const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
             <div className={styleModalEmpresa.imagenContainer}>
               <input
                 type="text"
-                name="imagen"
+                name="url"
                 placeholder="Ingresa una imagen"
                 value={url}
                 onChange={handleChange}
@@ -109,7 +110,6 @@ const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
               <Button
                 variant="primary"
                 type="submit"
-                onClick={addForm}
                 className={styleModalEmpresa.formButton}
               >
                 Enviar
