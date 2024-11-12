@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import stylesCrearCategoria from "./ModalCrearCategoria.module.css";
+
 interface ModalCrearCategoriaProps {
   show: boolean;
   onClose: () => void;
