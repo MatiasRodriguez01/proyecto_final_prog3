@@ -2,13 +2,8 @@ import { FC, useState } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
 import { usePopUpVisible } from "../hooks/usePopUpVisible";
-<<<<<<< HEAD
-import ModalCrearCategoria from "../components/views/Categorias/CategoriaPadre/ModalCrearCategoria/ModalCrearCategoria";
-import ModalCrearAlergeno from "../components/views/Alergenos/ModalCrearAlergeno/ModalCrearAlergeno";
-=======
 import ModalCrearCategoria from "../components/views/ACategorias/ModalCrearCategoria/ModalCrearCategoria";
 import ModalCrearProducto from "../components/views/AaProductos/ModalCrearProducto/ModalCrearProducto";
->>>>>>> b09e388f59bf8784c7052cbc9cf825c214550066
 
 interface IProsProyectedRoutes {
   isBack: () => void;
@@ -97,18 +92,11 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
         categoria={editarCategoria}
       />
 
-<<<<<<< HEAD
-      {/* componente para crear o editar un producto */}
-
-      {/* componenete para crear o editar un alergeno */}
-      {/* <ModalCrearAlergeno/> */}
-=======
       <ModalCrearProducto
       show={mostrarModalProducto}
       onClose={() => setMostrarModalProducto(false)}
       producto={editarProducto}
       />
->>>>>>> b09e388f59bf8784c7052cbc9cf825c214550066
     </>
   );
 };
