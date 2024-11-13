@@ -1,30 +1,18 @@
 import { FC, useState } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
-<<<<<<< HEAD
-
-import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria";
-import ModalCrearProducto from "../components/views/vistaAdmin/AaProductos/ModalCrearProducto/ModalCrearProducto.tsx";
-import ModalCrearAlergeno from "../components/views/vistaAdmin/Alergenos/ModalCrearAlergeno/ModalCrearAlergeno.tsx";
-
-import stylesAdminCard from "./ProtectedRoutes.module.css";
-import { RootState } from "../store/store.ts";
 import { useSelector } from "react-redux";
-=======
+
+import { RootState } from "../store/store.ts";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
-import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria";
+import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria.tsx";
 import ModalCrearProducto from "../components/views/vistaAdmin/AaProductos/ModalCrearProducto/ModalCrearProducto.tsx";
-import ModalCrearAlergeno from "../components/views/vistaAdmin/Alergenos/ModalCrearAlergeno/ModalCrearAlergeno.tsx";
->>>>>>> 17280a928a8bd72dc32ed87f6186870b1f2edea0
+import { Alergenos } from "../components/views/vistaAdmin/Alergenos/Alergenos.tsx";
 
 interface IProsProyectedRoutes {
   isBack: () => void;
 }
 
 export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
-<<<<<<< HEAD
-
-=======
->>>>>>> 17280a928a8bd72dc32ed87f6186870b1f2edea0
   const [mostrarModalCategoria, setMostrarModalCategoria] =
     useState<boolean>(false);
   const [editarCategoria, setEditarCategoria] = useState<any>(null);
@@ -34,11 +22,8 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
     setMostrarModalCategoria(true);
   };
 
-<<<<<<< HEAD
-=======
   //cerrar el modal
 
->>>>>>> 17280a928a8bd72dc32ed87f6186870b1f2edea0
   //productos
   const [mostrarModalProducto, setMostrarModalProducto] =
     useState<boolean>(false);
@@ -49,13 +34,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
     setMostrarModalProducto(true);
   };
 
-  //Alergenos
-  const [mostrarModalAlergeno, setMostrarModalAlergeno] = useState<boolean>(false);
   
-  const handleAbrirModalAlergeno = () => {
-    setEditarProducto(null);
-    setMostrarModalAlergeno(true)
-  }
 
   // empresa activa
   const empresaActica = useSelector((state: RootState) => state.empresa.empresaActiva);
@@ -102,7 +81,6 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
             <button
               className={stylesAdminCard.boton}
               type="button"
-              onClick={handleAbrirModalAlergeno}
             >
               Alergenos
             </button>
@@ -124,10 +102,6 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
         producto={editarProducto}
       />
 
-      <ModalCrearAlergeno
-        show={mostrarModalAlergeno}
-        onClose={() => setMostrarModalAlergeno(false)}
-      />
     </>
   );
 };
