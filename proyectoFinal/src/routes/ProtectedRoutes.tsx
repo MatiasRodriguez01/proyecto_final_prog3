@@ -46,17 +46,19 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
   return (
     <>
       <Navbar
-        bg="primary"
+        bg="dark"
         data-bs-theme="dark"
-        style={{ height: "auto" }}
         className={stylesAdminCard.navBar}
       >
-        <Container style={{ height: "auto" }}>
-          <Navbar.Brand href="#home" style={{ height: "auto" }}>
-            <Button variant="outline-light" onClick={isBack}>
+        <Container className={stylesAdminCard.navBarContainer}>
+          <Navbar.Brand href="#home">
+            <Button
+              variant="outline-light"
+              onClick={isBack}
+              className={stylesAdminCard.brandButton}
+            >
               <span
-                className="material-symbols-outlined"
-                style={{ textAlign: "center", width: "100%" }}
+                className={`material-symbols-outlined ${stylesAdminCard.materialIcon}`}
               >
                 arrow_back
               </span>
