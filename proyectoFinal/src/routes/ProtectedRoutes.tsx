@@ -35,6 +35,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
 
   // mostrar la lista de alergenos
   const [listaAlergenos, setListaAlergenos ] = useState<boolean>(false);
+
   const handleListaAle = () => {
     setListaAlergenos(!listaAlergenos);
   }
@@ -92,12 +93,15 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
             </button>
           </div>
         </div>
+        <div className={stylesAdminCard.contenido}>
+          {/* mostramos el listado */}
+          { 
+            (listaAlergenos === true) && <AlergenoListado/>
+          }
+        </div>
       </div>
 
-      {/* mostramos el listado */}
-      { 
-        listaAlergenos && <AlergenoListado/>
-      }
+      
 
       {/* componente para crear/editar categoria */}
       <ModalCrearCategoria

@@ -1,23 +1,24 @@
 import { FC } from "react";
-import { IAlergeno } from "../../../../../interfaces/IAlergeno";
+import { IAlergenos } from "../../../../../types/dtos/alergenos/IAlergenos";
 
 interface IAlergenoInfo {
-  alergeno: IAlergeno;
+  alergeno: IAlergenos;
   onVerAlergeno: () => void;
 }
 
-export const AlergenoInfo: FC<IAlergenoInfo> = ({
-  alergeno,
-  onVerAlergeno,
-}) => {
+export const AlergenoInfo: FC<IAlergenoInfo> = ({ alergeno, onVerAlergeno }) => {
+
+  const imagen: string = alergeno.imagen.url;
+  const nombre: string = alergeno.imagen.name;
+
   return (
     <div>
       <div>
         <div>
           {alergeno.imagen && (
             <img
-              src={alergeno.imagen}
-              alt="Imagen del alergeno"
+              src={imagen}
+              alt={nombre}
               className="card-img-top"
             />
           )}
