@@ -33,7 +33,6 @@ export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, o
     const handleEditarEmpresa = async (empresaEditar: IUpdateEmpresaDto) => {
         try {
             await serviceEmpresa.editOneEmpresa(empresaEditar.id, empresaEditar)
-            dispatch(actualizarEmpresa(empresaEditar))
         } catch (error) {
             console.error("Error editar Empresa: ", error)
         }

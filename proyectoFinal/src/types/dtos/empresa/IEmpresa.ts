@@ -10,3 +10,4 @@ export interface IEmpresa {
   sucursales: ISucursal[];
   pais: IPais | null;
 }
+

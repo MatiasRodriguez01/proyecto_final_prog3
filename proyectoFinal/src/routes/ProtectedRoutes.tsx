@@ -39,8 +39,8 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
   };
 
   //Alergenos
-  const [mostrarModalAlergeno, setMostrarModalAlergeno] =
-    useState<boolean>(false);
+  const [mostrarModalAlergeno, setMostrarModalAlergeno] = useState<boolean>(false);
+
   const [editarAlergeno, setEditarAlergeno] = useState<any>(null);
 
   const handleAbrirModalCrearAlergeno = () => {
@@ -91,7 +91,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
       {/* componente para crear/editar categoria */}
       <div>
         <ModalCrearCategoria
-          visible={mostrarModalCategoria}
+          show={mostrarModalCategoria}
           onClose={() => setMostrarModalCategoria(false)}
           categoria={editarCategoria}
         />

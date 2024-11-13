@@ -5,10 +5,10 @@ import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaList
 import { ServiceSucursal } from "../../../services/ServiceSucursal";
 import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
 import { useDispatch, useSelector } from "react-redux";
-import { setEmpresas } from "../../../slices/empresaSlice";
 
 import styleListado from './Listado.module.css'
 import { RootState } from "../../../store/store";
+import { guardarEmpresas } from "../../../slices/empresaSlice";
 
 interface IPropsListado {
   onVistaAdmin: () => void;
@@ -48,7 +48,7 @@ export const Listado: FC<IPropsListado> = ({ onVistaAdmin }) => {
         );
 
         // Actualizamos el estado de empresas en Redux
-        dispatch(setEmpresas(empresasConSucursales));
+        dispatch(guardarEmpresas(empresasConSucursales));
       } catch (error) {
         console.error("Error al obtener las empresas con sucursales:", error);
       }
@@ -70,12 +70,11 @@ export const Listado: FC<IPropsListado> = ({ onVistaAdmin }) => {
 
         <section className={styleListado.containerSucursales}>
           <h2>Sucursales</h2>
-          {
-            empresas.map((e) =>
-              clickEmpresa === e.id && (
-                <UseSucursal key={e.id} empresa={e} onVistaAdmin={onVistaAdmin} />
-              ))
-          }
+          {empresas.map((e) =>
+            clickEmpresa === e.id && (
+              <UseSucursal key = {e.id} empresa={e} onVistaAdmin={onVistaAdmin} />
+            )
+        )}
         </section>
       </article>
     </> 
