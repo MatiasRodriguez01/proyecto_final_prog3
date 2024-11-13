@@ -54,12 +54,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
   };
   return (
     <>
-      <Navbar
-        bg="primary"
-        data-bs-theme="dark"
-        style={{ height: "auto" }}
-        className={stylesAdminCard.navBar}
-      >
+      <Navbar bg="dark" data-bs-theme="dark" style={{ height: "auto" }}>
         <Container style={{ height: "auto" }}>
           <Navbar.Brand href="#home" style={{ height: "auto" }}>
             <Button variant="outline-light" onClick={isBack}>
@@ -96,7 +91,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
       {/* componente para crear/editar categoria */}
       <div>
         <ModalCrearCategoria
-          show={mostrarModalCategoria}
+          visible={mostrarModalCategoria}
           onClose={() => setMostrarModalCategoria(false)}
           categoria={editarCategoria}
         />
@@ -105,7 +100,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
       {/* componente para crear/editar productos */}
       <div>
         <ModalCrearProducto
-          show={mostrarModalProducto}
+          visible={mostrarModalProducto}
           onClose={() => setMostrarModalProducto(false)}
           producto={editarProducto}
         />

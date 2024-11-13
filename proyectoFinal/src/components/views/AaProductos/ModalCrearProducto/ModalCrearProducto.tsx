@@ -17,7 +17,8 @@ interface ModalCrearProductoProps {categoria: ICategorias,
   producto?: any;
 }
 
-const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({categoria,
+const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
+  categoria,
   alergenos,
   visible,
   onClose,
