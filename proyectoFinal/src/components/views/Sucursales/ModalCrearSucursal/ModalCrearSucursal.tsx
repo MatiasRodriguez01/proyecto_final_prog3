@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
 import addImagen from "../../Empresas/ModalCrearEmpresa/imagen.png";
@@ -7,6 +7,10 @@ import { useForm } from "../../../../hooks/useForm";
 import { ICreateSucursal } from "../../../../types/dtos/sucursal/ICreateSucursal";
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 import { ServiceSucursal } from "../../../../services/ServiceSucursal";
+import { ServiceLocalizacion } from "../../../../services/ServiceLocalizacion";
+import { IPais } from "../../../../types/IPais";
+import { IProvincia } from "../../../../types/IProvincia";
+import { ILocalidad } from "../../../../types/ILocalidad";
 
 
 interface PopUpPropsSucursal {
@@ -21,10 +25,15 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
 }) => {
 
   const serviceSucursal = new ServiceSucursal()
+  const serviceLocalizacion = new ServiceLocalizacion()
 
   const [esCasaMatriz, setEsCasaMatriz] = useState(false)
 
   const [idLocalidad, setIdLocalidad] = useState(1)
+
+  const [paises, setPaises] = useState<IPais[]>([])
+  const [provincias, setProvincias] = useState<IProvincia[]>([])
+  const [localidades, setLocalidades] = useState<ILocalidad[]>([])
 
   const { values, handleChange, resetForm } = useForm({
     nombre: "",
@@ -59,6 +68,46 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
     numeroDepartamento,
     imagen,
   } = values;
+
+  useEffect(() => {
+    const fetchPaises = async () => {
+      try{
+        const responsePaises = await serviceLocalizacion.getPaises()
+        setPaises(responsePaises)
+      }catch(error){
+        console.log("Error al obtener paises, ", error)
+      }
+    }
+
+    if (visible){
+      fetchPaises()
+    }
+  }, [visible])
+
+  const handlePaisChange = async(event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedPaisId = Number(event.target.value)
+    handleChange(event)
+
+    try{
+      const responseProvincias = await serviceLocalizacion.getProvincias(selectedPaisId)
+      setProvincias(responseProvincias)
+      setLocalidades([])
+    }catch(error){
+      console.log("Error al obtener las provincias, ", error)
+    }
+  }
+
+  const handleProvinciaChange = async(event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedProvinciaId = Number(event.target.value)
+    handleChange(event)
+
+    try{
+      const responseLocalidades = await serviceLocalizacion.getLocalidades(selectedProvinciaId)
+      setLocalidades(responseLocalidades)
+    }catch(error){
+      console.log("Error al obtener las provincias, ", error)
+    }
+  }
 
   const handleCreateSucursal = async (newSucursal: ICreateSucursal) => {
     try{
@@ -150,43 +199,31 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
             {/* CONTENEDOR DE LA SEGUNDA COLUMNA DEL MODAL */}
             <div className={styleModalSucursal.columnaDos}>
               {/* SELECCIONAR UN PAIS */}
-              <select name="pais" onChange={handleChange} required>
+              <select name="pais" onChange={handlePaisChange} required>
                 {" "}
-                <option value={pais} disabled>
-                  País
+                <option value={""} disabled>
+                  Seleccione un País
                 </option>
-                <option value="argentina">Argentina</option>
-                <option value="chile">Chile</option>
-                <option value="mexico">Mexico</option>
+                {paises.map((pais) => (
+                <option key={pais.id} value={pais.id}>{pais.nombre}</option>))}
               </select>
               {/* SELECCIONAR UNA PROVINCIA */}
-              <select name="provincia" onChange={handleChange} required>
+              <select name="provincia" onChange={handleProvinciaChange} required>
                 {" "}
-                <option value={provincia} disabled>
-                  Provincia
+                <option value={""} disabled>
+                  Seleccione una Provincia
                 </option>
-                <option value="mendoza">Mendoza</option>
-                <option value="santiago de chile">Santiago de Chile</option>
-                <option value="monterrey">Monterrey</option>
+                {provincias.map((provincia) => (
+                <option key={provincia.id} value={provincia.id}>{provincia.nombre}</option>))}
               </select>
               {/* SELECCIONAR UNA LOCALIDAD */}
-              <select name="localidad" onChange={handleChange} required>
+              <select name="localidad" onChange={(e) => setIdLocalidad(Number(e.target.value))} required>
                 {" "}
-                <option value={localidad} disabled>
-                  Localidad
+                <option value={""} disabled>
+                  Seleccione una Localidad
                 </option>
-                <option value="lujan de cuyo">Lujan de Cuyo, Mendoza</option>
-                <option value="godoy cruz">Godoy Cruz, Mendoza</option>
-                <option value="las condes">
-                  Las Condes, Santiago de Chile
-                </option>
-                <option value="providencia">
-                  Providencia, Santiago de Chile
-                </option>
-                <option value="san pedro garza garcia">
-                  San Pedro Garza García, Monterrey
-                </option>
-                <option value="guadalupe">Guadalupe, Monterrey</option>
+                {localidades.map((localidad) => (
+                <option key={localidad.id} value={localidad.id}>{localidad.nombre}</option>))}
               </select>
               {/* LATITUD*/}
               <input
