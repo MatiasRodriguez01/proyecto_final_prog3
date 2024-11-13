@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
+<<<<<<< HEAD
 
 import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria";
 import ModalCrearProducto from "../components/views/vistaAdmin/AaProductos/ModalCrearProducto/ModalCrearProducto.tsx";
@@ -8,13 +9,22 @@ import ModalCrearAlergeno from "../components/views/vistaAdmin/Alergenos/ModalCr
 import stylesAdminCard from "./ProtectedRoutes.module.css";
 import { RootState } from "../store/store.ts";
 import { useSelector } from "react-redux";
+=======
+import stylesAdminCard from "./ProtectedRoutes.module.css";
+import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria";
+import ModalCrearProducto from "../components/views/vistaAdmin/AaProductos/ModalCrearProducto/ModalCrearProducto.tsx";
+import ModalCrearAlergeno from "../components/views/vistaAdmin/Alergenos/ModalCrearAlergeno/ModalCrearAlergeno.tsx";
+>>>>>>> 17280a928a8bd72dc32ed87f6186870b1f2edea0
 
 interface IProsProyectedRoutes {
   isBack: () => void;
 }
 
 export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 17280a928a8bd72dc32ed87f6186870b1f2edea0
   const [mostrarModalCategoria, setMostrarModalCategoria] =
     useState<boolean>(false);
   const [editarCategoria, setEditarCategoria] = useState<any>(null);
@@ -24,6 +34,11 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
     setMostrarModalCategoria(true);
   };
 
+<<<<<<< HEAD
+=======
+  //cerrar el modal
+
+>>>>>>> 17280a928a8bd72dc32ed87f6186870b1f2edea0
   //productos
   const [mostrarModalProducto, setMostrarModalProducto] =
     useState<boolean>(false);

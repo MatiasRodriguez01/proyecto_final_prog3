@@ -1,11 +1,13 @@
 import { FC, FormEvent } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { useForm } from "../../../../hooks/useForm";
+
 import stylesModalCrearAlergeno from "./ModalCrearAlergeno.module.css"
 import addImagen from "./imagen.png";
-import {ServiceAlergenos} from "../../../../services/ServiceAlergenos"
-import { ICreateAlergeno } from "../../../../types/dtos/alergenos/ICreateAlergeno";
-import { IImagen } from "../../../../types/IImagen";
+import { useForm } from "../../../../../hooks/useForm";
+import { ServiceAlergenos } from "../../../../../services/ServiceAlergenos";
+import { ICreateAlergeno } from "../../../../../types/dtos/alergenos/ICreateAlergeno";
+import { IImagen } from "../../../../../types/IImagen";
+
 
 interface PopUpPropsAlergeno {
   visible: boolean;
