@@ -7,13 +7,13 @@ import { ICreateCategoria } from "../../../../types/dtos/categorias/ICreateCateg
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 
 interface ModalCrearCategoriaProps {empresa: IEmpresa,
-  visible: boolean;
+  show: boolean;
   onClose: () => void;
   categoria?: any;
 }
 
 const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({empresa,
-  visible,
+  show,
   onClose,
 }) => {
 
@@ -32,6 +32,8 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({empresa,
       const response = await serviceCategoria.createOneCategoria(categoria)
 
       setCategoriaId(response.id)
+
+      console.log("ID de categoria creada: ", response.id)
     }catch(error){
       console.error("Error creando categoria, ", error)
     }
@@ -59,12 +61,12 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({empresa,
     addForm()
   }
 
-  if (!visible){
+  if (!show){
     return null;
   }
 
   return (
-    <Modal show={visible} onHide={onClose}>
+    <Modal show={show} onHide={onClose}>
       <Modal.Header >
         <Modal.Title>Crear/Editar Categoría</Modal.Title>
       </Modal.Header>

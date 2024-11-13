@@ -72,7 +72,7 @@ export const Listado: FC<IPropsListado> = ({onVistaAdmin}) => {
           <h2>Sucursales</h2>
           {empresas.map((e) =>
             clickEmpresa === e.id && (
-              <UseSucursal empresa={e} onVistaAdmin={onVistaAdmin} />
+              <UseSucursal key = {e.id} empresa={e} onVistaAdmin={onVistaAdmin} />
             )
         )}
         </section>

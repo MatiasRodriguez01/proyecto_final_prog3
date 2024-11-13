@@ -36,7 +36,7 @@ const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ show, onClose }) => {
     const newAlergeno: ICreateAlergeno = {
       denominacion: denominacion,
       imagen: {
-        name,
+        name: `imagen de ${denominacion}`,
         url,
       } as IImagen,
     };
