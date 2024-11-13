@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react'
+import { ChangeEvent, FC} from 'react'
 import styleModalEditar from './ModalEditarEmpresa.module.css'
 import { IEmpresa } from '../../../../types/dtos/empresa/IEmpresa';
 import { useForm } from '../../../../hooks/useForm';
@@ -7,7 +7,6 @@ import { Button } from 'react-bootstrap';
 import { IUpdateEmpresaDto } from '../../../../types/dtos/empresa/IUpdateEmpresaDto';
 import { useDispatch } from 'react-redux';
 
-import { actualizarEmpresa } from '../../../../slices/empresaSlice';
 
 interface IProsEditarEmpresa {
     empresa: IEmpresa;

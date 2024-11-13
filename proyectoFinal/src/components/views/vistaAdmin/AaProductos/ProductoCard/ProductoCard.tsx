@@ -1,8 +1,10 @@
 import { Button, Card } from "react-bootstrap";
 import { FC } from "react";
-import { IProducto } from "../../../../types/dtos/productos/IProductos";
+import { IProducto } from "../../../../../interfaces/IProducto";
+//import { IProducto } from "../../../../types/dtos/productos/IProductos";
 import stylesProductoCard from "./ProductoCard.module.css";
-import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
+//import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
+import { usePopUpVisible } from "../../../../../hooks/usePopUpVisible";
 
 interface ProductoCardProps {
   producto: IProducto
@@ -19,7 +21,7 @@ export const ProductoCard: FC<ProductoCardProps> = ({ producto, onVerProducto, o
       <Card onClick={() => onProductoActiva(producto.id)} className={stylesProductoCard.card}>
         <Card.Body className={stylesProductoCard.bodyContainer}>
           <Card.Title style={{ height: "auto", margin: "0" }}>
-            {producto.nombre}
+            {producto.denominacion}
           </Card.Title>
           <div className={stylesProductoCard.buttonContainer}>
             <Button
@@ -52,7 +54,7 @@ export const ProductoCard: FC<ProductoCardProps> = ({ producto, onVerProducto, o
         </Card.Body>
       </Card>
 
-      <ModalEditarProducto producto={producto} visible={isPopUpVisible} onClose={HandlePopUp} />
+      {/* <ModalEditarProducto producto={producto} visible={isPopUpVisible} onClose={HandlePopUp} /> */}
     </>
   );
 };

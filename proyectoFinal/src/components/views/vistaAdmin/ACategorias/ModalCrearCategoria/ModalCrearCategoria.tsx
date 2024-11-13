@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import stylesCrearCategoria from "./ModalCrearCategoria.module.css";
-import { ServiceCategorias } from "../../../../services/ServiceCategorias";
-import { useForm } from "../../../../hooks/useForm";
-import { ICreateCategoria } from "../../../../types/dtos/categorias/ICreateCategoria";
-import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
+import { ServiceCategorias } from "../../../../../services/ServiceCategorias";
+import { useForm } from "../../../../../hooks/useForm";
+import { ICreateCategoria } from "../../../../../types/dtos/categorias/ICreateCategoria";
+import { IEmpresa } from "../../../../../types/dtos/empresa/IEmpresa";
 
 interface ModalCrearCategoriaProps {empresa: IEmpresa,
   show: boolean;
