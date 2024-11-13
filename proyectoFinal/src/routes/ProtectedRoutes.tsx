@@ -1,12 +1,11 @@
 import { FC, useState } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
-import { useSelector } from "react-redux";
-
-import { RootState } from "../store/store.ts";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
 import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria.tsx";
 import ModalCrearProducto from "../components/views/vistaAdmin/AaProductos/ModalCrearProducto/ModalCrearProducto.tsx";
-import { Alergenos } from "../components/views/vistaAdmin/Alergenos/Alergenos.tsx";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store.ts";
+import { AlergenoListado } from "../components/views/vistaAdmin/Alergenos/AlergenoListado.tsx";
 
 interface IProsProyectedRoutes {
   isBack: () => void;
@@ -34,7 +33,11 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
     setMostrarModalProducto(true);
   };
 
-  
+  // mostrar la lista de alergenos
+  const [listaAlergenos, setListaAlergenos ] = useState<boolean>(false);
+  const handleListaAle = () => {
+    setListaAlergenos(!listaAlergenos);
+  }
 
   // empresa activa
   const empresaActica = useSelector((state: RootState) => state.empresa.empresaActiva);
@@ -42,17 +45,19 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
   return (
     <>
       <Navbar
-        bg="primary"
+        bg="dark"
         data-bs-theme="dark"
-        style={{ height: "auto" }}
         className={stylesAdminCard.navBar}
       >
-        <Container style={{ height: "auto" }}>
-          <Navbar.Brand href="#home" style={{ height: "auto" }}>
-            <Button variant="outline-light" onClick={isBack}>
+        <Container className={stylesAdminCard.navBarContainer}>
+          <Navbar.Brand href="#home">
+            <Button
+              variant="outline-light"
+              onClick={isBack}
+              className={stylesAdminCard.brandButton}
+            >
               <span
-                className="material-symbols-outlined"
-                style={{ textAlign: "center", width: "100%" }}
+                className={`material-symbols-outlined ${stylesAdminCard.materialIcon}`}
               >
                 arrow_back
               </span>
@@ -81,12 +86,18 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
             <button
               className={stylesAdminCard.boton}
               type="button"
+              onClick={handleListaAle}
             >
               Alergenos
             </button>
           </div>
         </div>
       </div>
+
+      {/* mostramos el listado */}
+      { 
+        listaAlergenos && <AlergenoListado/>
+      }
 
       {/* componente para crear/editar categoria */}
       <ModalCrearCategoria

@@ -1,12 +1,42 @@
-.navBar{
-    background-color: #252422;
-}
-
+.navBar {
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .navBarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+  }
+  
+  .brandButton {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .brandButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .materialIcon {
+    font-size: 1.5rem;
+    color: #ffffff;
+  }
+  
 .container{
     display: flex;
     width: 20vw;
     border-right: #252422 solid;
-    height: 100%;
+    height: 91vh;
 }
 
 .administracion{
