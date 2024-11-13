@@ -5,7 +5,6 @@ import { useForm } from '../../../../hooks/useForm';
 import { ServiceEmpresa } from '../../../../services/ServiceEmpresa';
 import { Button } from 'react-bootstrap';
 import { IUpdateEmpresaDto } from '../../../../types/dtos/empresa/IUpdateEmpresaDto';
-import { useDispatch } from 'react-redux';
 
 
 interface IProsEditarEmpresa {
@@ -15,9 +14,6 @@ interface IProsEditarEmpresa {
 }
 
 export const ModalEditarEmpresa: FC<IProsEditarEmpresa> = ({ empresa, visible, onClose }) => {
-
-    // dispatch para actualizar la empresa
-    const dispatch = useDispatch()
 
     //const dispatch = useDispatch<AppDispatch>();
     const serviceEmpresa = new ServiceEmpresa();

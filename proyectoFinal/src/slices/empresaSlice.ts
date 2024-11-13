@@ -21,6 +21,7 @@ const empresaSlice = createSlice({
     },
     empresaActiva: (state, action: PayloadAction<IEmpresa>) => {
       state.empresaActiva = action.payload;
+      console.log("se creo la empresa activa")
     },
     eliminarEmpresaActiva: (state) => {
       state.empresaActiva = null;

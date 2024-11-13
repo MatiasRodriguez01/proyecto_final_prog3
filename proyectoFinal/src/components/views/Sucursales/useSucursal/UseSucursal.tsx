@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { SucursalCard } from "../SucursalCard/SucursalCard";
 import { Sucursalnfo } from "../sucursalnfo/Sucursalnfo";
@@ -9,9 +9,10 @@ import styleSucursal from "../useSucursal/UseSucursal.module.css";
 import { useInformacion } from "../../../../hooks/useInformacion";
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../store/store";
-import { setSucursales } from "../../../../slices/sucursalSlice";
+import { useDispatch } from "react-redux";
+import { ISucursal } from "../../../../types/dtos/sucursal/ISucursal";
+import { ServiceSucursal } from "../../../../services/ServiceSucursal";
+import { guardarSucursales } from "../../../../slices/sucursalSlice";
 
 interface IPropsSucursal {
   empresa: IEmpresa;
@@ -19,18 +20,33 @@ interface IPropsSucursal {
 }
 
 export const UseSucursal: FC<IPropsSucursal> = ({ empresa, onVistaAdmin }) => {
+
   const dispatch = useDispatch();
 
-  const sucursales = useSelector((state: RootState) => state.sucursal.sucursales);
+  const serviceSucursal = new ServiceSucursal();
+
+  const [ sucursales, setSucursales ] = useState<ISucursal[]>([]);
 
   const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
 
-  const { informacion, mostrarInformacion, cerrarInformacion } =
-    useInformacion();
+  const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion();
 
   useEffect(() => {
-    dispatch(setSucursales(empresa.sucursales));
-  }, [empresa.sucursales, dispatch]);
+
+    const fetctSucursalesSegunEmpresas = async () => {
+      try {
+        // Primero obtenemos todas las empresas
+        const sucursalesDeEmpresa = await serviceSucursal.getAllSucursalesByEmpresa(empresa.id);
+        setSucursales(sucursalesDeEmpresa);
+        dispatch(guardarSucursales(sucursales));
+      } catch (error) {
+        console.error("Error al obtener las empresas:", error);
+      }
+    }
+
+    fetctSucursalesSegunEmpresas()
+    
+  }, [sucursales, dispatch]);
 
   return (
     <>
