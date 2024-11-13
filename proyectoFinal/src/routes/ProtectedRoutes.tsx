@@ -2,8 +2,8 @@ import { FC, useState } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
 import { usePopUpVisible } from "../hooks/usePopUpVisible";
-import ModalCrearCategoria from "../components/views/ACategorias/ModalCrearCategoria/ModalCrearCategoria";
-import ModalCrearProducto from "../components/views/AaProductos/ModalCrearProducto/ModalCrearProducto";
+import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria";
+import ModalCrearProducto from "../components/views/vistaAdmin/AaProductos/ModalCrearProducto/ModalCrearProducto.tsx";
 
 interface IProsProyectedRoutes {
   isBack: () => void;
@@ -12,10 +12,9 @@ interface IProsProyectedRoutes {
 export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
   const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
 
-  const [mostrarModalCategoria, setMostrarModalCategoria] = useState<boolean>(false);
+  const [mostrarModalCategoria, setMostrarModalCategoria] =
+    useState<boolean>(false);
   const [editarCategoria, setEditarCategoria] = useState<any>(null);
-
-  
 
   const handleAbrirModalCrearCategorias = () => {
     setEditarCategoria(null);
@@ -26,8 +25,9 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
   const handleGuardarCategoria = () => {
     setMostrarModalCategoria(false);
   };
-//productos
-  const [mostrarModalProducto, setMostrarModalProducto] = useState<boolean>(false);
+  //productos
+  const [mostrarModalProducto, setMostrarModalProducto] =
+    useState<boolean>(false);
   const [editarProducto, setEditarProducto] = useState<any>(null);
 
   const handleAbrirModalCrearProductos = () => {
@@ -66,19 +66,47 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
         </Container>
       </Navbar>
 
-      <div className={stylesAdminCard.container}>
+      {/* <div className={stylesAdminCard.container}>
         <div className={stylesAdminCard.administracion}>
           <h3>Administracion</h3>
           <div className={stylesAdminCard.containerBotones}>
-            <button type="button" onClick={handleAbrirModalCrearCategorias}>
+            <button className={stylesAdminCard.containerBotones} type="button" onClick={handleAbrirModalCrearCategorias}>
               Categorias
             </button>
 
-            <button type="button" onClick={handleAbrirModalCrearProductos}>
+            <button className={stylesAdminCard.containerBotones} type="button" onClick={handleAbrirModalCrearProductos}>
               Productos
             </button>
 
             <button type="button" onClick={HandlePopUp}>
+              Alergenos
+            </button>
+          </div>
+        </div>
+      </div> */}
+      <div className={stylesAdminCard.container}>
+        <div className={stylesAdminCard.administracion}>
+          <div className={stylesAdminCard.containerBotones}>
+            <h3>Administracion</h3>
+            <button
+              className={stylesAdminCard.boton}
+              type="button"
+              onClick={handleAbrirModalCrearCategorias}
+            >
+              Categorias
+            </button>
+            <button
+              className={stylesAdminCard.boton}
+              type="button"
+              onClick={handleAbrirModalCrearProductos}
+            >
+              Productos
+            </button>
+            <button
+              className={stylesAdminCard.boton}
+              type="button"
+              onClick={HandlePopUp}
+            >
               Alergenos
             </button>
           </div>
@@ -93,9 +121,9 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
       />
 
       <ModalCrearProducto
-      show={mostrarModalProducto}
-      onClose={() => setMostrarModalProducto(false)}
-      producto={editarProducto}
+        show={mostrarModalProducto}
+        onClose={() => setMostrarModalProducto(false)}
+        producto={editarProducto}
       />
     </>
   );
