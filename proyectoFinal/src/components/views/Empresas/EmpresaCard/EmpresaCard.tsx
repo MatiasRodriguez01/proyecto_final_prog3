@@ -4,6 +4,9 @@ import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 import stylesEmpresaCard from "./EmpresaCard.module.css";
 import { ModalEditarEmpresa } from "../ModalEditarEmpresa/ModalEditarEmpresa";
 import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../store/store";
+import { empresaActiva, eliminarEmpresaActiva } from "../../../../slices/empresaSlice";
 
 interface EmpresaCardProps {
   empresa: IEmpresa;
@@ -11,19 +14,24 @@ interface EmpresaCardProps {
   onEmpresaActiva: Function;
 }
 
-export const EmpresaCard: FC<EmpresaCardProps> = ({
-  empresa,
-  onVerEmpresa,
-  onEmpresaActiva,
-}) => {
+export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa, onEmpresaActiva }) => {
+
+  const dispatch = useDispatch();
+
   const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
+
+  const ea = useSelector((state: RootState) => state.empresa.empresaActiva)
+
+  const handleEmpresaActiva = () => {
+    dispatch(eliminarEmpresaActiva())
+    dispatch(empresaActiva(empresa))
+    onEmpresaActiva(empresa.id)
+    console.log(ea)
+  }
 
   return (
     <>
-      <Card
-        onClick={() => onEmpresaActiva(empresa.id)}
-        className={stylesEmpresaCard.card}
-      >
+      <Card onClick={handleEmpresaActiva} className={stylesEmpresaCard.card}>
         <Card.Body className={stylesEmpresaCard.bodyContainer}>
           <Card.Title style={{ height: "auto", margin: "0" }}>
             {empresa.nombre}

@@ -31,17 +31,16 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
     setMostrarModalProducto(true);
   };
 
-  //cerrar el modal
-
   //Alergenos
-  const [mostrarModalAlergenos, setMostrarModalAlergenos] =
-    useState<boolean>(false);
-  const [editarAlergenos, setEditarAlergenos] = useState<any>(null);
+  const [mostrarModalAlergeno, setMostrarModalAlergeno] = useState<boolean>(false);
+  
+  const handleAbrirModalAlergeno = () => {
+    setEditarProducto(null);
+    setMostrarModalAlergeno(true)
+  }
 
-  const handleMostrarCrearAlergeno = () => {
-    setEditarAlergenos(null);
-    setMostrarModalAlergenos(true);
-  };
+  // empresa activa
+  const empresaActica = useSelector((state: RootState) => state.empresa.empresaActiva);
 
   return (
     <>
@@ -66,7 +65,6 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
           </Navbar.Brand>
         </Container>
       </Navbar>
-
       <div className={stylesAdminCard.container}>
         <div className={stylesAdminCard.administracion}>
           <div className={stylesAdminCard.containerBotones}>
@@ -88,7 +86,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
             <button
               className={stylesAdminCard.boton}
               type="button"
-              onClick={handleMostrarCrearAlergeno}
+              onClick={handleAbrirModalAlergeno}
             >
               Alergenos
             </button>
@@ -98,6 +96,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
 
       {/* componente para crear/editar categoria */}
       <ModalCrearCategoria
+        empresa={empresaActica}
         show={mostrarModalCategoria}
         onClose={() => setMostrarModalCategoria(false)}
         categoria={editarCategoria}
@@ -110,9 +109,8 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
       />
 
       <ModalCrearAlergeno
-        show={mostrarModalAlergenos}
-        onClose={() => setMostrarModalAlergenos(false)}
-        //alergeno={editarAlergenos}
+        show={mostrarModalAlergeno}
+        onClose={() => setMostrarModalAlergeno(false)}
       />
     </>
   );

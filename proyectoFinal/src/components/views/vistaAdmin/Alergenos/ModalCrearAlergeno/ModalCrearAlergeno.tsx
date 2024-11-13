@@ -6,6 +6,8 @@ import { IImagen } from "../../../../../types/IImagen";
 import { Button, Modal } from "react-bootstrap";
 import stylesModalCrearAlergeno from "./ModalCrearAlergeno.module.css"
 import addImagen from "./imagen.png"
+
+
 interface PopUpPropsAlergeno {
   show: boolean;
   onClose: () => void;

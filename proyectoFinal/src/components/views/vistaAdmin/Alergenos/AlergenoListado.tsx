@@ -43,7 +43,7 @@ export const AlergenoListado: FC<IPropsAlergeno> = ({
               </div>
                     ))
                 ) : (
-                    <p>No hay empresas</p>
+                    <p>No hay productos Alergenos</p>
                 )}
         </div>
         
