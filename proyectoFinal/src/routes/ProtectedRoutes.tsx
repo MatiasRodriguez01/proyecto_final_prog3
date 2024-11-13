@@ -1,17 +1,15 @@
 import { FC, useState } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
-import { usePopUpVisible } from "../hooks/usePopUpVisible";
 import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria";
 import ModalCrearProducto from "../components/views/vistaAdmin/AaProductos/ModalCrearProducto/ModalCrearProducto.tsx";
+import ModalCrearAlergeno from "../components/views/vistaAdmin/Alergenos/ModalCrearAlergeno/ModalCrearAlergeno.tsx";
 
 interface IProsProyectedRoutes {
   isBack: () => void;
 }
 
 export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
-  const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
-
   const [mostrarModalCategoria, setMostrarModalCategoria] =
     useState<boolean>(false);
   const [editarCategoria, setEditarCategoria] = useState<any>(null);
@@ -22,9 +20,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
   };
 
   //cerrar el modal
-  const handleGuardarCategoria = () => {
-    setMostrarModalCategoria(false);
-  };
+
   //productos
   const [mostrarModalProducto, setMostrarModalProducto] =
     useState<boolean>(false);
@@ -36,13 +32,16 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
   };
 
   //cerrar el modal
-  const handleGuardarProducto = () => {
-    setMostrarModalProducto(false);
-  };
 
   //Alergenos
-  // const [mostrarModalCategoria, setMostrarModalCategoria] = useState<boolean>(false);
-  // const [editarCategoria, setEditarCategoria] = useState<any>(null);
+  const [mostrarModalAlergenos, setMostrarModalAlergenos] =
+    useState<boolean>(false);
+  const [editarAlergenos, setEditarAlergenos] = useState<any>(null);
+
+  const handleMostrarCrearAlergeno = () => {
+    setEditarAlergenos(null);
+    setMostrarModalAlergenos(true);
+  };
 
   return (
     <>
@@ -66,24 +65,6 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
         </Container>
       </Navbar>
 
-      {/* <div className={stylesAdminCard.container}>
-        <div className={stylesAdminCard.administracion}>
-          <h3>Administracion</h3>
-          <div className={stylesAdminCard.containerBotones}>
-            <button className={stylesAdminCard.containerBotones} type="button" onClick={handleAbrirModalCrearCategorias}>
-              Categorias
-            </button>
-
-            <button className={stylesAdminCard.containerBotones} type="button" onClick={handleAbrirModalCrearProductos}>
-              Productos
-            </button>
-
-            <button type="button" onClick={HandlePopUp}>
-              Alergenos
-            </button>
-          </div>
-        </div>
-      </div> */}
       <div className={stylesAdminCard.container}>
         <div className={stylesAdminCard.administracion}>
           <div className={stylesAdminCard.containerBotones}>
@@ -105,7 +86,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
             <button
               className={stylesAdminCard.boton}
               type="button"
-              onClick={HandlePopUp}
+              onClick={handleMostrarCrearAlergeno}
             >
               Alergenos
             </button>
@@ -124,6 +105,12 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
         show={mostrarModalProducto}
         onClose={() => setMostrarModalProducto(false)}
         producto={editarProducto}
+      />
+
+      <ModalCrearAlergeno
+        show={mostrarModalAlergenos}
+        onClose={() => setMostrarModalAlergenos(false)}
+        //alergeno={editarAlergenos}
       />
     </>
   );
