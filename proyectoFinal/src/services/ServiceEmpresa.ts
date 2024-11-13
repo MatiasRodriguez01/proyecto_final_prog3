@@ -29,14 +29,7 @@ export class ServiceEmpresa {
     return data;
   }
 
-  // public async createOneEmpresa(empresa: ICreateEmpresaDto): Promise<AxiosResponse<any>> {
-  //   console.log("Payload enviado a la API:", empresa)
-  //   return axios.post(this.baseURL, empresa, {
-  //     headers: { 'Content-Type': 'application/json' },
-  //   });
-  // }
-
-  public async createOneEmpresa(empresa: ICreateEmpresaDto): Promise<IUpdateEmpresaDto> {
+  public async createOneEmpresa(empresa: ICreateEmpresaDto): Promise<IEmpresa> {
     const response = await fetch(`${this.baseURL}/empresas`, {
       method: 'POST',
       headers: {
@@ -45,20 +38,15 @@ export class ServiceEmpresa {
       body: JSON.stringify(empresa)
     });
     const data = await response.json();
-    return data;
+    return data as IEmpresa;
   }
-
-  // public async editOneEmpresa(id: number, empresa: IUpdateEmpresaDto): Promise<AxiosResponse<IEmpresa>> {
-  //   return axios.put(`${this.baseURL}/update/${id}`, empresa, {
-  //     headers: { 'Content-Type': 'application/json' },
-  //   });
-  // }
 
   public async editOneEmpresa(id: number, empresa: IUpdateEmpresaDto): Promise<IUpdateEmpresaDto> {
     const response = await fetch(`${this.baseURL}/empresas/${id}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json',
+        "User-Agent" : "insomnia/9.3.1"
       },
       body: JSON.stringify(empresa)
     });

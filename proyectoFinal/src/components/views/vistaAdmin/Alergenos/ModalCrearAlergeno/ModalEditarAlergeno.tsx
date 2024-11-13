@@ -1,19 +1,25 @@
-import { ChangeEvent, FC } from "react";
+import { FC, FormEvent } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { useForm } from "../../../../hooks/useForm";
+
 import stylesModalCrearAlergeno from "./ModalCrearAlergeno.module.css"
 import addImagen from "./imagen.png";
-import { ServiceAlergenos } from "../../../../services/ServiceAlergenos";
-import { ICreateAlergeno } from "../../../../types/dtos/alergenos/ICreateAlergeno";
-import { IImagen } from "../../../../types/IImagen";
+import { useForm } from "../../../../../hooks/useForm";
+import { ServiceAlergenos } from "../../../../../services/ServiceAlergenos";
+import { ICreateAlergeno } from "../../../../../types/dtos/alergenos/ICreateAlergeno";
+import { IImagen } from "../../../../../types/IImagen";
+
 
 interface PopUpPropsAlergeno {
-  show: boolean;
+  visible: boolean;
   onClose: () => void;
 }
 
-const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ show, onClose }) => {
-  const serviceAlergeno = new ServiceAlergenos();
+const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
+
+  //const dispatch = useDispatch<AppDispatch>();
+  const serviceAlergeno = new ServiceAlergenos()
+
+  //const [empresaId, setEmpresaId] = useState<number>(0)
 
   const { values, handleChange, resetForm } = useForm({
     denominacion: "",
@@ -24,44 +30,50 @@ const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ show, onClose }) => {
   const { denominacion, name, url } = values;
 
   const handleCreateAlergeno = async (alergeno: ICreateAlergeno) => {
+
     try {
-      const response = await serviceAlergeno.createOneAlergeno(alergeno);
-      console.log("Alergeno creado con ID: ", response?.id);
+      const response = await serviceAlergeno.createOneAlergeno(alergeno)
+
+      /*if(response && response.id){
+        setEmpresaId(response.id);
+        console.log("ID de empresa creada: ", response.id)
+      }*/
+
     } catch (error) {
-      console.error("Error al crear el alergeno: ", error);
+      console.error("Error crear Empresa: ", error)
     }
+    //onAddEmpresa(newEmpresa);
   };
 
   const addForm = () => {
     const newAlergeno: ICreateAlergeno = {
       denominacion: denominacion,
       imagen: {
-        name: `imagen de ${denominacion}`,
-        url,
-      } as IImagen,
+        name,
+        url
+      } as IImagen
     };
     handleCreateAlergeno(newAlergeno);
-    resetForm(); 
-    onClose();
-  };
+    resetForm(); // Cerrar el modal
+    onClose()
+  }  
 
   const cancelForm = () => {
     resetForm();
     onClose();
   };
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addForm();
+    addForm()
   };
-
-  
-  if (!show) {
+  // Si no está visible, no renderiza nada
+  if (!visible) {
     return null;
   }
 
   return (
-    <Modal show={show} onHide={onClose}>
+    <Modal show={visible} onHide={onClose}>
       <Modal.Header>
         <Modal.Title>Crear un alergeno</Modal.Title>
       </Modal.Header>

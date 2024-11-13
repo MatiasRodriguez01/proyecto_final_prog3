@@ -1,21 +1,65 @@
-
-
+.navBar {
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .navBarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+  }
+  
+  .brandButton {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .brandButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .materialIcon {
+    font-size: 1.5rem;
+    color: #ffffff;
+  }
+  
 .container{
     display: flex;
     width: 20vw;
-    margin: 10px;
-    border-right: #252422 1px solid;
+    border-right: #252422 solid;
+    height: 91vh;
 }
 
 .administracion{
-    padding: 50px;
+    padding: 5px;
     display: grid;
-    width: 15vw;
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.containerTitulo{
+    display: flex;
+    align-items: center;
 }
 .containerBotones{
-    display: grid;
-    margin: auto; 
+    display: flex;
+    margin: 10px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
 }
+
 button {
     width: 10vw;
     height: 6vh;
@@ -23,9 +67,10 @@ button {
     color: black;
     background-color: white;
     padding: 10px 20px;
-    border: #252422 1px solid;
+    border: #bcb9b3 1px solid;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.2s;
     margin: 10px;
+
 }

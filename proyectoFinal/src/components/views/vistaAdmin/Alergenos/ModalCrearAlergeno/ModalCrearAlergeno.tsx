@@ -1,23 +1,20 @@
-import { FC, FormEvent } from "react";
+import { ChangeEvent, FC } from "react";
+import { ServiceAlergenos } from "../../../../../services/ServiceAlergenos";
+import { useForm } from "../../../../../hooks/useForm";
+import { ICreateAlergeno } from "../../../../../types/dtos/alergenos/ICreateAlergeno";
+import { IImagen } from "../../../../../types/IImagen";
 import { Button, Modal } from "react-bootstrap";
-import { useForm } from "../../../../hooks/useForm";
 import stylesModalCrearAlergeno from "./ModalCrearAlergeno.module.css"
-import addImagen from "./imagen.png";
-import {ServiceAlergenos} from "../../../../services/ServiceAlergenos"
-import { ICreateAlergeno } from "../../../../types/dtos/alergenos/ICreateAlergeno";
-import { IImagen } from "../../../../types/IImagen";
+import addImagen from "./imagen.png"
+
 
 interface PopUpPropsAlergeno {
-  visible: boolean;
+  show: boolean;
   onClose: () => void;
 }
 
-const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
-
-  //const dispatch = useDispatch<AppDispatch>();
-  const serviceAlergeno = new ServiceAlergenos()
-
-  //const [empresaId, setEmpresaId] = useState<number>(0)
+const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ show, onClose }) => {
+  const serviceAlergeno = new ServiceAlergenos();
 
   const { values, handleChange, resetForm } = useForm({
     denominacion: "",
@@ -28,50 +25,44 @@ const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
   const { denominacion, name, url } = values;
 
   const handleCreateAlergeno = async (alergeno: ICreateAlergeno) => {
-
     try {
-      const response = await serviceAlergeno.createOneAlergeno(alergeno)
-
-      /*if(response && response.id){
-        setEmpresaId(response.id);
-        console.log("ID de empresa creada: ", response.id)
-      }*/
-
+      const response = await serviceAlergeno.createOneAlergeno(alergeno);
+      console.log("Alergeno creado con ID: ", response?.id);
     } catch (error) {
-      console.error("Error crear Empresa: ", error)
+      console.error("Error al crear el alergeno: ", error);
     }
-    //onAddEmpresa(newEmpresa);
   };
 
   const addForm = () => {
     const newAlergeno: ICreateAlergeno = {
       denominacion: denominacion,
       imagen: {
-        name,
-        url
-      } as IImagen
+        name: `imagen de ${denominacion}`,
+        url,
+      } as IImagen,
     };
     handleCreateAlergeno(newAlergeno);
-    resetForm(); // Cerrar el modal
-    onClose()
-  }  
+    resetForm(); 
+    onClose();
+  };
 
   const cancelForm = () => {
     resetForm();
     onClose();
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addForm()
+    addForm();
   };
-  // Si no está visible, no renderiza nada
-  if (!visible) {
+
+  
+  if (!show) {
     return null;
   }
 
   return (
-    <Modal show={visible} onHide={onClose}>
+    <Modal show={show} onHide={onClose}>
       <Modal.Header>
         <Modal.Title>Crear un alergeno</Modal.Title>
       </Modal.Header>
@@ -85,6 +76,7 @@ const ModalCrearAlergeno: FC<PopUpPropsAlergeno> = ({ visible, onClose }) => {
             value={denominacion}
             onChange={handleChange}
             required
+            style={{width: "65%"}}
           />
           {/* AGREGAR IMAGEN */}
           <div className={stylesModalCrearAlergeno.imagenContainer}>
