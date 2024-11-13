@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect } from 'react'
+import { ChangeEvent, FC} from 'react'
 import styleModalEditar from './ModalEditarEmpresa.module.css'
 import { IEmpresa } from '../../../../types/dtos/empresa/IEmpresa';
 import { useForm } from '../../../../hooks/useForm';

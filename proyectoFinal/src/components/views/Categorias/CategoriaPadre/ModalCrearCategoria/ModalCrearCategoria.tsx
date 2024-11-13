@@ -8,7 +8,7 @@ interface ModalCrearCategoriaProps {
   categoria?: any;
 }
 
-const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({
+export const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({
   show,
   onClose,
 }) => {
@@ -22,7 +22,7 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({
       return;
     }
 
-    // Aquí podrías agregar la lógica para guardar la nueva categoría
+    // agregar lógica para guardar la nueva categoría
     console.log("Categoría creada:", { categoryName });
 
     // Llamada para cerrar el modal después de guardar la categoría
@@ -31,7 +31,7 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({
 
   return (
     <Modal show={show} onHide={onClose}>
-      <Modal.Header >
+      <Modal.Header>
         <Modal.Title>Crear/Editar Categoría</Modal.Title>
       </Modal.Header>
       <Modal.Body>

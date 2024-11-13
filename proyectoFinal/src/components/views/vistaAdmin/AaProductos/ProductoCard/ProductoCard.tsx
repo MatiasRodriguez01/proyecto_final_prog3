@@ -54,7 +54,7 @@ export const ProductoCard: FC<ProductoCardProps> = ({ producto, onVerProducto, o
         </Card.Body>
       </Card>
 
-      <ModalEditarProducto producto={producto} visible={isPopUpVisible} onClose={HandlePopUp} />
+      {/* <ModalEditarProducto producto={producto} visible={isPopUpVisible} onClose={HandlePopUp} /> */}
     </>
   );
 };

@@ -5,7 +5,7 @@ import { ICreateEmpresaDto } from '../types/dtos/empresa/ICreateEmpresaDto';
 import { IEmpresa } from '../types/dtos/empresa/IEmpresa';
 import { IUpdateEmpresaDto } from '../types/dtos/empresa/IUpdateEmpresaDto';
 
-export class ServiceEmpresa {
+export class ServiceCategorias {
   private baseURL: string;
 
   constructor() {
