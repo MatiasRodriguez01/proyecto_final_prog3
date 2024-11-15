@@ -1,9 +1,11 @@
 import { FC, useState } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
-import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria";
+import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria.tsx";
 import ModalCrearProducto from "../components/views/vistaAdmin/AaProductos/ModalCrearProducto/ModalCrearProducto.tsx";
-import ModalCrearAlergeno from "../components/views/vistaAdmin/Alergenos/ModalCrearAlergeno/ModalCrearAlergeno.tsx";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store.ts";
+import { AlergenoListado } from "../components/views/vistaAdmin/Alergenos/AlergenoListado.tsx";
 
 interface IProsProyectedRoutes {
   isBack: () => void;
@@ -31,12 +33,11 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
     setMostrarModalProducto(true);
   };
 
-  //Alergenos
-  const [mostrarModalAlergeno, setMostrarModalAlergeno] = useState<boolean>(false);
-  
-  const handleAbrirModalAlergeno = () => {
-    setEditarProducto(null);
-    setMostrarModalAlergeno(true)
+  // mostrar la lista de alergenos
+  const [listaAlergenos, setListaAlergenos ] = useState<boolean>(false);
+
+  const handleListaAle = () => {
+    setListaAlergenos(!listaAlergenos);
   }
 
   // empresa activa
@@ -86,13 +87,21 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
             <button
               className={stylesAdminCard.boton}
               type="button"
-              onClick={handleAbrirModalAlergeno}
+              onClick={handleListaAle}
             >
               Alergenos
             </button>
           </div>
         </div>
+        <div className={stylesAdminCard.contenido}>
+          {/* mostramos el listado */}
+          { 
+            (listaAlergenos === true) && <AlergenoListado/>
+          }
+        </div>
       </div>
+
+      
 
       {/* componente para crear/editar categoria */}
       <ModalCrearCategoria
@@ -108,10 +117,6 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
         producto={editarProducto}
       />
 
-      <ModalCrearAlergeno
-        show={mostrarModalAlergeno}
-        onClose={() => setMostrarModalAlergeno(false)}
-      />
     </>
   );
 };

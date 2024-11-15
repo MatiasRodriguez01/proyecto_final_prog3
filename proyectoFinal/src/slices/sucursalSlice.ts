@@ -10,7 +10,7 @@ const initialState: sucursalState = {
   sucursales: [],
   sucursalActiva: null
 };
-
+  
 const sucursalSlice = createSlice({
   name: "sucursal",
   initialState,

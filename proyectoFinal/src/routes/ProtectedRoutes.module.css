@@ -1,76 +1,89 @@
 .navBar {
-    color: #ffffff;
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    height: 60px;
-  }
-  
-  .navBarContainer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100%;
-  }
-  
-  .brandButton {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-  
-  .brandButton:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .materialIcon {
-    font-size: 1.5rem;
-    color: #ffffff;
-  }
-  
-.container{
-    display: flex;
-    width: 20vw;
-    border-right: #252422 solid;
-    height: 91vh;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  height: 80px;
+  display: grid;
+  grid-template-columns: 0.4fr 0.6fr;
 }
 
-.administracion{
-    padding: 5px;
-    display: grid;
-    width: 20vw;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+.navBarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
 }
-.containerTitulo{
-    display: flex;
-    align-items: center;
+
+.brandButton {
+  height: 100%;
+  background-color: transparent;
+  border: 1px solid grey;
+  padding: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  float: right;
 }
-.containerBotones{
-    display: flex;
-    margin: 10px;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    height: 100%;
+
+.brandButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.materialIcon {
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 91vh;
+  gap: 4vh;
+}
+
+.administracion {
+  padding: 5px;
+  display: grid;
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-right: 1px solid grey;
+
+}
+
+.containerTitulo {
+  display: flex;
+  align-items: center;
+}
+
+.containerBotones {
+  display: flex;
+  margin: 10px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
 }
 
 button {
-    width: 10vw;
-    height: 6vh;
-    font-size: 12px;
-    color: black;
-    background-color: white;
-    padding: 10px 20px;
-    border: #bcb9b3 1px solid;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.2s;
-    margin: 10px;
+  width: 10vw;
+  height: 6vh;
+  font-size: 12px;
+  color: black;
+  background-color: white;
+  padding: 10px 20px;
+  border: #bcb9b3 1px solid;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin: 10px;
+}
 
+.contenido {
+  width: 80vw;
+  height: 100%;
+  overflow-y: scroll;
 }
