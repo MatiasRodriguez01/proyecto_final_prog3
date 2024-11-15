@@ -108,7 +108,7 @@ export const ModalEditarSucursal: FC<IPopUpPropsEditarSucursal> = ({ sucursal, i
         <div className={styleModalSucursal.containerPopUp}>
             <div className={styleModalSucursal.popUpContainer}>
                 <div className={styleModalSucursal.contenido}>
-                    <h2>Crear una sucursal</h2>
+                    <h2>Editar sucursal</h2>
 
                     {/* FORMULARIO PARA AGREGAR UNA SUCURSAL */}
                     <form
