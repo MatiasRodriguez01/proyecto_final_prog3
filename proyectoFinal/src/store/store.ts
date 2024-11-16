@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import empresaReducer from "../slices/empresaSlice";
 import sucursalReducer from "../slices/sucursalSlice";
+import alergenoReducer from '../slices/alegenoSlice'
+import categoriaReducer from '../slices/categoriaSlice'
 
 const store = configureStore({
   reducer: {
     empresa: empresaReducer, // Aquí se añade el reducer de la slice
     sucursal: sucursalReducer,
+    alergeno :alergenoReducer,
+    categoria: categoriaReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

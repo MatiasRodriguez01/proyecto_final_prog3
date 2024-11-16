@@ -1,5 +1,5 @@
 import { Button, Card } from "react-bootstrap";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 import stylesEmpresaCard from "./EmpresaCard.module.css";
 import { ModalEditarEmpresa } from "../ModalEditarEmpresa/ModalEditarEmpresa";
@@ -22,11 +22,14 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa, onEmp
 
   const ea = useSelector((state: RootState) => state.empresa.empresaActiva)
 
+  useEffect(() => {
+    console.log('guardamo la empresa activa : ', ea)
+  }, [ea]);
+
   const handleEmpresaActiva = () => {
     dispatch(eliminarEmpresaActiva())
     dispatch(empresaActiva(empresa))
     onEmpresaActiva(empresa.id)
-    console.log(ea)
   }
 
   return (
@@ -72,12 +75,13 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa, onEmp
       </Card>
 
       <ModalEditarEmpresa
-        empresa={empresa}
+        empresa={ea}
         visible={isPopUpVisible}
         onClose={HandlePopUp}
       />
     </>
   );
 };
+
 
 export default EmpresaCard;

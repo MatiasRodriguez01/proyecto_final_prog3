@@ -11,32 +11,34 @@ import { alergenoActivo, editarAlergeno, guardarAlergenos } from "../../../../sl
 import { ModalEditarAlergeno } from "./ModalCrearAlergeno/ModalEditarAlergeno";
 import { AlergenoInfo } from "./AlergenoInfo/AlergenoInfo";
 import { useDispatch, useSelector } from "react-redux";
+import { ServiceCategorias } from "../../../../services/ServiceCategorias";
+import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
 
 // interface IPropsAlergeno {
 //   AlergenoActivo: Function;
 // }
 
-export const AlergenoListado = () => {
+export const CategoriaListado = () => {
 
   // usamos el dispatch para usar los slice
   const dispatch = useDispatch();
 
   // el servicio de alergeno
-  const serviceAlergeno = new ServiceAlergenos();
+  const serviceCategoria = new ServiceCategorias()
 
   // usamos el useState para guardar los alergenos
-  const [alergenos, setAlergenos] = useState<IAlergenos[]>([])
+  const [categorias, setCategorias] = useState<ICategorias[]>([])
 
   // Mostar el modal crear
-  const [mostrarModalAlergeno, setMostrarModalAlergeno] = useState<boolean>(false);
+  const [mostrarModalCategoria, setMostrarModalCategoria] = useState<boolean>(false);
 
   // Mostrar el modal editar
   const [mostrarModalEditar, setMostrarModalEditar] = useState<boolean>(false);
-  const alergenoEditado = useSelector((state: RootState) => state.alergeno.alergenoEditado)
+  const categoriaEditada = useSelector((state: RootState) => state.categoria.categoriaEditada)
 
   useEffect(() => {
-    console.log('Alergeno editado, actualizado: ', alergenoEditado)
-  }, [alergenoEditado])
+    console.log('categoria editada, actualizada: ', categoriaEditada)
+  }, [categoriaEditada])
 
   const handleModalEditar = (a: IAlergenos) => {
     dispatch(editarAlergeno(null))

@@ -39,7 +39,7 @@ export const Listado: FC<IPropsListado> = ({ onVistaAdmin }) => {
 
         setEmpresas(empresaDelServicio)
         // Actualizamos el estado de empresas en Redux
-        dispatch(guardarEmpresas(empresas));
+        dispatch(guardarEmpresas(empresaDelServicio));
       } catch (error) {
         console.error("Error al obtener las empresas:", error);
       }

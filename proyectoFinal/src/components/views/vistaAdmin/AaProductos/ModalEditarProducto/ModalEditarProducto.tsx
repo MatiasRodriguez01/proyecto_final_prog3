@@ -13,16 +13,18 @@ import { ServiceCategorias } from "../../../../../services/ServiceCategorias";
 import { ServiceAlergenos } from "../../../../../services/ServiceAlergenos";
 import { ISucursal } from "../../../../../types/dtos/sucursal/ISucursal";
 import { IProductos } from "../../../../../types/dtos/productos/IProductos";
+import { IUpdateProducto } from "../../../../../types/dtos/productos/IUpdateProducto";
 
-interface ModalEditarProductoProps {producto: IProductos, 
+interface ModalEditarProductoProps {sucursal: ISucursal,
   categoria: ICategorias,
-  sucursal: ISucursal,
+  producto: IUpdateProducto,
+  id: number;
   show: boolean;
   onClose: () => void;
 }
 
-const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({producto, categoria,
-  sucursal,
+const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({sucursal, categoria, producto,
+  id,
   show,
   onClose,
 }) => {
@@ -33,33 +35,46 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({producto, cate
   const serviceAlergenos = new ServiceAlergenos()
 
   const {values, handleChange, resetForm} = useForm({
-    denominacion: "",
-    precioVenta: 0,
-    descripcion: "",
-    codigo: "",
+    denominacion: producto.denominacion,
+    precioVenta: producto.precioVenta,
+    descripcion: producto.descripcion,
+    codigo: producto.codigo,
   })
 
-  const [idCategoria, setIdCategoria] = useState(0)
-  const [idsAlergenos, setIdsAlergenos] = useState<number[]>([])
-  const [imagenes, setImagenes] = useState<IImagen[]>([])
-  const [habilitado, setHabilitado] = useState<boolean>(false)
+  const [idCategoria, setIdCategoria] = useState(producto.idCategoria)
+  const [idsAlergenos, setIdsAlergenos] = useState<number[]>(producto.idAlergenos)
+  const [imagenes, setImagenes] = useState<IImagen[]>(producto.imagenes)
+  const [inputValue, setInputValue] = useState<string>("")
+  const [habilitado, setHabilitado] = useState<boolean>(producto.habilitado)
   const [subCategorias, setSubCategorias] = useState<ICategorias[]>([])
   const [alergenos, setAlergenos] = useState<IAlergenos[]>([])
 
   const {denominacion, precioVenta, descripcion, codigo} = values
 
-  const handleCreateProducto = async(producto: ICreateProducto) => {
-    try{
-      const response = await serviceProducto.createOneProducto(producto)
+  const addImagen = (url:string) => {
+    if(url.trim() != ""){
+      const newImage: IImagen = {
+        name: `Imagen ${imagenes.length + 1}`,
+        url : url,
+      }
+      setImagenes((prevImagenes) => [...prevImagenes, newImage])
+    }
 
-      console.log("id del producto creado: ", response.id)
+    setInputValue("")
+  }
+
+
+  const handleEditProducto = async(producto: IUpdateProducto) => {
+    try{
+      const response = await serviceProducto.editOneProducto(producto.id, producto)
     }catch(error){
-      console.error("Error al crear producto: ", error)
+      console.error("Error al editar producto: ", error)
     }
   }
 
   const addForm = () => {
-    const newProducto: ICreateProducto = {
+    const newProducto: IUpdateProducto = {
+      id: producto.id,
       denominacion: denominacion,
       habilitado: habilitado,
       precioVenta: precioVenta,
@@ -70,7 +85,7 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({producto, cate
       imagenes: imagenes
     }
 
-    handleCreateProducto(newProducto)
+    handleEditProducto(newProducto)
 
     resetForm()
     onClose()
@@ -111,7 +126,7 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({producto, cate
   return (
     <Modal className={styleModalProducto.modalContent} show={show} onHide={onClose}>
       <Modal.Header>
-        <Modal.Title>Crear producto</Modal.Title>
+        <Modal.Title>Editar producto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={handleSubmit}>
@@ -213,12 +228,23 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({producto, cate
                 className={styleModalProducto.label}
                 type="text"
                 name="imagen"
-                placeholder="Ingresa una imagen"
-                value={logo}
-                onChange={(e) => setLogo(e.target.value)}
+                placeholder="Ingresa una imagen o para eliminar ingresa 'eliminar:Imagen {numero de imagen}'"
+                value={inputValue}
+                onChange={(e) => {
+                  const url = e.target.value.trim()
+                  if(url.startsWith('eliminar: ')){
+                    const nameToDelete = url.replace('eliminar:','').trim()
+                    setImagenes((prevImagenes) => prevImagenes.filter((img) => img.name !== nameToDelete)) 
+                  }else if (url !== "") {
+                    const newImage: IImagen = {
+                      name: `Imagen ${imagenes.length + 1}`, 
+                      url: url,
+                    };
+                    setImagenes((prevImagenes) => [...prevImagenes, newImage]); 
+                  }
+                  setInputValue(""); 
+                }}
               />
-              <img src={addImagen} alt="imagen del boton" />
-              
             </div>
           </div>
         </div>
