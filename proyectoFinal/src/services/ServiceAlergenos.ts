@@ -44,8 +44,24 @@ export class ServiceAlergenos{
           },
           body: JSON.stringify(alergeno)
         });
+
+        if (!response.ok) {
+          throw new Error(`No se pudo eliminar el alérgeno con ID ${id}. Status: ${response.status}`);
+        }
+
         const data = await response.json();
         return data; 
+      }
+
+      public async deleteAlergenoById(id: number): Promise<void>{
+        const response = await fetch(`${this.baseURL}/${id}`, {
+          method: 'DELETE',
+          headers: {
+            "User-Agent" : "insomnia/10.1.0"
+          }
+        });
+        const data = response.json();
+        return data;
       }
     
 }
