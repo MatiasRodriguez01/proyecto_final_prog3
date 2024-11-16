@@ -1,49 +1,125 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import stylesCrearProducto from "./ModalCrearProducto.module.css";
 import addImagen from "./imagen.png";
 import { useForm } from "../../../../../hooks/useForm";
 import styleModalProducto from "./ModalCrearProducto.module.css";
+import { ServiceProductos } from "../../../../../services/ServiceProductos";
+import { ICategorias } from "../../../../../types/dtos/categorias/ICategorias";
+import { IAlergenos } from "../../../../../types/dtos/alergenos/IAlergenos";
+import { IImagen } from "../../../../../types/IImagen";
+import { ICreateProducto } from "../../../../../types/dtos/productos/ICreateProducto";
+import { ServiceCategorias } from "../../../../../services/ServiceCategorias";
+import { ServiceAlergenos } from "../../../../../services/ServiceAlergenos";
+import { ISucursal } from "../../../../../types/dtos/sucursal/ISucursal";
 
-interface ModalCrearProductoProps {
+interface ModalCrearProductoProps {categoria: ICategorias,
+  sucursal: ISucursal,
   show: boolean;
   onClose: () => void;
   producto?: any;
 }
 
-const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
+const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({categoria,
+  sucursal,
   show,
   onClose,
 }) => {
-  // Estado para manejar los valores del formulario
-  const [productDenomination, setProductDenomination] = useState<string>("");
-  const [precioVenta, setPrecioVenta] = useState<number>();
-  const [codigoProducto, setCodigoProducto] = useState<number>();
-  const [isHabilitado, setIsHabilitado] = useState<boolean>(false);
-  const [productDescription, setProductDescription] = useState<string>("");
-  const [logo, setLogo] = useState<string>("");
+  const serviceProducto = new ServiceProductos()
 
+  const serviceCategorias = new ServiceCategorias()
 
-  const { handleChange } = useForm({});
+  const serviceAlergenos = new ServiceAlergenos()
 
-  //const [productAlergeno, setProductAlergeno] = useState<string>("");
+  const {values, handleChange, resetForm} = useForm({
+    denominacion: "",
+    precioVenta: 0,
+    descripcion: "",
+    codigo: "",
+  })
 
-  // Función para manejar el envío del formulario
-  const handleSubmit = () => {
-    if (!productDenomination) {
-      alert("Por favor ingrese el nombre del producto.");
-      return;
+  const [idCategoria, setIdCategoria] = useState(0)
+  const [idsAlergenos, setIdsAlergenos] = useState<number[]>([])
+  const [imagenes, setImagenes] = useState<IImagen[]>([])
+  const [inputValue, setInputValue] = useState<string>("")
+  const [habilitado, setHabilitado] = useState<boolean>(false)
+  const [subCategorias, setSubCategorias] = useState<ICategorias[]>([])
+  const [alergenos, setAlergenos] = useState<IAlergenos[]>([])
+
+  const {denominacion, precioVenta, descripcion, codigo} = values
+
+  const addImagen = (url:string) => {
+    if(url.trim() != ""){
+      const newImage: IImagen = {
+        name: `Imagen ${imagenes.length + 1}`,
+        url : url,
+      }
+      setImagenes((prevImagenes) => [...prevImagenes, newImage])
     }
 
-    // Aquí podrías agregar la lógica para guardar el nuevo producto
-    console.log("Producto cargado:", {
-      productDenomination,
-      isHabilitado,
-    });
+    setInputValue("")
+  }
 
-    // Llamada para cerrar el modal después de guardar la categoría
-    onClose();
-  };
+
+  const handleCreateProducto = async(producto: ICreateProducto) => {
+    try{
+      const response = await serviceProducto.createOneProducto(producto)
+
+      console.log("id del producto creado: ", response.id)
+    }catch(error){
+      console.error("Error al crear producto: ", error)
+    }
+  }
+
+  const addForm = () => {
+    const newProducto: ICreateProducto = {
+      denominacion: denominacion,
+      habilitado: habilitado,
+      precioVenta: precioVenta,
+      descripcion: descripcion,
+      codigo: codigo,
+      idCategoria: idCategoria,
+      idAlergenos: idsAlergenos,
+      imagenes: imagenes
+    }
+
+    handleCreateProducto(newProducto)
+
+    resetForm()
+    onClose()
+  }
+
+  const cancelForm = () => {
+    resetForm()
+    onClose()
+  }
+
+  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    addForm()
+  }
+
+  if (!show){
+    return null
+  }
+
+  useEffect(() => {
+    const fetchCategoriasyAlergenos = async () => {
+      try{
+        const responseCategorias = await serviceCategorias.getAllSubcategoriasPorCategoriaPadre(sucursal.id, categoria.id)
+
+        const responseAlergenos = await serviceAlergenos.getAllAlergenos()
+
+        setSubCategorias(responseCategorias)
+        
+        setAlergenos(responseAlergenos)
+      }catch(error){
+        console.error("error al traer alergenos y/o subcategorias")
+      }
+    }
+
+    fetchCategoriasyAlergenos()
+  }, [])
 
   return (
     <Modal className={styleModalProducto.modalContent} show={show} onHide={onClose}>
@@ -51,6 +127,7 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
         <Modal.Title>Crear producto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <form onSubmit={handleSubmit}>
         <div className={styleModalProducto.containerModal}>
           {/* Formulario para crear producto */}
           <div className={styleModalProducto.containerAtributes}>
@@ -58,34 +135,44 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
             <input
               className={styleModalProducto.label}
               type="text"
-              id="productDenomination"
-              value={productDenomination}
+              name="denominacion"
+              value={denominacion}
               placeholder="Ingresa una denominacion"
-              onChange={(e) => setProductDenomination(e.target.value)}
+              onChange={handleChange}
             />
             {/* aca se selecciona la categoria */}
             <select
               className={styleModalProducto.label}
-              id="category"
-              name="categories"
+              name="idCategoria"
+              value={idCategoria}
+              onChange={(e) => setIdCategoria(Number(e.target.value))}
             >
               <option value="">Categoria</option>
-              <option value="">lacteos</option>
+              {subCategorias.map((subCategoria) => (
+                <option key={subCategoria.id} value={subCategoria.id}>{subCategoria.denominacion}</option>
+              ))}
             </select>
             {/* Aca se seleciona un alergeno */}
             <select
               className={styleModalProducto.label}
-              id="alergenos"
-              name="alergenos"
+              name="idsAlergenos"
+              multiple
+              value={idsAlergenos.map(String)}
+              onChange={(e) => {
+                const selectedOptions = Array.from(e.target.selectedOptions, (option) => Number(option.value))
+                setIdsAlergenos(selectedOptions)}
+              }
             >
-              <option value="">Alérgenos</option>
-              <option value="">mani</option>
+              <option value="">Alergenos</option>
+              {alergenos.map((alergeno) => (
+                <option key={alergeno.id} value={alergeno.id}>{alergeno.denominacion}</option>
+              ))}
             </select>
             {/* Aca se ingresa el precio de venta */}
             <input
               className={styleModalProducto.label}
               type="number"
-              id="priceOfProduct"
+              name="precioVenta"
               value={precioVenta}
               placeholder="Ingrese un precio de venta"
               onChange={handleChange}
@@ -94,8 +181,8 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
             <input
               className={styleModalProducto.label}
               type="number"
-              id="codeOfProduct"
-              value={codigoProducto}
+              name="codigoProducto"
+              value={codigo}
               placeholder="Ingrese el codigo del producto"
               onChange={handleChange}
             />
@@ -110,8 +197,8 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
               <input
                 className={styleModalProducto.nosee}
                 type="checkbox"
-                checked={isHabilitado}
-                onChange={() => setIsHabilitado(!isHabilitado)}
+                checked={habilitado}
+                onChange={(e) => setHabilitado(e.target.checked)}
                 style={{
                   width: "20px",
                   height: "20px",
@@ -127,10 +214,10 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
             <input
               className={styleModalProducto.label}
               type="text"
-              id="productDescription"
-              value={productDescription}
+              name="descripcion"
+              value={descripcion}
               placeholder="Ingresa una descripcion"
-              onChange={(e) => setProductDescription(e.target.value)}
+              onChange={handleChange}
             />
 
             <div className={styleModalProducto.imagenContainer}>
@@ -140,26 +227,35 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
                 type="text"
                 name="imagen"
                 placeholder="Ingresa una imagen"
-                value={logo}
-                onChange={(e) => setLogo(e.target.value)}
+                value={inputValue}
+                onChange={(e) => {
+                  const url = e.target.value.trim()
+                  if (url !== "") {
+                    const newImage: IImagen = {
+                      name: `Imagen ${imagenes.length + 1}`, 
+                      url: url,
+                    };
+                    setImagenes((prevImagenes) => [...prevImagenes, newImage]); 
+                  }
+                  setInputValue(""); 
+                }}
               />
-              <img src={addImagen} alt="imagen del boton" />
-              
             </div>
           </div>
         </div>
+        </form>
       </Modal.Body>
       <Modal.Footer>
         <Button
           variant="primary"
-          onClick={onClose}
+          onClick={cancelForm}
           className={stylesCrearProducto.botonCancelar}
         >
           Cancelar
         </Button>
         <Button
           variant="primary"
-          onClick={handleSubmit}
+          onClick={addForm}
           className={stylesCrearProducto.botonAceptar}
         >
           Guardar

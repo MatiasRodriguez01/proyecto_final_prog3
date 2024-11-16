@@ -2,6 +2,7 @@ import { FC } from "react";
 import { IAlergeno } from "../../../../../interfaces/IAlergeno";
 import { usePopUpVisible } from "../../../../../hooks/usePopUpVisible";
 import { Button, Card } from "react-bootstrap";
+import { ModalEditarAlergeno } from "../ModalCrearAlergeno/ModalEditarAlergeno";
 
 interface AlergenoCardProps {
   alergeno: IAlergeno;
@@ -45,7 +46,7 @@ export const AlergenoCard: FC<AlergenoCardProps> = ({
         </Card.Body>
       </Card>
 
-      {/* ModaEditarAlergeno */}
+      <ModalEditarAlergeno alergeno={alergeno} visible={isPopUpVisible} onClose={HandlePopUp}/>
     </>
   );
 };

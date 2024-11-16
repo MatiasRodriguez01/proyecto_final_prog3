@@ -1,110 +1,120 @@
-import styleModalProducto from "./ModalEditarProducto.module.css";
-import { ChangeEvent, FC, suseEffect, useState } from "react";
-import { IProducto } from "../../../../../types/dtos/productos/IProductos";
-import { useDispatch } from "react-redux";
-import { ServiceProductos } from "../../../../../services/ServiceProductos";
-import { useForm } from "../../../../../hooks/useForm";
-import { IUpdateProducto } from "../../../../../types/dtos/productos/IUpdateProducto";
-import { Button, Modal } from "react-bootstrap";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { Modal, Button } from "react-bootstrap";
+import stylesCrearProducto from "./ModalCrearProducto.module.css";
 import addImagen from "./imagen.png";
+import { useForm } from "../../../../../hooks/useForm";
+import styleModalProducto from "./ModalCrearProducto.module.css";
+import { ServiceProductos } from "../../../../../services/ServiceProductos";
+import { ICategorias } from "../../../../../types/dtos/categorias/ICategorias";
+import { IAlergenos } from "../../../../../types/dtos/alergenos/IAlergenos";
+import { IImagen } from "../../../../../types/IImagen";
+import { ICreateProducto } from "../../../../../types/dtos/productos/ICreateProducto";
+import { ServiceCategorias } from "../../../../../services/ServiceCategorias";
+import { ServiceAlergenos } from "../../../../../services/ServiceAlergenos";
+import { ISucursal } from "../../../../../types/dtos/sucursal/ISucursal";
+import { IProductos } from "../../../../../types/dtos/productos/IProductos";
 
-// import { actualizarEmpresa } from '../../../../slices/empresaSlice';
-
-interface IProsEditarProducto {
-  producto: IProducto;
-  visible: boolean;
+interface ModalEditarProductoProps {producto: IProductos, 
+  categoria: ICategorias,
+  sucursal: ISucursal,
+  show: boolean;
   onClose: () => void;
-  show: boolean
 }
 
-export const ModalEditarEmpresa: FC<IProsEditarProducto> = ({
-  producto,
-  visible,
+const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({producto, categoria,
+  sucursal,
+  show,
   onClose,
-  show
 }) => {
-  // dispatch para actualizar la empresa
-  const dispatch = useDispatch();
+  const serviceProducto = new ServiceProductos()
 
-  //const dispatch = useDispatch<AppDispatch>();
-  const serviceProducto = new ServiceProductos();
+  const serviceCategorias = new ServiceCategorias()
 
-  const { values, handleChange, resetForm } = useForm({
-    denominacion: producto.denominacion,
-    categoria: producto.categoria,
-    alergenos: producto.alergenos,
-    precioVenta: producto.precioVenta,
-    codigo: producto.codigo,
-    habilitado: producto.habilitado,
-    descripcion: producto.descripcion,
-    imagenes: producto.imagenes,
-    eliminado: producto.eliminado,
-  });
+  const serviceAlergenos = new ServiceAlergenos()
 
-  const {
-    denominacion,
-    categoria,
-    alergenos,
-    precioVenta,
-    codigo,
-    habilitado,
-    descripcion,
-    imagenes,
-    eliminado,
-    
-  } = values;
+  const {values, handleChange, resetForm} = useForm({
+    denominacion: "",
+    precioVenta: 0,
+    descripcion: "",
+    codigo: "",
+  })
 
-  const handleEditarProducto = async (productoEditar: IUpdateProducto) => {
-    try {
-      await serviceProducto.editOneProducto(productoEditar.id, productoEditar);
-      dispatch(actualizarProducto(productoEditar));
-    } catch (error) {
-      console.error("Error editar producto: ", error);
+  const [idCategoria, setIdCategoria] = useState(0)
+  const [idsAlergenos, setIdsAlergenos] = useState<number[]>([])
+  const [imagenes, setImagenes] = useState<IImagen[]>([])
+  const [habilitado, setHabilitado] = useState<boolean>(false)
+  const [subCategorias, setSubCategorias] = useState<ICategorias[]>([])
+  const [alergenos, setAlergenos] = useState<IAlergenos[]>([])
+
+  const {denominacion, precioVenta, descripcion, codigo} = values
+
+  const handleCreateProducto = async(producto: ICreateProducto) => {
+    try{
+      const response = await serviceProducto.createOneProducto(producto)
+
+      console.log("id del producto creado: ", response.id)
+    }catch(error){
+      console.error("Error al crear producto: ", error)
     }
-    //onAddEmpresa(newEmpresa);
-  };
+  }
 
   const addForm = () => {
-    const newEmpresa: IUpdateProducto = {
-      id: producto.id,
-      eliminado: false,
+    const newProducto: ICreateProducto = {
       denominacion: denominacion,
-      categoria: categoria,
-      alergenos: alergenos,
-      precioVenta: precioVenta,
-      codigo: codigo,
       habilitado: habilitado,
+      precioVenta: precioVenta,
       descripcion: descripcion,
-      imagenes: imagenes,
-    };
-    handleEditarProducto(newProducto);
-    console.log(newProducto.id);
-    resetForm(); // Cerrar el modal
-    onClose();
-  };
+      codigo: codigo,
+      idCategoria: idCategoria,
+      idAlergenos: idsAlergenos,
+      imagenes: imagenes
+    }
+
+    handleCreateProducto(newProducto)
+
+    resetForm()
+    onClose()
+  }
+
   const cancelForm = () => {
-    resetForm();
-    onClose();
-  };
+    resetForm()
+    onClose()
+  }
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
-  const [logo, setLogo] = useState<string>("");
-  // Si no está visible, no renderiza nada
-  if (!visible) {
-    return null;
+    event.preventDefault()
+    addForm()
   }
+
+  if (!show){
+    return null
+  }
+
+  useEffect(() => {
+    const fetchCategoriasyAlergenos = async () => {
+      try{
+        const responseCategorias = await serviceCategorias.getAllSubcategoriasPorCategoriaPadre(sucursal.id, categoria.id)
+
+        const responseAlergenos = await serviceAlergenos.getAllAlergenos()
+
+        setSubCategorias(responseCategorias)
+        
+        setAlergenos(responseAlergenos)
+      }catch(error){
+        console.error("error al traer alergenos y/o subcategorias")
+      }
+    }
+
+    fetchCategoriasyAlergenos()
+  }, [])
+
   return (
-    <Modal
-      className={styleModalProducto.modalContent}
-      show={show}
-      onHide={onClose}
-    >
+    <Modal className={styleModalProducto.modalContent} show={show} onHide={onClose}>
       <Modal.Header>
         <Modal.Title>Crear producto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <form onSubmit={handleSubmit}>
         <div className={styleModalProducto.containerModal}>
           {/* Formulario para crear producto */}
           <div className={styleModalProducto.containerAtributes}>
@@ -112,7 +122,7 @@ export const ModalEditarEmpresa: FC<IProsEditarProducto> = ({
             <input
               className={styleModalProducto.label}
               type="text"
-              id="productDenomination"
+              name="denominacion"
               value={denominacion}
               placeholder="Ingresa una denominacion"
               onChange={handleChange}
@@ -120,26 +130,36 @@ export const ModalEditarEmpresa: FC<IProsEditarProducto> = ({
             {/* aca se selecciona la categoria */}
             <select
               className={styleModalProducto.label}
-              id="category"
-              name="categories"
+              name="idCategoria"
+              value={idCategoria}
+              onChange={(e) => setIdCategoria(Number(e.target.value))}
             >
               <option value="">Categoria</option>
-              <option value="">lacteos</option>
+              {subCategorias.map((subCategoria) => (
+                <option key={subCategoria.id} value={subCategoria.id}>{subCategoria.denominacion}</option>
+              ))}
             </select>
             {/* Aca se seleciona un alergeno */}
             <select
               className={styleModalProducto.label}
-              id="alergenos"
-              name="alergenos"
+              name="idsAlergenos"
+              multiple
+              value={idsAlergenos.map(String)}
+              onChange={(e) => {
+                const selectedOptions = Array.from(e.target.selectedOptions, (option) => Number(option.value))
+                setIdsAlergenos(selectedOptions)}
+              }
             >
-              <option value="">Alérgenos</option>
-              <option value="">mani</option>
+              <option value="">Alergenos</option>
+              {alergenos.map((alergeno) => (
+                <option key={alergeno.id} value={alergeno.id}>{alergeno.denominacion}</option>
+              ))}
             </select>
             {/* Aca se ingresa el precio de venta */}
             <input
               className={styleModalProducto.label}
               type="number"
-              id="priceOfProduct"
+              name="precioVenta"
               value={precioVenta}
               placeholder="Ingrese un precio de venta"
               onChange={handleChange}
@@ -148,7 +168,7 @@ export const ModalEditarEmpresa: FC<IProsEditarProducto> = ({
             <input
               className={styleModalProducto.label}
               type="number"
-              id="codeOfProduct"
+              name="codigoProducto"
               value={codigo}
               placeholder="Ingrese el codigo del producto"
               onChange={handleChange}
@@ -165,7 +185,7 @@ export const ModalEditarEmpresa: FC<IProsEditarProducto> = ({
                 className={styleModalProducto.nosee}
                 type="checkbox"
                 checked={habilitado}
-                onChange={() => sethabilitado(!isHabilitado)}
+                onChange={(e) => setHabilitado(e.target.checked)}
                 style={{
                   width: "20px",
                   height: "20px",
@@ -181,36 +201,41 @@ export const ModalEditarEmpresa: FC<IProsEditarProducto> = ({
             <input
               className={styleModalProducto.label}
               type="text"
-              id="productDescription"
+              name="descripcion"
               value={descripcion}
               placeholder="Ingresa una descripcion"
               onChange={handleChange}
             />
+
             <div className={styleModalProducto.imagenContainer}>
               <input
+
+                className={styleModalProducto.label}
                 type="text"
                 name="imagen"
                 placeholder="Ingresa una imagen"
                 value={logo}
-                onChange={handleChange}
+                onChange={(e) => setLogo(e.target.value)}
               />
               <img src={addImagen} alt="imagen del boton" />
+              
             </div>
           </div>
         </div>
+        </form>
       </Modal.Body>
       <Modal.Footer>
         <Button
           variant="primary"
-          onClick={onClose}
-          className={styleModalProducto.botonCancelar}
+          onClick={cancelForm}
+          className={stylesCrearProducto.botonCancelar}
         >
           Cancelar
         </Button>
         <Button
           variant="primary"
-          onClick={handleSubmit}
-          className={styleModalProducto.botonAceptar}
+          onClick={addForm}
+          className={stylesCrearProducto.botonAceptar}
         >
           Guardar
         </Button>
@@ -218,3 +243,5 @@ export const ModalEditarEmpresa: FC<IProsEditarProducto> = ({
     </Modal>
   );
 };
+
+export default ModalEditarProducto;

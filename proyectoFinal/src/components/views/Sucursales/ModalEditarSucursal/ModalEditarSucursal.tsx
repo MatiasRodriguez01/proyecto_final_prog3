@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "../../../../hooks/useForm";
 import { ServiceSucursal } from "../../../../services/ServiceSucursal";
@@ -18,6 +18,8 @@ interface IPopUpPropsEditarSucursal {
 export const ModalEditarSucursal: FC<IPopUpPropsEditarSucursal> = ({ sucursal, id, visible, onClose }) => {
 
     const serviceSucursal = new ServiceSucursal()
+
+    const [esCasaMatriz, setEsCasaMatriz] = useState(sucursal.esCasaMatriz)
 
     const { values, handleChange, resetForm } = useForm({
         nombre: sucursal.nombre,
@@ -81,7 +83,7 @@ export const ModalEditarSucursal: FC<IPopUpPropsEditarSucursal> = ({ sucursal, i
             },
             logo: imagen,
             categorias: [],
-            esCasaMatriz: sucursal.esCasaMatriz,
+            esCasaMatriz: esCasaMatriz,
             horarioApertura: horarioApertura,
             horarioCierre: horarioCierre,
         }
@@ -143,6 +145,10 @@ export const ModalEditarSucursal: FC<IPopUpPropsEditarSucursal> = ({ sucursal, i
                                 onChange={handleChange}
                                 required
                             />
+                            <div className="checkboxContainer">
+                            <input type="checkbox"  name="esCasaMatriz" checked={esCasaMatriz} onChange={(e) => setEsCasaMatriz(e.target.checked)} style={{width: "16px", height:"16px", marginRight: "8px"}}/>
+                            <label htmlFor="esCasaMatriz">Habilitado</label>
+                            </div>
                         </div>
                         {/* CONTENEDOR DE LA SEGUNDA COLUMNA DEL MODAL */}
                         <div className={styleModalSucursal.columnaDos}>

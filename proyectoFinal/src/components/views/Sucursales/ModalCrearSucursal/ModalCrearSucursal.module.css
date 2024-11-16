@@ -49,7 +49,7 @@
 .columnaUno {
   display: flex;
   flex-direction: column;
-  gap: 7vh;
+  gap: 3vh;
 }
 .columnaDos {
   display: grid;
@@ -141,4 +141,9 @@
   background-color: #f44336;
   color: #ffffff;
   border: 2px solid #f44336;
+}
+
+.checkboxContainer{
+  display: flex;
+  align-items: center;
 }

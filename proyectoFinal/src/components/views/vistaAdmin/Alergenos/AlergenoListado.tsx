@@ -6,6 +6,7 @@ import ModalCrearAlergeno from "./ModalCrearAlergeno/ModalCrearAlergeno";
 
 import styles from "./AlergenoListado.module.css"
 import { Button } from "react-bootstrap";
+import { ModalEditarAlergeno } from "./ModalCrearAlergeno/ModalEditarAlergeno";
 
 // interface IPropsAlergeno {
 //   AlergenoActivo: Function;
@@ -117,7 +118,6 @@ export const AlergenoListado = () => {
           </tbody>
         </table>
       </div>
-
       <ModalCrearAlergeno
         show={mostrarModalAlergeno}
         onClose={() => setMostrarModalAlergeno(false)}

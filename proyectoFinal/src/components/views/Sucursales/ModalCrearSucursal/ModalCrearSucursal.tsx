@@ -195,6 +195,10 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
                 onChange={handleChange}
                 required
               />
+              <div className="checkboxContainer">
+              <input type="checkbox"  name="esCasaMatriz" checked={esCasaMatriz} onChange={(e) => setEsCasaMatriz(e.target.checked)} style={{width: "16px", height:"16px", marginRight: "8px"}}/>
+              <label htmlFor="esCasaMatriz">Habilitado</label>
+              </div>
             </div>
             {/* CONTENEDOR DE LA SEGUNDA COLUMNA DEL MODAL */}
             <div className={styleModalSucursal.columnaDos}>
