@@ -53,17 +53,30 @@ export const AlergenoListado = () => {
     setShowInfo(true);
   }
 
+  // crearmos el eliminar objeto
+  // const alergenoAEliminar = useSelector((state: RootState) => state.alergeno.alergenoEliminado);
+
+  // useEffect(() => {
+  //   console.log('alergeno eliminado:', alergenoAEliminar)
+  // }, [alergenoAEliminar]);
+
+  const handleEliminarAlergeno = async (id: number) => {
+    try {
+      await serviceAlergeno.deleteAlergenoById(id); // Llama al servicio para eliminar
+      alert("Alérgeno eliminado exitosamente.");
+    } catch (error) {
+      console.error("Error eliminando alérgeno:", error);
+      alert("Hubo un error al eliminar el alérgeno.");
+    }
+  };
+
   // useEffect para guardar los alergenos
   useEffect(() => {
 
     const fetchAlergenos = async () => {
-      try {
         const alergenosDelServicio = await serviceAlergeno.getAllAlergenos();
-        setAlergenos(alergenosDelServicio)
-        dispatch(guardarAlergenos(alergenosDelServicio))
-      } catch (error) {
-        console.log(error)
-      }
+        setAlergenos(alergenosDelServicio);
+        dispatch(guardarAlergenos(alergenosDelServicio));   
     }
     fetchAlergenos()
   }, [alergenos, dispatch]);
@@ -126,7 +139,12 @@ export const AlergenoListado = () => {
                     </Button>
                   </td>
                   <td>
-                    <Button variant="outline-danger" className={styles.botones} aria-label="Eliminar alergeno">
+                    <Button
+                      variant="outline-danger"
+                      className={styles.botones}
+                      onClick={() => handleEliminarAlergeno(alergeno.id)}
+                      aria-label="Eliminar alergeno"
+                    >
                       <span className="material-symbols-outlined">delete_forever</span>
                     </Button>
                   </td>

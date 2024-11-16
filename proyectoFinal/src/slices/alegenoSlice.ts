@@ -5,12 +5,14 @@ interface alergenoState {
   alergenos: IAlergenos[];
   alergenoActivo: IAlergenos | null;
   alergenoEditado: IAlergenos | null;
+  alergenoEliminado: IAlergenos | null;
 }
 
 const initialState: alergenoState = {
   alergenos: [],
   alergenoActivo: null,
   alergenoEditado: null,
+  alergenoEliminado: null,
 };
 
 const alergenoSlice = createSlice({
@@ -26,13 +28,11 @@ const alergenoSlice = createSlice({
     editarAlergeno: (state, action: PayloadAction<IAlergenos | null>) => {
       state.alergenoEditado = action.payload;
     },
-    actualizarAlergeno: (state, action) => {
-      state.alergenos = state.alergenos.map((a) =>
-        a.id === action.payload.id ? action.payload : a
-      );
-    },
+    eliminarAlergeno: (state, action: PayloadAction<IAlergenos | null>) => {
+      state.alergenoEliminado = action.payload;
+    }
   },
 });
 
-export const { guardarAlergenos, alergenoActivo, editarAlergeno, actualizarAlergeno } = alergenoSlice.actions;
+export const { guardarAlergenos, alergenoActivo, editarAlergeno, eliminarAlergeno } = alergenoSlice.actions;
 export default alergenoSlice.reducer;
