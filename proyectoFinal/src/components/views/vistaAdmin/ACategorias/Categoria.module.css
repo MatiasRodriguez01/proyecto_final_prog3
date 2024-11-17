@@ -1,0 +1,11 @@
+.tituloContainer {
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: flex-end;
+}
+
