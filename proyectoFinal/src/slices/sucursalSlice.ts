@@ -18,7 +18,7 @@ const sucursalSlice = createSlice({
     guardarSucursales: (state, action: PayloadAction<ISucursal[]>) => {
       state.sucursales = action.payload;
     },
-    sucursalActiva: (state, action: PayloadAction<ISucursal>) => {
+    sucursalActiva: (state, action: PayloadAction<ISucursal | null>) => {
       state.sucursalActiva = action.payload;
     },
     eliminarSucursalActiva: (state) => {

@@ -1,21 +1,42 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
 import ModalCrearCategoria from "../components/views/vistaAdmin/ACategorias/ModalCrearCategoria/ModalCrearCategoria.tsx";
 import ModalCrearProducto from "../components/views/vistaAdmin/AaProductos/ModalCrearProducto/ModalCrearProducto.tsx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store.ts";
 import { AlergenoListado } from "../components/views/vistaAdmin/Alergenos/AlergenoListado.tsx";
+import { sucursalActiva } from "../slices/sucursalSlice.ts";
 
 interface IProsProyectedRoutes {
   isBack: () => void;
 }
 
 export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
-  const [mostrarModalCategoria, setMostrarModalCategoria] =
-    useState<boolean>(false);
+
+  // dispatch
+  const dispatch = useDispatch();
+
+  // sucursal
+  const sucursal = useSelector((state: RootState) => state.sucursal.sucursalActiva);
+
+  useEffect(() => {
+    console.log("sucursal Activa: ", sucursal)
+  }, [sucursal]);
+
+  // volver a las routes
+  const handleBack = () => {
+    dispatch(sucursalActiva(null))
+    isBack()
+  }
+
+  // mostrar el modal de categoria
+  const [mostrarModalCategoria, setMostrarModalCategoria] = useState<boolean>(false);
+
+  // const de editar categoria
   const [editarCategoria, setEditarCategoria] = useState<any>(null);
 
+  // funcion para abrir del modal
   const handleAbrirModalCrearCategorias = () => {
     setEditarCategoria(null);
     setMostrarModalCategoria(true);
@@ -23,11 +44,13 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
 
   //cerrar el modal
 
-  //productos
-  const [mostrarModalProducto, setMostrarModalProducto] =
-    useState<boolean>(false);
+  // funcion para mostrar el modal
+  const [mostrarModalProducto, setMostrarModalProducto] = useState<boolean>(false);
+
+  // editar el producto
   const [editarProducto, setEditarProducto] = useState<any>(null);
 
+  // const de mostrar el modal de productos
   const handleAbrirModalCrearProductos = () => {
     setEditarProducto(null);
     setMostrarModalProducto(true);
@@ -54,7 +77,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
           <Navbar.Brand href="#home">
             <Button
               variant="outline-light"
-              onClick={isBack}
+              onClick={handleBack}
               className={stylesAdminCard.brandButton}
             >
               <span
@@ -112,6 +135,8 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
       />
 
       <ModalCrearProducto
+        sucursal={sucursal}
+        categoria={editarCategoria}
         show={mostrarModalProducto}
         onClose={() => setMostrarModalProducto(false)}
         producto={editarProducto}

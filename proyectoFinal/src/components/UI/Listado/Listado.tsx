@@ -3,11 +3,12 @@ import { FC, useEffect, useState } from "react";
 import { ServiceEmpresa } from "../../../services/ServiceEmpresa";
 import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaListado";
 import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import styleListado from './Listado.module.css'
 import { guardarEmpresas } from "../../../slices/empresaSlice";
 import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
+import { RootState } from "../../../store/store";
 
 interface IPropsListado {
   onVistaAdmin: () => void;
@@ -24,12 +25,12 @@ export const Listado: FC<IPropsListado> = ({ onVistaAdmin }) => {
   // los servicios
   const serviceEmpresa = new ServiceEmpresa();
 
-  // usamos el
-  const [clickEmpresa, setClickEmpresa] = useState<number>(0);
+  // empresaActiva
+  const empresaActiva = useSelector((state: RootState) => state.empresa.empresaActiva)
 
-  const handleChangeEmpresa = (newNumber: number) => {
-    setClickEmpresa(newNumber);
-  };
+  useEffect(() => {
+    console.log('Empresa activa : ', empresaActiva)
+  }, [empresaActiva]);
 
   useEffect(() => {
     const fetchEmpresasConSucursales = async () => {
@@ -55,20 +56,22 @@ export const Listado: FC<IPropsListado> = ({ onVistaAdmin }) => {
         <section className={styleListado.containerEmpresas}>
           <EmpresaListado
             empresas={empresas}
-            EmpresaActiva={handleChangeEmpresa}
           />
         </section>
 
         <section className={styleListado.containerSucursales}>
           <h2>Sucursales</h2>
-          {empresas.map((e) =>
-            clickEmpresa === e.id && (
-              <UseSucursal key = {e.id} empresa={e} onVistaAdmin={onVistaAdmin} />
-            )
-        )}
+          {
+            empresas.map((e) => {
+              const visible: boolean = (e.id === empresaActiva?.id);
+              return visible && (
+                <UseSucursal key={e.id} empresa={e} onVistaAdmin={onVistaAdmin} />
+              )
+            })
+          }
         </section>
       </article>
-    </> 
+    </>
   );
 };
 //

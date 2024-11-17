@@ -9,11 +9,10 @@ import { usePopUpVisible } from '../../../../hooks/usePopUpVisible';
 
 interface IPropsListado {
     empresas: IEmpresa[];
-    EmpresaActiva: Function;
 }
 
 
-export const EmpresaListado: FC<IPropsListado> = ({ empresas, EmpresaActiva }) => {
+export const EmpresaListado: FC<IPropsListado> = ({ empresas }) => {
     const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion();
     const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
 
@@ -39,12 +38,13 @@ export const EmpresaListado: FC<IPropsListado> = ({ empresas, EmpresaActiva }) =
                     empresas.map((e) => (
                         <div className={styleListado.empresasCardContainer} key={e.id}>
                             <EmpresaCard
+                                key={e.id}
                                 empresa={e}
                                 onVerEmpresa={() => mostrarInformacion(e.id)}
-                                onEmpresaActiva={EmpresaActiva}
                             />
                             {informacion === e.id && (
                                 <EmpresaInfo
+                                    key={e.id}
                                     empresa={e}
                                     onVerEmpresa={cerrarInformacion}
                                 />

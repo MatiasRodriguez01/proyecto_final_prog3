@@ -4,6 +4,8 @@ import { Card, Button } from "react-bootstrap";
 import { ISucursal } from "../../../../types/dtos/sucursal/ISucursal";
 import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
 import { ModalEditarSucursal } from "../ModalEditarSucursal/ModalEditarSucursal";
+import { useDispatch } from "react-redux";
+import { sucursalActiva } from "../../../../slices/sucursalSlice";
 
 interface IPropsSucursalCard {
   sucursal: ISucursal;
@@ -19,6 +21,13 @@ export const SucursalCard: FC<IPropsSucursalCard> = ({
   onVistaAdmin,
 }) => {
   const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
+
+  const dispatch = useDispatch()
+
+  const handleAdministracion = (s: ISucursal) => {
+    dispatch(sucursalActiva(s));
+    onVistaAdmin();
+  }
 
   return (
     <>
@@ -59,7 +68,7 @@ export const SucursalCard: FC<IPropsSucursalCard> = ({
             <Button
               type="submit"
               className={styleSucursal.buttonVistaAdmin}
-              onClick={onVistaAdmin}
+              onClick={() => handleAdministracion(sucursal)}
             >
               <span className="material-symbols-outlined">shield_person</span>
             </Button>

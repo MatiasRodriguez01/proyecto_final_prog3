@@ -1,35 +1,30 @@
+
 import { Button, Card } from "react-bootstrap";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
 import stylesEmpresaCard from "./EmpresaCard.module.css";
 import { ModalEditarEmpresa } from "../ModalEditarEmpresa/ModalEditarEmpresa";
 import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../store/store";
 import { empresaActiva, eliminarEmpresaActiva } from "../../../../slices/empresaSlice";
+import { RootState } from "../../../../store/store";
 
 interface EmpresaCardProps {
   empresa: IEmpresa;
   onVerEmpresa: () => void;
-  onEmpresaActiva: Function;
 }
 
-export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa, onEmpresaActiva }) => {
+export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa }) => {
 
   const dispatch = useDispatch();
 
   const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
 
-  const ea = useSelector((state: RootState) => state.empresa.empresaActiva)
-
-  useEffect(() => {
-    console.log('guardamo la empresa activa : ', ea)
-  }, [ea]);
+  const e = useSelector((state: RootState) => state.empresa.empresaActiva);
 
   const handleEmpresaActiva = () => {
-    dispatch(eliminarEmpresaActiva())
-    dispatch(empresaActiva(empresa))
-    onEmpresaActiva(empresa.id)
+    dispatch(eliminarEmpresaActiva());
+    dispatch(empresaActiva(empresa));
   }
 
   return (
@@ -75,7 +70,7 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa, onEmp
       </Card>
 
       <ModalEditarEmpresa
-        empresa={ea}
+        empresa={e}
         visible={isPopUpVisible}
         onClose={HandlePopUp}
       />
