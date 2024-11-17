@@ -95,7 +95,7 @@ export const AlergenoListado = () => {
         {alergenos.length === 0 ? (
           <p>No hay alérgenos disponibles.</p>
         ) : (
-          <table className="table table-hover">
+          <table className="table table-dark table-striped-columns">
             <thead>
               <tr>
                 <th scope="col">ID</th>

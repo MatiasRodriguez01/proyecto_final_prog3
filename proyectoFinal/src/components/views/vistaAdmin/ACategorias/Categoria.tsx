@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
 import { ServiceCategorias } from "../../../../services/ServiceCategorias";
 import { guardarCategorias } from "../../../../slices/categoriaSlice";
+import { Accordion } from "react-bootstrap";
 
 export const Categoria = () => {
 
@@ -16,7 +17,7 @@ export const Categoria = () => {
 
   // empresa activa y sucursal activa
   const sucursal = useSelector((state: RootState) => state.sucursal.sucursalActiva);
-  const empresa = useSelector((state: RootState) => state.empresa.empresaActiva);
+  const empresaActiva = useSelector((state: RootState) => state.empresa.empresaActiva);
 
   // mostrar el modal de categoria
   const [mostrarModalCategoria, setMostrarModalCategoria] = useState<boolean>(false);
@@ -50,8 +51,9 @@ export const Categoria = () => {
       <h2>Categorias</h2>
       <button
         style={{ width: 'auto', height: 'auto' }}
-        onClick={handleAbrirModalCrearCategorias}>Crear Categoría</button>
-      <div style={{
+        onClick={handleAbrirModalCrearCategorias}
+      >Crear Categoría</button>
+      {/* <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(5, 1fr)'
       }}>
@@ -87,12 +89,24 @@ export const Categoria = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
+      <Accordion defaultActiveKey="0">
+        {
+          categorias.map((cate) => (
+            <Accordion.Item eventKey={String(cate.id)}>
+              <Accordion.Header>{cate.denominacion}</Accordion.Header>
+              <Accordion.Body>
+                HOLA
+              </Accordion.Body>
+            </Accordion.Item>
+          ))
+        }
+      </Accordion>
 
 
       {/* Modal de Crear Categoría */}
       <ModalCrearCategoria
-        empresa={empresa}
+        empresa={empresaActiva}
         show={mostrarModalCategoria}
         onClose={() => setMostrarModalCategoria(false)}
       />
