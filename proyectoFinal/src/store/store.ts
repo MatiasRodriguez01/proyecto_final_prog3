@@ -3,13 +3,15 @@ import empresaReducer from "../slices/empresaSlice";
 import sucursalReducer from "../slices/sucursalSlice";
 import alergenoReducer from '../slices/alegenoSlice'
 import categoriaReducer from '../slices/categoriaSlice'
+import productoReducer from '../slices/productoSlice'
 
 const store = configureStore({
   reducer: {
     empresa: empresaReducer, // Aquí se añade el reducer de la slice
     sucursal: sucursalReducer,
     alergeno :alergenoReducer,
-    categoria: categoriaReducer
+    categoria: categoriaReducer,
+    producto: productoReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
