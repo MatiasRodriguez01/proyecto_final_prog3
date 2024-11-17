@@ -1,9 +1,7 @@
 import { ICategorias } from '../types/dtos/categorias/ICategorias';
 import { ICreateCategoria } from '../types/dtos/categorias/ICreateCategoria';
 import { IUpdateCategoria } from '../types/dtos/categorias/IUpdateCategoria';
-import { ICreateEmpresaDto } from '../types/dtos/empresa/ICreateEmpresaDto';
 import { IEmpresa } from '../types/dtos/empresa/IEmpresa';
-import { IUpdateEmpresaDto } from '../types/dtos/empresa/IUpdateEmpresaDto';
 
 export class ServiceCategorias {
   private baseURL: string;
@@ -15,6 +13,12 @@ export class ServiceCategorias {
 
   }
 
+  public async getAllCategorias(): Promise<ICategorias[]> {
+    const response = await fetch(this.baseURL);
+    const data = await response.json();
+    return data;
+  }
+
   public async getAllSubcategoriasPorCategoriaPadre(idSucursal: number, idCategoriaPadre: number): Promise<ICategorias[]> {
     const response = await fetch(`${this.baseURL}/allSubCategoriasPorCategoriaPadre/${idSucursal}/${idCategoriaPadre}`);
     const data = await response.json();
@@ -23,6 +27,12 @@ export class ServiceCategorias {
 
   public async getAllCategoriasPadrePorSucursal(idSucursal: number): Promise<ICategorias[]> {
     const response = await fetch(`${this.baseURL}/allCategoriasPorSucursal/${idSucursal}`);
+    const data = await response.json();
+    return data;
+  }
+
+  public async getCategoriasPorEmpresa(idEmpresa: number): Promise<ICategorias[]> {
+    const response = await fetch(`${this.baseURL}/allCategoriasPorEmpresa/${idEmpresa}`);
     const data = await response.json();
     return data;
   }

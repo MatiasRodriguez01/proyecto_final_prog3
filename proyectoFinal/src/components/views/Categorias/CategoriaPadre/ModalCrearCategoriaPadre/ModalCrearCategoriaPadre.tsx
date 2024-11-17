@@ -8,7 +8,7 @@ interface ModalCrearCategoriaProps {
   categoria?: any;
 }
 
-export const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({
+export const ModalCrearCategoriaPadre: FC<ModalCrearCategoriaProps> = ({
   show,
   onClose,
 }) => {
@@ -67,4 +67,4 @@ export const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({
   );
 };
 
-export default ModalCrearCategoria;
+export default ModalCrearCategoriaPadre;
