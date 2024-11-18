@@ -1,54 +1,53 @@
-import { ChangeEvent, FC, FormEvent, useState } from "react";
+import { FC, FormEvent } from "react";
 import { Modal, Button } from "react-bootstrap";
-import stylesCrearCategoria from "./ModalCrearCategoria.module.css";
-import { ServiceCategorias } from "../../../../services/ServiceCategorias";
-import { useForm } from "../../../../hooks/useForm";
-import { ICreateCategoria } from "../../../../types/dtos/categorias/ICreateCategoria";
-import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
+import { ServiceCategorias } from "../../../../../../services/ServiceCategorias";
+import { useForm } from "../../../../../../hooks/useForm";
+import { ICreateCategoria } from "../../../../../../types/dtos/categorias/ICreateCategoria";
+import { IEmpresa } from "../../../../../../types/dtos/empresa/IEmpresa";
 
-interface ModalCrearCategoriaProps {empresa: IEmpresa,
+import stylesCrearCategoria from "./ModalCrearCategoria.module.css";
+
+interface ModalCrearCategoriaProps {
+  empresa: IEmpresa | null,
   show: boolean;
   onClose: () => void;
   categoria?: any;
 }
 
-const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({empresa,
-  show,
-  onClose,
-}) => {
+const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, onClose }) => {
 
   const serviceCategoria = new ServiceCategorias()
 
-  const [categoriaId, setCategoriaId] = useState(0)
-
-  const {values, handleChange, resetForm} = useForm({
+  const { values, handleChange, resetForm } = useForm({
     denominacion: "",
     IdEmpresa: 0,
     IdCategoriaPadre: null,
   })
 
   const handleCreateCategoria = async (categoria: ICreateCategoria) => {
-    try{
+    try {
       const response = await serviceCategoria.createOneCategoria(categoria)
 
-      setCategoriaId(response.id)
+      console.log(response.id)
 
-      console.log("ID de categoria creada: ", response.id)
-    }catch(error){
+      console.log("ID de categoria creada: ", categoria.idEmpresa)
+    } catch (error) {
       console.error("Error creando categoria, ", error)
     }
   }
 
   const addForm = () => {
-    const newCategoria : ICreateCategoria = {
-      denominacion: values.denominacion,
-      idCategoriaPadre: values.IdCategoriaPadre,
-      idEmpresa: empresa.id
-    }
+    if (empresa !== null) {
+      const newCategoria: ICreateCategoria = {
+        denominacion: values.denominacion,
+        idCategoriaPadre: values.IdCategoriaPadre,
+        idEmpresa: empresa.id
+      }
 
-    handleCreateCategoria(newCategoria)
-    resetForm()
-    onClose()
+      handleCreateCategoria(newCategoria)
+      resetForm()
+      onClose()
+    }
   }
 
   const cancelForm = () => {
@@ -61,7 +60,7 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({empresa,
     addForm()
   }
 
-  if (!show){
+  if (!show) {
     return null;
   }
 
@@ -99,6 +98,7 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({empresa,
           variant="primary"
           className={stylesCrearCategoria.botonAceptar}
           form="categoryForm"
+          onClick={addForm}
         >
           Guardar
         </Button>

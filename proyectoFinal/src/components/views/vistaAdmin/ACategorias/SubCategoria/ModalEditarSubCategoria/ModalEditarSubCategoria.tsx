@@ -1,48 +1,52 @@
 import { ChangeEvent, FC, useEffect } from 'react'
 import { Button, Modal } from 'react-bootstrap';
-import { ICategorias } from '../../../../../types/dtos/categorias/ICategorias';
-import { ServiceCategorias } from '../../../../../services/ServiceCategorias';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../../store/store';
-import { IUpdateCategoria } from '../../../../../types/dtos/categorias/IUpdateCategoria';
-import { ISucursal } from '../../../../../types/dtos/sucursal/ISucursal';
-import { useForm } from '../../../../../hooks/useForm';
+import { ICategorias } from '../../../../../../types/dtos/categorias/ICategorias';
+import { ServiceCategorias } from '../../../../../../services/ServiceCategorias';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../../../store/store';
+import { IUpdateCategoria } from '../../../../../../types/dtos/categorias/IUpdateCategoria';
+import { ISucursal } from '../../../../../../types/dtos/sucursal/ISucursal';
+import { useForm } from '../../../../../../hooks/useForm';
 
 import stylesEditarSubCategoria from "./ModalEditarSubCategoria.module.css";
+import { subCategoriaActiva } from '../../../../../../slices/categoriaSlice';
 
 interface IProsEditarCategoria {
+    subCategoria: ICategorias | null,
     show: boolean;
     onClose: () => void;
-    categoria: ICategorias,
-    sucursales: ISucursal[]
 }
 
-export const ModalEditarSubCategoria: FC<IProsEditarCategoria> = ({ show, onClose, categoria, sucursales }) => {
+export const ModalEditarSubCategoria: FC<IProsEditarCategoria> = ({ subCategoria, show, onClose }) => {
 
-    if (categoria !== null) {
-        //const dispatch = useDispatch<AppDispatch>();
+    if (subCategoria !== null) {
+
+        const dispatch = useDispatch();
+
         const serviceCategoria = new ServiceCategorias();
 
         const empresaActiva = useSelector((state: RootState) => { return state.empresa.empresaActiva })
 
         const { values, handleChange, resetForm, setValues } = useForm({
-            denominacion: categoria.denominacion || "",
+            denominacion: subCategoria.denominacion || "",
             idEmpresa: empresaActiva?.id || 0,
             idCategoriaPadre: null
         });
 
-        const sucursalIds = sucursales.map((sucursal) => sucursal.id)
+        const sucursales: ISucursal[] = subCategoria?.sucursales || [];
 
+        const idSucursales: number[] = sucursales.map((sucursal) => Number(sucursal.id));
+        
         // Actualiza los valores del formulario si la empresa cambia
         useEffect(() => {
-            if (categoria && show && empresaActiva) {
+            if (subCategoria && show && empresaActiva) {
                 setValues({
-                    denominacion: categoria.denominacion,
+                    denominacion: subCategoria.denominacion,
                     idEmpresa: empresaActiva.id,
                     idCategoriaPadre: null
                 });
             }
-        }, [categoria]);
+        }, [subCategoria]);
 
         const handleEditarCategoria = async (categoriaEditar: IUpdateCategoria) => {
             try {
@@ -55,11 +59,11 @@ export const ModalEditarSubCategoria: FC<IProsEditarCategoria> = ({ show, onClos
 
         const addForm = () => {
             const newCategoria: IUpdateCategoria = {
-                id: categoria.id,
+                id: subCategoria.id,
                 denominacion: values.denominacion,
                 eliminado: false,
                 idEmpresa: values.idEmpresa,
-                idSucursales: sucursalIds
+                idSucursales: idSucursales,
             };
             handleEditarCategoria(newCategoria);
             console.log(newCategoria.id)
@@ -67,6 +71,7 @@ export const ModalEditarSubCategoria: FC<IProsEditarCategoria> = ({ show, onClos
             onClose()
         }
         const cancelForm = () => {
+            dispatch(subCategoriaActiva(null))
             resetForm();
             onClose();
         };

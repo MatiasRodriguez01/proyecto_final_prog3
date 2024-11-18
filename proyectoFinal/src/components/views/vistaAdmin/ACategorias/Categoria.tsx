@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import ModalCrearCategoria from "../ACategorias/ModalCrearCategoria/ModalCrearCategoria";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
 import { ServiceCategorias } from "../../../../services/ServiceCategorias";
-import { guardarCategorias } from "../../../../slices/categoriaSlice";
+import { categoriaActiva, guardarCategorias, subCategoriaActiva } from "../../../../slices/categoriaSlice";
 import categoriaStyle from "./Categoria.module.css";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Button, ListGroup } from "react-bootstrap";
+import ModalCrearCategoria from "./Categoria/ModalCrearCategoria/ModalCrearCategoria";
+import { ModalEditarCategoria } from "./Categoria/ModalEditarCategoria/ModalEditarCategoria";
+import { ModalEditarSubCategoria } from "./SubCategoria/ModalEditarSubCategoria/ModalEditarSubCategoria";
+import ModalCrearSubcategoria from "./SubCategoria/ModalCrearSubcategoria/ModalCrearSubcategoria";
 
 export const Categoria = () => {
   // servicio
@@ -15,7 +18,7 @@ export const Categoria = () => {
   // dispatch
   const dispatch = useDispatch();
 
-  // empresa activa y sucursal activa
+  // empresa activa, sucursal activa 
   const sucursal = useSelector(
     (state: RootState) => state.sucursal.sucursalActiva
   );
@@ -23,9 +26,20 @@ export const Categoria = () => {
     (state: RootState) => state.empresa.empresaActiva
   );
 
+  // categoria activa
+  const categoria = useSelector((state: RootState) => state.categoria.categoriaActiva);
+  useEffect(() => {
+    console.log("Creando la categoria activa", categoria)
+  }, [categoria])
+
+  // subCategoria activa
+  const subCate = useSelector((state: RootState) => state.categoria.subCategoriaActiva);
+  useEffect(() => {
+    console.log("Creando la subCategoria activa", subCate)
+  }, [subCate])
+
   // mostrar el modal de categoria
-  const [mostrarModalCategoria, setMostrarModalCategoria] =
-    useState<boolean>(false);
+  const [mostrarModalCategoria, setMostrarModalCategoria] = useState<boolean>(false);
 
   // funcion para abrir del modal
   const handleAbrirModalCrearCategorias = () => {
@@ -37,8 +51,7 @@ export const Categoria = () => {
     const fetchCategorias = async () => {
       if (sucursal !== null) {
         try {
-          const categoriasDelServicio =
-            await servicioCategoria.getAllCategorias();
+          const categoriasDelServicio = await servicioCategoria.getAllCategorias();
           setCategorias(categoriasDelServicio);
           dispatch(guardarCategorias(categoriasDelServicio));
         } catch (error) {
@@ -47,7 +60,34 @@ export const Categoria = () => {
       }
     };
     fetchCategorias();
-  }, [categorias]);
+  }, [categorias, dispatch]);
+
+  // modal edita categoria
+  const [popUpEditar, setPopUpEditar] = useState<boolean>(false);
+  const handlePopUpEditar = (cate: ICategorias) => {
+    dispatch(categoriaActiva(cate))
+    setPopUpEditar(!popUpEditar);
+  }
+
+  //subCategoriaActiva
+  const [popUpEditarSubCategoria, setPopUpEditarSubCategoria] = useState<boolean>(false);
+  const handlePopUpEditarSubCategoria = (cate: ICategorias) => {
+    dispatch(subCategoriaActiva(cate))
+    setPopUpEditarSubCategoria(!popUpEditarSubCategoria);
+  }
+
+  //subCategoriaActiva
+  const [popUpCrearSubCategoria, setPopUpCrearSubCategoria] = useState<boolean>(false);
+  const handlePopUpCrearSubCategoria = (cate: ICategorias) => {
+    dispatch(subCategoriaActiva(cate))
+    setPopUpCrearSubCategoria(!popUpCrearSubCategoria);
+  }
+
+  // click categoria 
+  const handleClickCategoria = (cate: ICategorias) => {
+    dispatch(categoriaActiva(null))
+    dispatch(categoriaActiva(cate))
+  }
 
   return (
     <>
@@ -70,40 +110,49 @@ export const Categoria = () => {
       <div className={categoriaStyle.categoriasContainer}>
         <Accordion defaultActiveKey="0">
           {categorias.map((c) => (
-            <Accordion.Item eventKey={String(c.id)} key={c.id}>
-              <Accordion.Header>{c.denominacion}</Accordion.Header>
-              <Accordion.Body>
-                <div
-                  style={{
-                    width: "15vw",
-                    border: "1px solid grey",
-                    padding: "10px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                  className={categoriaStyle.categoriasCard}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                      gap: "5px", // Espaciado uniforme
+            <Accordion.Item
+              onClick={() => handleClickCategoria(c)}
+              eventKey={String(c.id)}
+              key={c.id}
+            >
+              <Accordion.Header>
+                <strong>{c.denominacion}</strong>
+                <div style={{ width: '90vw' }}>
+                  <Button
+                    style={{ width: '4vw', height: '6vh', float: 'right' }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handlePopUpCrearSubCategoria(c);
                     }}
-                  >
-                    {c.subCategorias
-                      .slice()
-                      .sort((a, b) =>
-                        a.denominacion.localeCompare(b.denominacion)
-                      )
-                      .map((sub) => (
-                        <p key={sub.id} style={{ fontSize: "12px", margin: 0 }}>
-                          {sub.denominacion}
-                        </p>
-                      ))}
-                  </div>
+                    variant="outline-success"><span className="material-symbols-outlined">add</span>
+                  </Button>
+                  <Button
+                    style={{ width: '4vw', height: '6vh', float: 'right' }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handlePopUpEditar(c);
+                    }}
+                    variant="outline-primary"><span className="material-symbols-outlined">edit</span>
+                  </Button>
                 </div>
+              </Accordion.Header>
+              <Accordion.Body>
+                <ListGroup>
+                  {c.subCategorias
+                    .slice()
+                    .sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+                    .map((sub) => (
+                      <ListGroup.Item key={sub.id}>
+                        {sub.denominacion}
+                        <Button
+                          onClick={() => handlePopUpEditarSubCategoria(sub)}
+                          style={{ width: '4vw', height: '6vh', margin: '0', float: 'right' }}
+                          variant="outline-primary"><span style={{ textAlign: 'center' }} className="material-symbols-outlined">edit</span>
+                        </Button>
+                      </ListGroup.Item>
+
+                    ))}
+                </ListGroup>
               </Accordion.Body>
             </Accordion.Item>
           ))}
@@ -116,6 +165,30 @@ export const Categoria = () => {
         show={mostrarModalCategoria}
         onClose={() => setMostrarModalCategoria(false)}
       />
+
+      {/* Modal para editar categoria */}
+      {
+        popUpEditar &&
+        <ModalEditarCategoria
+          categoria={categoria}
+          show={popUpEditar}
+          onClose={() => setPopUpEditar(false)}
+        />
+      }
+
+      {
+        popUpCrearSubCategoria &&
+        <ModalCrearSubcategoria 
+          empresa={empresa} 
+          show={popUpCrearSubCategoria} 
+          onClose={() => setPopUpCrearSubCategoria(false)}
+          />
+      }
+
+      {
+        popUpEditarSubCategoria &&
+        <ModalEditarSubCategoria subCategoria={subCate} show={popUpEditarSubCategoria} onClose={() => setPopUpEditarSubCategoria(false)} />
+      }
     </>
   );
 };

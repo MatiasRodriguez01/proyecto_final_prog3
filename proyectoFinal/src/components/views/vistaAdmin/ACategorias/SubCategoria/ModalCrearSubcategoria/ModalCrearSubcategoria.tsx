@@ -1,26 +1,37 @@
 import { FC, FormEvent } from "react";
 import { Modal, Button } from "react-bootstrap";
-import stylesCrearCategoria from "./ModalCrearCategoria.module.css";
-import { ServiceCategorias } from "../../../../../services/ServiceCategorias";
-import { useForm } from "../../../../../hooks/useForm";
-import { ICreateCategoria } from "../../../../../types/dtos/categorias/ICreateCategoria";
-import { IEmpresa } from "../../../../../types/dtos/empresa/IEmpresa";
+import { ServiceCategorias } from "../../../../../../services/ServiceCategorias";
+import { useForm } from "../../../../../../hooks/useForm";
+import { ICreateCategoria } from "../../../../../../types/dtos/categorias/ICreateCategoria";
+import { IEmpresa } from "../../../../../../types/dtos/empresa/IEmpresa";
+
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../../store/store";
+
+import styles from "./ModalCrearSubcategoria.module.css";
 
 interface ModalCrearCategoriaProps {
   empresa: IEmpresa | null,
   show: boolean;
   onClose: () => void;
-  categoria?: any;
 }
 
-const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, onClose }) => {
+const ModalCrearSubcategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, onClose }) => {
 
+  // servicio de categoria
   const serviceCategoria = new ServiceCategorias()
+
+  // categoriaActiva del store
+  const categoriaActiva = useSelector((state: RootState) => state.categoria.categoriaActiva);
+  // ID de la categoria activa
+  const idCategoriaActiva: number = Number(categoriaActiva?.id);
+  // ID de la empresa 
+  const idEmpresa: number = Number(empresa?.id);
 
   const { values, handleChange, resetForm } = useForm({
     denominacion: "",
-    IdEmpresa: 0,
-    IdCategoriaPadre: null,
+    IdEmpresa: idEmpresa,
+    IdCategoriaPadre: idCategoriaActiva,
   })
 
   const handleCreateCategoria = async (categoria: ICreateCategoria) => {
@@ -29,9 +40,9 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, onCl
 
       console.log(response.id)
 
-      console.log("ID de categoria creada: ", categoria.idEmpresa)
+      console.log("ID de la subCategoria creada: ", categoria.idEmpresa)
     } catch (error) {
-      console.error("Error creando categoria, ", error)
+      console.error("Error al crear la subCategoria, ", error)
     }
   }
 
@@ -66,7 +77,7 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, onCl
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header >
-        <Modal.Title>Crear/Editar Categoría</Modal.Title>
+        <Modal.Title>Crear SubCategoria</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {/* Formulario para crear categoría */}
@@ -88,14 +99,14 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, onCl
         <Button
           variant="primary"
           onClick={cancelForm}
-          className={stylesCrearCategoria.botonCancelar}
+          className={styles.botonCancelar}
         >
           Cancelar
         </Button>
         <Button
           type="submit"
           variant="primary"
-          className={stylesCrearCategoria.botonAceptar}
+          className={styles.botonAceptar}
           form="categoryForm"
           onClick={addForm}
         >
@@ -106,4 +117,4 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, onCl
   );
 };
 
-export default ModalCrearCategoria;
+export default ModalCrearSubcategoria;

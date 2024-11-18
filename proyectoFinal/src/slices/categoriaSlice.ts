@@ -4,12 +4,14 @@ import { ICategorias } from "../types/dtos/categorias/ICategorias";
 interface categoriaState {
   categorias: ICategorias[];
   categoriaActiva: ICategorias | null;
+  subCategoriaActiva: ICategorias | null;
   categoriaEditada: ICategorias | null;
 }
 
 const initialState: categoriaState = {
   categorias: [],
   categoriaActiva: null,
+  subCategoriaActiva: null,
   categoriaEditada: null,
 };
 
@@ -23,6 +25,9 @@ const categoriaSlice = createSlice({
     categoriaActiva: (state, action: PayloadAction<ICategorias | null>) => {
       state.categoriaActiva = action.payload;
     },
+    subCategoriaActiva: (state, action: PayloadAction<ICategorias | null>) => {
+      state.subCategoriaActiva = action.payload;
+    },
     editarCategoria: (state, action: PayloadAction<ICategorias | null>) => {
       state.categoriaEditada = action.payload;
     },
@@ -34,5 +39,5 @@ const categoriaSlice = createSlice({
   },
 });
 
-export const { guardarCategorias, categoriaActiva, editarCategoria, actualizarCategoria } = categoriaSlice.actions;
+export const { guardarCategorias, categoriaActiva, subCategoriaActiva, editarCategoria, actualizarCategoria } = categoriaSlice.actions;
 export default categoriaSlice.reducer;
