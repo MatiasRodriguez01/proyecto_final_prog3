@@ -1,10 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import stylesCrearProducto from "./ModalCrearProducto.module.css";
-import addImagen from "./imagen.png";
+//import addImagen from "./imagen.png";
 import { useForm } from "../../../../../hooks/useForm";
 import styleModalProducto from "./ModalCrearProducto.module.css";
-import { ServiceProductos } from "../../../../../services/ServiceProductos";
 import { ICategorias } from "../../../../../types/dtos/categorias/ICategorias";
 import { IAlergenos } from "../../../../../types/dtos/alergenos/IAlergenos";
 import { IImagen } from "../../../../../types/IImagen";
@@ -12,46 +11,79 @@ import { ICreateProducto } from "../../../../../types/dtos/productos/ICreateProd
 import { ServiceCategorias } from "../../../../../services/ServiceCategorias";
 import { ServiceAlergenos } from "../../../../../services/ServiceAlergenos";
 import { ISucursal } from "../../../../../types/dtos/sucursal/ISucursal";
+import { ServiceProductos } from "../../../../../services/ServiceProductos";
 
 interface ModalCrearProductoProps {
-  categoria: ICategorias,
   sucursal: ISucursal | null,
   show: boolean;
   onClose: () => void;
-  producto?: any;
 }
 
-const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ categoria,
+const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
   sucursal,
   show,
   onClose,
 }) => {
   if (sucursal !== null) {
-    const serviceProducto = new ServiceProductos()
 
-    const serviceCategorias = new ServiceCategorias()
+    // servicios
+    const serviceCategorias = new ServiceCategorias();
+    const serviceAlergenos = new ServiceAlergenos();
+    const serviceProductos = new ServiceProductos();
 
-    const serviceAlergenos = new ServiceAlergenos()
-
-    const { values, handleChange, resetForm } = useForm({
+    // los valores de formulario
+    const { values, handleChange, resetForm, setValues } = useForm({
       denominacion: "",
       precioVenta: 0,
       descripcion: "",
       codigo: "",
+      imagen: "",
     })
 
+    // guardamos el id de la categorias seleccionada
     const [idCategoria, setIdCategoria] = useState(0)
+    // guardamos los id de los alergenos seleccionados
     const [idsAlergenos, setIdsAlergenos] = useState<number[]>([])
+    // const guardamos las imagenes 
     const [imagenes, setImagenes] = useState<IImagen[]>([])
-    const [inputValue, setInputValue] = useState<string>("")
+    // el boton de habilitado
     const [habilitado, setHabilitado] = useState<boolean>(false)
-    const [subCategorias, setSubCategorias] = useState<ICategorias[]>([])
+    // las categorias y alergenos sacados de los servicios de la api
+    const [categorias, setCategorias] = useState<ICategorias[]>([])
     const [alergenos, setAlergenos] = useState<IAlergenos[]>([])
 
-    const { denominacion, precioVenta, descripcion, codigo } = values
+    // el useEffect para renderizar y generar las categorias y alergenos
+    useEffect(() => {
+      const fetchCategorias = async () => { // fetch para generar las categorias de la sucursal
+        try {
+          if (sucursal) {
+            const response = await serviceCategorias.getAllCategoriasPadrePorSucursal(sucursal.id);
+            setCategorias(response);
+          }
+        } catch (error) {
+          console.log('ModalCrearProducto no tiene categorias');
+        }
+      }
 
-    const addImagen = (url: string) => {
-      if (url.trim() != "") {
+      const fetchAlergenos = async () => { // fetch para geenerar los alergenos 
+        try {
+            const response = await serviceAlergenos.getAllAlergenos();
+            setAlergenos(response);
+        } catch (error) {
+          console.log('ModalCrearProducto no tiene alergenos');
+        }
+      }
+      // llamamos a  las funciones de effect
+      fetchCategorias();
+      fetchAlergenos();
+    }, [categorias, alergenos]); //asignamos los valores de dependencia
+
+    // desectruturamos los valores de [values]
+    const { denominacion, precioVenta, descripcion, codigo, imagen } = values
+
+    // funcion para guardar las imganes de producto
+    const addImagen = (url: string) => { 
+      if (url.trim() !== "") {  // si la url no esta vacia asigna las imagenes
         const newImage: IImagen = {
           name: `Imagen ${imagenes.length + 1}`,
           url: url,
@@ -59,19 +91,26 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ categoria,
         setImagenes((prevImagenes) => [...prevImagenes, newImage])
       }
 
-      setInputValue("")
+      // cuando termine de asignar la imagen su valor es vacio de nuevo
+      setValues({
+        codigo: codigo,
+        denominacion: denominacion,
+        precioVenta: precioVenta,
+        descripcion: descripcion,
+        imagen: "",
+      })
     }
 
-
-    const handleCreateProducto = async (producto: ICreateProducto) => {
+    // creamos la funcion para agregar un producto
+    const handleCrearProducto = async (producto: ICreateProducto) => {
       try {
-        const response = await serviceProducto.createOneProducto(producto)
-
-        console.log("id del producto creado: ", response.id)
+        const response = await serviceProductos.createOneProducto(producto);
+        console.log("Se creo el producto: ", response)
       } catch (error) {
-        console.error("Error al crear producto: ", error)
+        console.log("No se pudo crear el producto: ", error)
       }
     }
+
 
     const addForm = () => {
       const newProducto: ICreateProducto = {
@@ -84,9 +123,7 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ categoria,
         idAlergenos: idsAlergenos,
         imagenes: imagenes
       }
-
-      handleCreateProducto(newProducto)
-
+      handleCrearProducto(newProducto)
       resetForm()
       onClose()
     }
@@ -105,30 +142,15 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ categoria,
       return null
     }
 
-    useEffect(() => {
-      const fetchCategoriasyAlergenos = async () => {
-        try {
-          const responseCategorias = await serviceCategorias.getAllSubcategoriasPorCategoriaPadre(sucursal.id, categoria.id)
-
-          const responseAlergenos = await serviceAlergenos.getAllAlergenos()
-
-          setSubCategorias(responseCategorias)
-
-          setAlergenos(responseAlergenos)
-        } catch (error) {
-          console.error("error al traer alergenos y/o subcategorias")
-        }
-      }
-
-      fetchCategoriasyAlergenos()
-    }, [])
-
     return (
-      <Modal className={styleModalProducto.modalContent} show={show} onHide={onClose}>
+      <Modal
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered show={show} onHide={onClose}>
         <Modal.Header>
-          <Modal.Title>Crear producto</Modal.Title>
+          <h2 style={{textAlign:'center'}}>Crear producto</h2>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ height: '70vh' }}>
           <form onSubmit={handleSubmit}>
             <div className={styleModalProducto.containerModal}>
               {/* Formulario para crear producto */}
@@ -150,27 +172,29 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ categoria,
                   onChange={(e) => setIdCategoria(Number(e.target.value))}
                 >
                   <option value="">Categoria</option>
-                  {subCategorias.map((subCategoria) => (
-                    <option key={subCategoria.id} value={subCategoria.id}>{subCategoria.denominacion}</option>
+                  {categorias.map((categoria) => (
+                    <option key={categoria.id} value={categoria.id}>{categoria.denominacion}</option>
                   ))}
                 </select>
                 {/* Aca se seleciona un alergeno */}
                 <select
-                  className={styleModalProducto.label}
+                  className="form-select"
                   name="idsAlergenos"
                   multiple
-                  value={idsAlergenos.map(String)}
+                  value={idsAlergenos.map(String)} // Los valores deben coincidir con el tipo string para el select
                   onChange={(e) => {
-                    const selectedOptions = Array.from(e.target.selectedOptions, (option) => Number(option.value))
-                    setIdsAlergenos(selectedOptions)
-                  }
-                  }
+                    const selectedOptions = Array.from(e.target.selectedOptions, (option) => Number(option.value));
+                    setIdsAlergenos(selectedOptions); // Guarda los IDs seleccionados
+                  }}
                 >
-                  <option value="">Alergenos</option>
+                  <option selected >Lista de Alergenos</option>
                   {alergenos.map((alergeno) => (
-                    <option key={alergeno.id} value={alergeno.id}>{alergeno.denominacion}</option>
+                    <option key={alergeno.id} value={alergeno.id}>
+                      {alergeno.denominacion}
+                    </option>
                   ))}
                 </select>
+
                 {/* Aca se ingresa el precio de venta */}
                 <input
                   className={styleModalProducto.label}
@@ -183,8 +207,8 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ categoria,
                 {/* Aca se ingresa el codigo del producto */}
                 <input
                   className={styleModalProducto.label}
-                  type="number"
-                  name="codigoProducto"
+                  type="text"
+                  name="codigo"
                   value={codigo}
                   placeholder="Ingrese el codigo del producto"
                   onChange={handleChange}
@@ -212,7 +236,7 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ categoria,
                   Habilitado
                 </label>
               </div>
-              <div>
+              <div className={styleModalProducto.segundoDiv}>
                 {/* Aca se ingresa la descripcion */}
                 <input
                   className={styleModalProducto.label}
@@ -230,19 +254,14 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ categoria,
                     type="text"
                     name="imagen"
                     placeholder="Ingresa una imagen"
-                    value={inputValue}
-                    onChange={(e) => {
-                      const url = e.target.value.trim()
-                      if (url !== "") {
-                        const newImage: IImagen = {
-                          name: `Imagen ${imagenes.length + 1}`,
-                          url: url,
-                        };
-                        setImagenes((prevImagenes) => [...prevImagenes, newImage]);
-                      }
-                      setInputValue("");
-                    }}
+                    value={imagen}
+                    onChange={handleChange}
                   />
+                  <Button
+                    style={{float:'left', width: 'auto'}}
+                    onClick={() => addImagen(imagen)}>
+                    Agregar Imagen
+                  </Button>
                 </div>
               </div>
             </div>

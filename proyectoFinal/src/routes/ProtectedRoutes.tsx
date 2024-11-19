@@ -1,12 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
 import stylesAdminCard from "./ProtectedRoutes.module.css";
-import ModalCrearProducto from "../components/views/vistaAdmin/AaProductos/ModalCrearProducto/ModalCrearProducto.tsx";
 import { useDispatch, useSelector } from "react-redux";
 import { AlergenoListado } from "../components/views/vistaAdmin/Alergenos/AlergenoListado.tsx";
 import { sucursalActiva } from "../slices/sucursalSlice.ts";
 import { RootState } from "../store/store.ts";
 import { Categoria } from "../components/views/vistaAdmin/ACategorias/Categoria.tsx";
+import { Producto } from "../components/views/vistaAdmin/AaProductos/Producto.tsx";
 
 interface IProsProyectedRoutes {
   isBack: () => void;
@@ -30,27 +30,10 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
     isBack()
   }
 
-  // funcion para mostrar el modal
-  const [mostrarModalProducto, setMostrarModalProducto] = useState<boolean>(false);
-
-  // editar el producto
-  const [editarProducto, setEditarProducto] = useState<any>(null);
-
-  // editar categoria
-  const [editarCategoria, setEditarCategoria] = useState<any>(null);
-
-
-  // const de mostrar el modal de productos
-  const handleAbrirModalCrearProductos = () => {
-    setEditarProducto(null);
-    setEditarCategoria(null);
-    setMostrarModalProducto(true);
-  };
-
   // mostrar la lista de alergenos
   const [listaAlergenos, setListaAlergenos ] = useState<boolean>(false);
-
   const handleListaAle = () => {
+    setListaProductos(false);
     setListaCategoria(false);
     setListaAlergenos(!listaAlergenos);
   }
@@ -58,8 +41,17 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
   // mostrar la lista de categoria
   const [ listaCategoria, setListaCategoria ] = useState<boolean>(false);
   const handleListaCategoria = () => {
+    setListaProductos(false);
     setListaAlergenos(false);
     setListaCategoria(!listaCategoria);
+  }
+
+  // mostrar la lista de productos
+  const [ listaProductos, setListaProductos ] = useState<boolean>(false);
+  const handleListaProductos = () => {
+    setListaCategoria(false);
+    setListaAlergenos(false);
+    setListaProductos(!listaProductos);
   }
 
   return (
@@ -99,7 +91,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
             <button
               className={stylesAdminCard.boton}
               type="button"
-              onClick={handleAbrirModalCrearProductos}
+              onClick={handleListaProductos}
             >
               Productos
             </button>
@@ -120,16 +112,11 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
           {
             (listaCategoria) && <Categoria/>
           }
+          {
+            (listaProductos) && <Producto/>
+          }
         </div>
       </div>
-
-      <ModalCrearProducto
-        sucursal={sucursal}
-        categoria={editarCategoria}
-        show={mostrarModalProducto}
-        onClose={() => setMostrarModalProducto(false)}
-        producto={editarProducto}
-      />
 
     </>
   );

@@ -1,0 +1,30 @@
+.title {
+    margin-top: 2vh;
+    text-align: center;
+}
+
+.buttonCrear {
+    width: auto;
+    height: auto;
+}
+
+.buttonsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh
+}
+
+.boton {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+Button {
+    width: 5vw;
+    
+}

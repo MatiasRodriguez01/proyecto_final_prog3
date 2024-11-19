@@ -11,7 +11,7 @@ const store = configureStore({
     sucursal: sucursalReducer,
     alergeno :alergenoReducer,
     categoria: categoriaReducer,
-    producto: productoReducer
+    producto: productoReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
