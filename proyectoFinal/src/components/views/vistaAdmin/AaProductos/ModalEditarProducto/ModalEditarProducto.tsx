@@ -138,7 +138,7 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
         precioVenta: precioVenta,
         descripcion: descripcion,
         codigo: codigo,
-        idCategoria: productoAEditar.categoria.id,
+        idCategoria: idCategoria,
         idAlergenos: productoAEditar.alergenos.map((alergeno) => Number(alergeno.id)),
         imagenes: productoAEditar.imagenes
       }

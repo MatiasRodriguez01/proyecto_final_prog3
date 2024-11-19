@@ -5,9 +5,7 @@ import { IProductos } from "../../../../types/dtos/productos/IProductos";
 import { ServiceProductos } from "../../../../services/ServiceProductos";
 import { useDispatch, useSelector } from "react-redux";
 import { editarProducto, guardarProductos } from "../../../../slices/productoSlice";
-import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
-import { ServiceCategorias } from "../../../../services/ServiceCategorias";
-import { guardarCategorias } from "../../../../slices/categoriaSlice";
+// import { ServiceCategorias } from "../../../../services/ServiceCategorias";
 
 
 import { RootState } from "../../../../store/store";
@@ -22,7 +20,6 @@ export const Producto = () => {
 
   // servicio
   const serviceProducto = new ServiceProductos();
-  const serviceCategorias = new ServiceCategorias();
 
   // sucursales
   const sucursal = useSelector((state: RootState) => state.sucursal.sucursalActiva);
@@ -41,13 +38,13 @@ export const Producto = () => {
     console.log('Se creo el producto activo: ', productoAEditar)
     setShowEditModal(!showEditModal)
   }
-  
-   // const producto editado
-   const productoAEditar = useSelector((state: RootState) => state.producto.productoEditado)
 
-   useEffect(() => {
-     console.log('producto activo: ', productoAEditar)
-   }, [productoAEditar]);
+  // const producto editado
+  const productoAEditar = useSelector((state: RootState) => state.producto.productoEditado)
+
+  useEffect(() => {
+    console.log('producto activo: ', productoAEditar)
+  }, [productoAEditar]);
 
   const [productos, setProductos] = useState<IProductos[]>([]); // creamos productos
   useEffect(() => {
@@ -65,7 +62,7 @@ export const Producto = () => {
 
     }
     fetchProductos();
-  }, [productos, dispatch]);
+  }, [productos]);
 
   return (
     <>
@@ -93,57 +90,57 @@ export const Producto = () => {
               productos &&
               (
                 productos.map((producto) => (
-                  <>
-                    <tr key={producto.id}>
-                      <td>{producto.id}</td>
-                      <td>{producto.denominacion}</td>
-                      <td>{producto.precioVenta}</td>
-                      <td>{producto.denominacion}</td>
-                      <td>{producto.categoria.denominacion}</td>
-                      <td className={styles.boton}>
+
+                  <tr key={producto.id}>
+                    <td>{producto.id}</td>
+                    <td>{producto.denominacion}</td>
+                    <td>{producto.precioVenta}</td>
+                    <td>{producto.descripcion}</td>
+                    <td>{producto.categoria.denominacion}</td>
+                    <td className={styles.boton}>
+                      <Button
+                        variant="outline-success"
+                      // style={{ width: '5vw' }}
+                      >
+                        <span className="material-symbols-outlined">
+                          thumb_up
+                        </span>
+                      </Button>
+                    </td>
+                    <td style={{ width: 'auto' }}>
+                      <div className={styles.buttonsContainer}>
                         <Button
-                          variant="outline-success"
-                        // style={{ width: '5vw' }}
+                          // style={{ width: '5vw' }}
+                          variant="outline-warning"
                         >
-                          <span className="material-symbols-outlined">
-                            thumb_up
+                          <span
+                            className="material-symbols-outlined"
+                            style={{ width: "auto", height: "auto", textAlign: "center" }}
+                          >
+                            visibility
                           </span>
                         </Button>
-                      </td>
-                      <td style={{ width: 'auto' }}>
-                        <div className={styles.buttonsContainer}>
-                          <Button
-                            // style={{ width: '5vw' }}
-                            variant="outline-warning"
+                        <Button
+                          onClick={() => handleEditModal(producto)}
+                          variant="outline-primary"
+                        >
+                          <span className="material-symbols-outlined">edit</span>
+                        </Button>
+                        <Button
+                          // style={{width: '5vw'}}
+                          variant="outline-danger"
+                        >
+                          <span
+                            style={{ width: "auto", height: "auto", textAlign: "center" }}
+                            className="material-symbols-outlined"
                           >
-                            <span
-                              className="material-symbols-outlined"
-                              style={{ width: "auto", height: "auto", textAlign: "center" }}
-                            >
-                              visibility
-                            </span>
-                          </Button>
-                          <Button
-                            onClick={() => handleEditModal(producto)}
-                            variant="outline-primary"
-                          >
-                            <span className="material-symbols-outlined">edit</span>
-                          </Button>
-                          <Button
-                            // style={{width: '5vw'}}
-                            variant="outline-danger"
-                          >
-                            <span
-                              style={{ width: "auto", height: "auto", textAlign: "center" }}
-                              className="material-symbols-outlined"
-                            >
-                              delete_forever
-                            </span>
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  </>
+                            delete_forever
+                          </span>
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+
                 ))
               )
             }
