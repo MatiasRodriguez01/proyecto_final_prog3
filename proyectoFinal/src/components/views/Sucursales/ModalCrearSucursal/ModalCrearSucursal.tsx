@@ -29,7 +29,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
 
   const [esCasaMatriz, setEsCasaMatriz] = useState(false)
 
-  const [idLocalidad, setIdLocalidad] = useState(1)
+  const [idLocalidad, setIdLocalidad] = useState<number>(0)
 
   const [paises, setPaises] = useState<IPais[]>([])
   const [provincias, setProvincias] = useState<IProvincia[]>([])
@@ -74,6 +74,13 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
       try{
         const responsePaises = await serviceLocalizacion.getPaises()
         setPaises(responsePaises)
+
+        if (responsePaises.length === 1){
+          const selectedPaisId = responsePaises[0].id
+          handlePaisChange({
+            target: {value: String(selectedPaisId), name: "pais"},
+          } as ChangeEvent<HTMLSelectElement>)
+        }
       }catch(error){
         console.log("Error al obtener paises, ", error)
       }
@@ -82,7 +89,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
     if (visible){
       fetchPaises()
     }
-  }, [paises, visible])
+  }, [visible])
 
   const handlePaisChange = async(event: ChangeEvent<HTMLSelectElement>) => {
     const selectedPaisId = Number(event.target.value)
@@ -93,6 +100,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
       setProvincias(responseProvincias)
       console.log("provincias: ", provincias)
       setLocalidades([])
+      setIdLocalidad(0)
     }catch(error){
       console.log("Error al obtener las provincias, ", error)
     }
@@ -105,6 +113,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
     try{
       const responseLocalidades = await serviceLocalizacion.getLocalidades(selectedProvinciaId)
       setLocalidades(responseLocalidades)
+      setIdLocalidad(0)
       console.log("Localidades: ", localidades)
     }catch(error){
       console.log("Error al obtener las provincias, ", error)
@@ -205,33 +214,42 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
             {/* CONTENEDOR DE LA SEGUNDA COLUMNA DEL MODAL */}
             <div className={styleModalSucursal.columnaDos}>
               {/* SELECCIONAR UN PAIS */}
-              <select name="pais" onChange={handlePaisChange} required>
-                {" "}
-                <option value={values.pais} disabled>
-                  Seleccione un País
-                </option>
+              <select name="pais" value={pais} onChange={handlePaisChange} required>
+                <option value="">Seleccione un País</option>
                 {paises.map((pais) => (
-                <option key={pais.id} value={pais.id}>{pais.nombre}</option>))}
+                  <option key={pais.id} value={pais.id}>
+                    {pais.nombre}
+                  </option>
+                ))}
               </select>
               {/* SELECCIONAR UNA PROVINCIA */}
-              <select name="provincia" onChange={(event) =>handleProvinciaChange(event)} required>
-                {" "}
-                <option value={values.provincia} disabled>
-                  Seleccione una Provincia
-                </option>
-                {provincias.map((provincia) => (
-                <option key={provincia.id} value={provincia.id}>{provincia.nombre}</option>))}
+              <select
+                name="provincia"
+                value={provincia}
+                onChange={handleProvinciaChange}
+                required
+              >
+                <option value="">Seleccione una Provincia</option>
+                {provincias.map((prov) => (
+                  <option key={prov.id} value={prov.id}>
+                    {prov.nombre}
+                  </option>
+                ))}
               </select>
               {/* SELECCIONAR UNA LOCALIDAD */}
-              <select name="localidad" onChange={(e) => setIdLocalidad(Number(e.target.value))} required>
-                {" "}
-                <option value={values.localidad} disabled>
-                  Seleccione una Localidad
-                </option>
-                {localidades.map((localidad) => (
-                <option key={localidad.id} value={localidad.id}>{localidad.nombre}</option>))}
+              <select
+                name="localidad"
+                value={idLocalidad || ""}
+                onChange={(e) => setIdLocalidad(Number(e.target.value))}
+                required
+              >
+                <option value="">Seleccione una Localidad</option>
+                {localidades.map((loc) => (
+                  <option key={loc.id} value={loc.id}>
+                    {loc.nombre}
+                  </option>
+                ))}
               </select>
-              {/* LATITUD*/}
               <input
                 type="number"
                 name="latitud"

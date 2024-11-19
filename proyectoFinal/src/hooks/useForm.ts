@@ -1,8 +1,9 @@
 import { ChangeEvent, useState } from "react"
+import { IPais } from "../types/IPais";
 
 // interface generica
 interface FormValues {
-    [key:string]:string | number | null | boolean | number[]
+    [key:string]:string | number | null | boolean | number[] | IPais
 }
 
 export const useForm = <T extends FormValues> (initialValues:T) => {
