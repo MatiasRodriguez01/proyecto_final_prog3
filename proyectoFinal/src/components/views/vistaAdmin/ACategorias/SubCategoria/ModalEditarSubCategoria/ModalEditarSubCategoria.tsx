@@ -25,32 +25,40 @@ export const ModalEditarSubCategoria: FC<IProsEditarCategoria> = ({ subCategoria
 
         const serviceCategoria = new ServiceCategorias();
 
-        const empresaActiva = useSelector((state: RootState) => { return state.empresa.empresaActiva })
+        const empresaActiva = useSelector((state: RootState) => state.empresa.empresaActiva)
+
+        const categoriaPadre = useSelector((state: RootState) => state.categoria.categoriaActiva);
+        // ID de la categoria activa
+        const idCategoriaPadre: number = Number(categoriaPadre?.id);
 
         const { values, handleChange, resetForm, setValues } = useForm({
-            denominacion: subCategoria.denominacion || "",
+            denominacion: subCategoria?.denominacion || "",
             idEmpresa: empresaActiva?.id || 0,
-            idCategoriaPadre: null
+            idCategoriaPadre: idCategoriaPadre || 0,
         });
 
         const sucursales: ISucursal[] = subCategoria?.sucursales || [];
 
         const idSucursales: number[] = sucursales.map((sucursal) => Number(sucursal.id));
-        
+
+
         // Actualiza los valores del formulario si la empresa cambia
         useEffect(() => {
+            console.log("subCategoria:", subCategoria);
+            console.log("idCategoriaPadre:", idCategoriaPadre);
             if (subCategoria && show && empresaActiva) {
                 setValues({
                     denominacion: subCategoria.denominacion,
                     idEmpresa: empresaActiva.id,
-                    idCategoriaPadre: null
+                    idCategoriaPadre: idCategoriaPadre,
                 });
             }
-        }, [subCategoria]);
+        }, [subCategoria, show, empresaActiva, setValues]);
 
         const handleEditarCategoria = async (categoriaEditar: IUpdateCategoria) => {
             try {
-                await serviceCategoria.editOneCategoria(categoriaEditar.id, categoriaEditar)
+                const response = await serviceCategoria.editOneCategoria(categoriaEditar.id, categoriaEditar);
+                console.log("se edito la subCategoria: ", response);
             } catch (error) {
                 console.error("Error editar Empresa: ", error)
             }
@@ -64,6 +72,7 @@ export const ModalEditarSubCategoria: FC<IProsEditarCategoria> = ({ subCategoria
                 eliminado: false,
                 idEmpresa: values.idEmpresa,
                 idSucursales: idSucursales,
+                idCategoriaPadre: values.idCategoriaPadre,
             };
             handleEditarCategoria(newCategoria);
             console.log(newCategoria.id)

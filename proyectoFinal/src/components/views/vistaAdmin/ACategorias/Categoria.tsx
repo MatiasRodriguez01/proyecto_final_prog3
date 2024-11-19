@@ -49,9 +49,9 @@ export const Categoria = () => {
   const [categorias, setCategorias] = useState<ICategorias[]>([]);
   useEffect(() => {
     const fetchCategorias = async () => {
-      if (sucursal !== null) {
+      if ((sucursal !== null) && (empresa !== null)) {
         try {
-          const categoriasDelServicio = await servicioCategoria.getAllCategorias();
+          const categoriasDelServicio = await servicioCategoria.getCategoriasPorEmpresa(empresa?.id);
           setCategorias(categoriasDelServicio);
           dispatch(guardarCategorias(categoriasDelServicio));
         } catch (error) {
@@ -109,53 +109,62 @@ export const Categoria = () => {
       {/* Categorías */}
       <div className={categoriaStyle.categoriasContainer}>
         <Accordion defaultActiveKey="0">
-          {categorias.map((c) => (
-            <Accordion.Item
-              onClick={() => handleClickCategoria(c)}
-              eventKey={String(c.id)}
-              key={c.id}
-            >
-              <Accordion.Header>
-                <strong>{c.denominacion}</strong>
-                <div style={{ width: '90vw' }}>
-                  <div
-                    style={{ width: '4vw', height: '6vh', float: 'right' }}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      handlePopUpCrearSubCategoria(c);
-                    }}
-                    ><span className="material-symbols-outlined">add</span>
-                  </div>
-                  <div
-                    style={{ width: '4vw', height: '6vh', float: 'right' }}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      handlePopUpEditar(c);
-                    }}
-                    ><span className="material-symbols-outlined">edit</span>
-                  </div>
-                </div>
-              </Accordion.Header>
-              <Accordion.Body>
-                <ListGroup>
-                  {c.subCategorias
-                    .slice()
-                    .sort((a, b) => a.denominacion.localeCompare(b.denominacion))
-                    .map((sub) => (
-                      <ListGroup.Item key={sub.id}>
-                        {sub.denominacion}
+          {
+            categorias.map((c) => {
+              if (c.categoriaPadre === null) {
+                return (
+                  <Accordion.Item
+                    onClick={() => handleClickCategoria(c)}
+                    eventKey={String(c.id)}
+                    key={c.id}
+                  >
+                    <Accordion.Header>
+                      <strong>{c.denominacion}</strong>
+                      <div style={{ width: '90vw' }}>
                         <Button
-                          onClick={() => handlePopUpEditarSubCategoria(sub)}
-                          style={{ width: '4vw', height: '6vh', margin: '0', float: 'right' }}
-                          variant="outline-primary"><span style={{ textAlign: 'center' }} className="material-symbols-outlined">edit</span>
+                          style={{ width: '4vw', height: '6vh', float: 'right' }}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handlePopUpCrearSubCategoria(c);
+                          }}
+                          variant="outline-success"><span className="material-symbols-outlined">add</span>
                         </Button>
-                      </ListGroup.Item>
+                        <Button
+                          style={{ width: '4vw', height: '6vh', float: 'right' }}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handlePopUpEditar(c);
+                          }}
+                          variant="outline-primary"><span className="material-symbols-outlined">edit</span>
+                        </Button>
+                      </div>
+                    </Accordion.Header>
+                    <Accordion.Body>
+                      <ListGroup>
+                        { //.slice()
+                          //.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+                          c.subCategorias && c.subCategorias
+                            .slice()
+                            .sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+                            .map((sub) => (
+                              <ListGroup.Item key={sub.id}>
+                                {sub.denominacion}
+                                <Button
+                                  onClick={() => handlePopUpEditarSubCategoria(sub)}
+                                  style={{ width: '4vw', height: '6vh', margin: '0', float: 'right' }}
+                                  variant="outline-primary"><span style={{ textAlign: 'center' }} className="material-symbols-outlined">edit</span>
+                                </Button>
+                              </ListGroup.Item>
+                            ))
+                        }
+                      </ListGroup>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                )
+              }
 
-                    ))}
-                </ListGroup>
-              </Accordion.Body>
-            </Accordion.Item>
-          ))}
+            })
+          }
         </Accordion>
       </div>
 
@@ -178,16 +187,20 @@ export const Categoria = () => {
 
       {
         popUpCrearSubCategoria &&
-        <ModalCrearSubcategoria 
-          empresa={empresa} 
-          show={popUpCrearSubCategoria} 
+        <ModalCrearSubcategoria
+          empresa={empresa}
+          show={popUpCrearSubCategoria}
           onClose={() => setPopUpCrearSubCategoria(false)}
-          />
+        />
       }
 
       {
         popUpEditarSubCategoria &&
-        <ModalEditarSubCategoria subCategoria={subCate} show={popUpEditarSubCategoria} onClose={() => setPopUpEditarSubCategoria(false)} />
+        <ModalEditarSubCategoria
+          subCategoria={subCate}
+          show={popUpEditarSubCategoria}
+          onClose={() => setPopUpEditarSubCategoria(false)}
+        />
       }
     </>
   );
