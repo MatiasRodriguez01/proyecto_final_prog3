@@ -82,7 +82,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
     if (visible){
       fetchPaises()
     }
-  }, [visible])
+  }, [paises, visible])
 
   const handlePaisChange = async(event: ChangeEvent<HTMLSelectElement>) => {
     const selectedPaisId = Number(event.target.value)
@@ -91,6 +91,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
     try{
       const responseProvincias = await serviceLocalizacion.getProvincias(selectedPaisId)
       setProvincias(responseProvincias)
+      console.log("provincias: ", provincias)
       setLocalidades([])
     }catch(error){
       console.log("Error al obtener las provincias, ", error)
@@ -104,6 +105,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
     try{
       const responseLocalidades = await serviceLocalizacion.getLocalidades(selectedProvinciaId)
       setLocalidades(responseLocalidades)
+      console.log("Localidades: ", localidades)
     }catch(error){
       console.log("Error al obtener las provincias, ", error)
     }
@@ -205,16 +207,16 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
               {/* SELECCIONAR UN PAIS */}
               <select name="pais" onChange={handlePaisChange} required>
                 {" "}
-                <option value={""} disabled>
+                <option value={values.pais} disabled>
                   Seleccione un País
                 </option>
                 {paises.map((pais) => (
                 <option key={pais.id} value={pais.id}>{pais.nombre}</option>))}
               </select>
               {/* SELECCIONAR UNA PROVINCIA */}
-              <select name="provincia" onChange={handleProvinciaChange} required>
+              <select name="provincia" onChange={(event) =>handleProvinciaChange(event)} required>
                 {" "}
-                <option value={""} disabled>
+                <option value={values.provincia} disabled>
                   Seleccione una Provincia
                 </option>
                 {provincias.map((provincia) => (
@@ -223,7 +225,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
               {/* SELECCIONAR UNA LOCALIDAD */}
               <select name="localidad" onChange={(e) => setIdLocalidad(Number(e.target.value))} required>
                 {" "}
-                <option value={""} disabled>
+                <option value={values.localidad} disabled>
                   Seleccione una Localidad
                 </option>
                 {localidades.map((localidad) => (

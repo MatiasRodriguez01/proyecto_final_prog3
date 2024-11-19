@@ -38,9 +38,8 @@ const ModalCrearSubcategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, o
     try {
       const response = await serviceCategoria.createOneCategoria(categoria)
 
-      console.log(response.id)
-
-      console.log("ID de la subCategoria creada: ", categoria.idEmpresa)
+      console.log("categoria creada: ", response);
+      console.log("ID de categoria padre: ", response.idCategoriaPadre);
     } catch (error) {
       console.error("Error al crear la subCategoria, ", error)
     }
@@ -52,6 +51,7 @@ const ModalCrearSubcategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, o
         denominacion: values.denominacion,
         idCategoriaPadre: values.IdCategoriaPadre,
         idEmpresa: empresa.id
+        
       }
 
       handleCreateCategoria(newCategoria)
