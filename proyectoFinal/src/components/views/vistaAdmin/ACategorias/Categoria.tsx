@@ -118,22 +118,22 @@ export const Categoria = () => {
               <Accordion.Header>
                 <strong>{c.denominacion}</strong>
                 <div style={{ width: '90vw' }}>
-                  <Button
+                  <div
                     style={{ width: '4vw', height: '6vh', float: 'right' }}
                     onClick={(event) => {
                       event.stopPropagation();
                       handlePopUpCrearSubCategoria(c);
                     }}
-                    variant="outline-success"><span className="material-symbols-outlined">add</span>
-                  </Button>
-                  <Button
+                    ><span className="material-symbols-outlined">add</span>
+                  </div>
+                  <div
                     style={{ width: '4vw', height: '6vh', float: 'right' }}
                     onClick={(event) => {
                       event.stopPropagation();
                       handlePopUpEditar(c);
                     }}
-                    variant="outline-primary"><span className="material-symbols-outlined">edit</span>
-                  </Button>
+                    ><span className="material-symbols-outlined">edit</span>
+                  </div>
                 </div>
               </Accordion.Header>
               <Accordion.Body>
