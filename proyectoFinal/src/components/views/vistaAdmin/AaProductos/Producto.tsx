@@ -65,7 +65,7 @@ export const Producto = () => {
 
     }
     fetchProductos();
-  }, [productos, dispatch]);
+  }, [productos]);
 
   const handleDeleteProducto = async (id: number) => {
     try {
@@ -108,7 +108,7 @@ export const Producto = () => {
                       <td>{producto.id}</td>
                       <td>{producto.denominacion}</td>
                       <td>{producto.precioVenta}</td>
-                      <td>{producto.denominacion}</td>
+                      <td>{producto.descripcion}</td>
                       <td>{producto.categoria.denominacion}</td>
                       <td className={styles.boton}>
                         <Button
