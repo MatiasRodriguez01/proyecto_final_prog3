@@ -61,5 +61,16 @@ export class ServiceProductos{
         const data = await response.json();
         return data; 
       }
+
+      public async deleteProductoById(id: number): Promise<void>{
+        const response = await fetch(`${this.baseURL}/${id}`, {
+          method: 'DELETE',
+          headers: {
+            "User-Agent" : "insomnia/10.1.0"
+          }
+        });
+        const data = response.json();
+        return data;
+      }
     
 }

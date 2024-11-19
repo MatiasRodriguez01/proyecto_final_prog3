@@ -67,6 +67,16 @@ export const Producto = () => {
     fetchProductos();
   }, [productos, dispatch]);
 
+  const handleDeleteProducto = async (id: number) => {
+    try {
+      await serviceProducto.deleteProductoById(id)// Llama al servicio para eliminar
+      alert("Producto eliminado exitosamente");
+    } catch (error) {
+      console.error("Error eliminando producto:", error);
+      alert("Hubo un error al eliminar el producto.");
+    }
+  };
+
   return (
     <>
       {/* Botón para abrir el modal */}
@@ -132,6 +142,7 @@ export const Producto = () => {
                           <Button
                             // style={{width: '5vw'}}
                             variant="outline-danger"
+                            onClick={() => handleDeleteProducto(producto.id)}
                           >
                             <span
                               style={{ width: "auto", height: "auto", textAlign: "center" }}
