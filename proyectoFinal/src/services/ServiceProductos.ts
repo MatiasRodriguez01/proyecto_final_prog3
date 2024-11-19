@@ -14,6 +14,11 @@ export class ServiceProductos{
 
   }
 
+  public async getAllProductos(): Promise<IProductos[]> {
+    const response = await fetch(this.baseURL);
+    const data = await response.json();
+    return data;
+  }  
   
   public async getAllProductosPorSucursal(idSucursal: number): Promise<IProductos[]> {
     const response = await fetch(`${this.baseURL}/porSucursal/${idSucursal}`);

@@ -53,13 +53,6 @@ export const AlergenoListado = () => {
     setShowInfo(true);
   }
 
-  // crearmos el eliminar objeto
-  // const alergenoAEliminar = useSelector((state: RootState) => state.alergeno.alergenoEliminado);
-
-  // useEffect(() => {
-  //   console.log('alergeno eliminado:', alergenoAEliminar)
-  // }, [alergenoAEliminar]);
-
   const handleEliminarAlergeno = async (id: number) => {
     try {
       await serviceAlergeno.deleteAlergenoById(id); // Llama al servicio para eliminar

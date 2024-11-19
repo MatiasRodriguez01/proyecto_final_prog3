@@ -69,8 +69,8 @@
 }
 
 button {
-  width: 10vw;
-  height: 6vh;
+  width: auto;
+  height: auto;
   font-size: 12px;
   color: black;
   background-color: white;
