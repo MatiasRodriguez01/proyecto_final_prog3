@@ -12,28 +12,27 @@ import { IPais } from "../../../../types/IPais";
 import { IProvincia } from "../../../../types/IProvincia";
 import { ILocalidad } from "../../../../types/ILocalidad";
 
-
 interface PopUpPropsSucursal {
-  empresa: IEmpresa,
+  empresa: IEmpresa;
   visible: boolean;
   onClose(): void;
 }
 
-export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
+export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
+  empresa,
   visible,
-  onClose
+  onClose,
 }) => {
+  const serviceSucursal = new ServiceSucursal();
+  const serviceLocalizacion = new ServiceLocalizacion();
 
-  const serviceSucursal = new ServiceSucursal()
-  const serviceLocalizacion = new ServiceLocalizacion()
+  const [esCasaMatriz, setEsCasaMatriz] = useState(false);
 
-  const [esCasaMatriz, setEsCasaMatriz] = useState(false)
+  const [idLocalidad, setIdLocalidad] = useState<number>(0);
 
-  const [idLocalidad, setIdLocalidad] = useState<number>(0)
-
-  const [paises, setPaises] = useState<IPais[]>([])
-  const [provincias, setProvincias] = useState<IProvincia[]>([])
-  const [localidades, setLocalidades] = useState<ILocalidad[]>([])
+  const [paises, setPaises] = useState<IPais[]>([]);
+  const [provincias, setProvincias] = useState<IProvincia[]>([]);
+  const [localidades, setLocalidades] = useState<ILocalidad[]>([]);
 
   const { values, handleChange, resetForm } = useForm({
     nombre: "",
@@ -71,66 +70,72 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
 
   useEffect(() => {
     const fetchPaises = async () => {
-      try{
-        const responsePaises = await serviceLocalizacion.getPaises()
-        setPaises(responsePaises)
+      try {
+        const responsePaises = await serviceLocalizacion.getPaises();
+        setPaises(responsePaises);
 
-        if (responsePaises.length === 1){
-          const selectedPaisId = responsePaises[0].id
+        if (responsePaises.length === 1) {
+          const selectedPaisId = responsePaises[0].id;
           handlePaisChange({
-            target: {value: String(selectedPaisId), name: "pais"},
-          } as ChangeEvent<HTMLSelectElement>)
+            target: { value: String(selectedPaisId), name: "pais" },
+          } as ChangeEvent<HTMLSelectElement>);
         }
-      }catch(error){
-        console.log("Error al obtener paises, ", error)
+      } catch (error) {
+        console.log("Error al obtener paises, ", error);
       }
+    };
+
+    if (visible) {
+      fetchPaises();
     }
+  }, [visible]);
 
-    if (visible){
-      fetchPaises()
+  const handlePaisChange = async (event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedPaisId = Number(event.target.value);
+    handleChange(event);
+
+    try {
+      const responseProvincias = await serviceLocalizacion.getProvincias(
+        selectedPaisId
+      );
+      setProvincias(responseProvincias);
+      console.log("provincias: ", provincias);
+      setLocalidades([]);
+      setIdLocalidad(0);
+    } catch (error) {
+      console.log("Error al obtener las provincias, ", error);
     }
-  }, [visible])
+  };
 
-  const handlePaisChange = async(event: ChangeEvent<HTMLSelectElement>) => {
-    const selectedPaisId = Number(event.target.value)
-    handleChange(event)
+  const handleProvinciaChange = async (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedProvinciaId = Number(event.target.value);
+    handleChange(event);
 
-    try{
-      const responseProvincias = await serviceLocalizacion.getProvincias(selectedPaisId)
-      setProvincias(responseProvincias)
-      console.log("provincias: ", provincias)
-      setLocalidades([])
-      setIdLocalidad(0)
-    }catch(error){
-      console.log("Error al obtener las provincias, ", error)
+    try {
+      const responseLocalidades = await serviceLocalizacion.getLocalidades(
+        selectedProvinciaId
+      );
+      setLocalidades(responseLocalidades);
+      setIdLocalidad(0);
+      console.log("Localidades: ", localidades);
+    } catch (error) {
+      console.log("Error al obtener las provincias, ", error);
     }
-  }
-
-  const handleProvinciaChange = async(event: ChangeEvent<HTMLSelectElement>) => {
-    const selectedProvinciaId = Number(event.target.value)
-    handleChange(event)
-
-    try{
-      const responseLocalidades = await serviceLocalizacion.getLocalidades(selectedProvinciaId)
-      setLocalidades(responseLocalidades)
-      setIdLocalidad(0)
-      console.log("Localidades: ", localidades)
-    }catch(error){
-      console.log("Error al obtener las provincias, ", error)
-    }
-  }
+  };
 
   const handleCreateSucursal = async (newSucursal: ICreateSucursal) => {
-    try{
-      await serviceSucursal.createOneSucursal(newSucursal)
-    }catch(error){
-      console.log("Error creando sucursal, ", error)
+    try {
+      await serviceSucursal.createOneSucursal(newSucursal);
+    } catch (error) {
+      console.log("Error creando sucursal, ", error);
     }
-  }
+  };
 
   const addForm = () => {
-    setEsCasaMatriz(true)
-    setIdLocalidad(5)
+    setEsCasaMatriz(true);
+    setIdLocalidad(5);
     const newSucursal: ICreateSucursal = {
       nombre: nombre,
       horarioApertura: horarioApertura,
@@ -144,14 +149,14 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
         cp: codigoPostal,
         piso: numeroPiso,
         nroDpto: numeroDepartamento,
-        idLocalidad: idLocalidad
+        idLocalidad: idLocalidad,
       },
       idEmpresa: empresa.id,
-      logo: imagen
-    }
-    handleCreateSucursal(newSucursal)
-    console.log(newSucursal)
-    resetForm(); 
+      logo: imagen,
+    };
+    handleCreateSucursal(newSucursal);
+    console.log(newSucursal);
+    resetForm();
     onClose();
   };
 
@@ -165,7 +170,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
   };
 
   if (!visible) {
-    return null; 
+    return null;
   }
   return (
     <div className={styleModalSucursal.containerPopUp}>
@@ -181,40 +186,69 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
             {/* CONTENEDOR DE LA PRIMER COLUMNA DEL MODAL */}
             <div className={styleModalSucursal.columnaUno}>
               {/* NOMBRE DE LA SUCURSAL */}
-              <input
-                type="text"
-                name="nombre"
-                placeholder="Ingrese un nombre"
-                value={nombre}
-                onChange={handleChange}
-                required
-              />
+              <div className={styleModalSucursal.horarioApertura}>
+                <input
+                  type="text"
+                  name="nombre"
+                  placeholder="Ingrese un nombre"
+                  value={nombre}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
               {/* HORARIO DE APERTURA */}
-              <input
-                type="time"
-                name="horarioApertura"
-                value={horarioApertura}
-                onChange={handleChange}
-                required
-              />
+              <div>
+                <label
+                  htmlFor="horarioApertura"
+                  className={styleModalSucursal.labelInput}
+                >
+                  Horario de Apertura:
+                </label>
+                <input
+                  type="time"
+                  name="horarioApertura"
+                  value={horarioApertura}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
               {/* HORARIO DE CIERRE */}
-              <input
-                type="time"
-                name="horarioCierre"
-                placeholder="Ingrese un horario de cierre"
-                value={horarioCierre}
-                onChange={handleChange}
-                required
-              />
+              <div>
+                <label
+                  htmlFor="horarioCierre"
+                  className={styleModalSucursal.labelInput}
+                >
+                  Horario Cierre:
+                </label>
+                <input
+                  type="time"
+                  name="horarioCierre"
+                  placeholder="Ingrese un horario de cierre"
+                  value={horarioCierre}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
               <div className="checkboxContainer">
-              <input type="checkbox"  name="esCasaMatriz" checked={esCasaMatriz} onChange={(e) => setEsCasaMatriz(e.target.checked)} style={{width: "16px", height:"16px", marginRight: "8px"}}/>
-              <label htmlFor="esCasaMatriz">Habilitado</label>
+                <input
+                  type="checkbox"
+                  name="esCasaMatriz"
+                  checked={esCasaMatriz}
+                  onChange={(e) => setEsCasaMatriz(e.target.checked)}
+                  style={{ width: "16px", height: "16px", marginRight: "8px" }}
+                />
+                <label htmlFor="esCasaMatriz">Habilitado</label>
               </div>
             </div>
             {/* CONTENEDOR DE LA SEGUNDA COLUMNA DEL MODAL */}
             <div className={styleModalSucursal.columnaDos}>
               {/* SELECCIONAR UN PAIS */}
-              <select name="pais" value={pais} onChange={handlePaisChange} required>
+              <select
+                name="pais"
+                value={pais}
+                onChange={handlePaisChange}
+                required
+              >
                 <option value="">Seleccione un País</option>
                 {paises.map((pais) => (
                   <option key={pais.id} value={pais.id}>
@@ -250,23 +284,31 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
                   </option>
                 ))}
               </select>
-              <input
-                type="number"
-                name="latitud"
-                placeholder="Latitud"
-                value={latitud}
-                onChange={handleChange}
-                required
-              />
+              {/* LATITUD */}
+              <div>
+                <label htmlFor="latitud">Latitud:</label>
+                <input
+                  type="number"
+                  name="latitud"
+                  placeholder="Latitud"
+                  value={latitud}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
               {/* LONGITUD*/}
-              <input
-                type="number"
-                name="longitud"
-                placeholder="Longitud"
-                value={longitud}
-                onChange={handleChange}
-                required
-              />
+              <div>
+                <label htmlFor="longitud">Longitud:</label>
+                <input
+                  type="number"
+                  name="longitud"
+                  placeholder="Longitud"
+                  value={longitud}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
               {/* NOMBRE DE LA CALLE*/}
               <input
                 type="text"
@@ -278,43 +320,56 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({empresa,
               />
 
               {/* NUMERO DE LA CALLE*/}
-              <input
-                type="number"
-                name="numeroCalle"
-                placeholder="Numero de calle"
-                value={numeroCalle}
-                onChange={handleChange}
-                required
-              />
+              <div>
+                <label htmlFor="numeroCalle">N° Calle:</label>
+                <input
+                  type="number"
+                  name="numeroCalle"
+                  placeholder="Numero de calle"
+                  value={numeroCalle}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
               {/* CODIGO POSTAL*/}
-              <input
-                type="number"
-                name="codigoPostal"
-                placeholder="Código Postal"
-                value={codigoPostal}
-                onChange={handleChange}
-                required
-              />
+              <div>
+                <label htmlFor="codigoPostal">CP:</label>
+                <input
+                  type="number"
+                  name="codigoPostal"
+                  placeholder="Código Postal"
+                  value={codigoPostal}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
               {/* NUMERO DE PISO*/}
-              <input
-                type="number"
-                name="numeroPiso"
-                placeholder="Ingresa un número de piso"
-                value={numeroPiso}
-                onChange={handleChange}
-              />
+
+              <div>
+                <label htmlFor="numeroPiso">N° Piso:</label>
+                <input
+                  type="number"
+                  name="numeroPiso"
+                  placeholder="Ingresa un número de piso"
+                  value={numeroPiso}
+                  onChange={handleChange}
+                />
+              </div>
 
               {/* NUMERO DE DEPARTAMENTO*/}
-              <input
-                type="number"
-                name="numeroDepartamento"
-                placeholder="Ingresa un número de departamento"
-                value={numeroDepartamento}
-                onChange={handleChange}
-                required
-              />
+              <div>
+                <label htmlFor="numeroDepartamento">N° Dpto:</label>
+                <input
+                  type="number"
+                  name="numeroDepartamento"
+                  placeholder="Ingresa un número de departamento"
+                  value={numeroDepartamento}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
           </form>
           {/* AGREGAR IMAGEN */}
