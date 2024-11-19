@@ -99,8 +99,8 @@ export const Categoria = () => {
       {/*Abrir el modal */}
       <div className={categoriaStyle.buttonContainer}>
         <button
-          style={{ width: "auto", height: "auto" }}
           onClick={handleAbrirModalCrearCategorias}
+          className={categoriaStyle.botonCrearCategorias}
         >
           Crear Categoría
         </button>

@@ -7,5 +7,12 @@
 .buttonContainer{
     display: flex;
     justify-content: flex-end;
+    margin: 1rem;
+    border-radius: 0.4rem;
 }
 
+.botonCrearCategorias{
+  height: auto;
+  width: auto;
+  
+}

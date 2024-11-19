@@ -1,60 +1,136 @@
+.containerHeader {
+  display: flex;
+  gap: 2vw;
+  justify-content: space-between;
+  margin: 2rem;
+}
+
 .title {
-    height: auto;
-    text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: auto;
+}
+
+.sucursalCard {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+}
+.sucursalCard:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.addSucursalButton {
+  background-color: #e67e22;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  width: auto;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.addSucursalButton:hover {
+  background-color: #d35400;
+  transform: scale(1.05);
 }
 
 .containerPrincipal {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: grid;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: grid;
+  justify-content: center;
+  align-items: center;
 }
 
-.containerSucursal{
-    height: auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    justify-content: center;
-    align-items: center;
-    gap: 5vh;
+.containerSucursal {
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
+  align-items: center;
+  gap: 5vh;
 }
 
 .buttonsContainer {
-    height: auto;
-    display: grid;
-    grid-template-columns: repeat(2,50%);
-    cursor: pointer;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  gap: 2vh;
 }
 
-.buttonsContainer Button{
-    width: auto;
+.buttonsContainer Button {
+  width: 70%;
+  color: white;
+}
+/* Boton ver sucursal */
+.buttonVerSucursal {
+  background-color: rgba(59, 130, 246, 0.75);
+  border: 2px solid white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.buttonVerSucursal{
-    background-color: #3B82F6; 
-    border: 2px solid #2563EB;
+.buttonVerSucursal:hover {
+  background-color: rgba(59, 130, 246, 1);
+  transform: scale(1.05);
 }
 
-.buttonEliminarSucursal{
-    background-color: #EF4444; 
-    border: 2px solid #B91C1C; 
+/* Boton Eliminar Sucursal  */
+.buttonEliminarSucursal {
+  background-color: rgba(239, 68, 68, 0.75);
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.buttonEditarSucursal{
-    background-color: #FBBF24; 
-    border: 2px solid #F59E0B;
+.buttonEliminarSucursal:hover {
+  background-color: rgba(239, 68, 68, 1);
+  transform: scale(1.05);
 }
 
-.buttonVistaAdmin{
-    background-color: #1E3A8A; 
-    border: 2px solid #1E40AF;
+/* Boton Editar Sucursal */
+.buttonEditarSucursal {
+  background-color: rgba(251, 191, 36, 0.75);
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
-.boton_agregar {
-    height: 10vh;
-    display: flex;
-    flex-direction: center;
-    justify-content: center;
-    align-items: center;
+
+.buttonEditarSucursal:hover {
+  background-color: rgba(251, 191, 36, 1);
+  transform: scale(1.05);
+}
+
+/* Boton vista Admin */
+.buttonVistaAdmin {
+  background-color: rgba(30, 58, 138, 0.75);
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.buttonVistaAdmin:hover {
+  background-color: rgba(30, 58, 138, 1);
+  transform: scale(1.05);
 }

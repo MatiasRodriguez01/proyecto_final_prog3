@@ -4,15 +4,8 @@
   height: 100%;
 }
 
-hr {
-  width: 15vw;
-  height: 2px;
-  background-color: black;
-  margin: 20px 0;
-}
-
 .containerEmpresas {
-  background-color: #252422;
+  background-color: #1a1a1a;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -21,6 +14,10 @@ hr {
   color: #fff;
   padding: 1.5rem;
   overflow-y: scroll;
+  overflow-x: hidden;
+}
+.containerEmpresas::-webkit-scrollbar {
+  display: none;
 }
 
 .listaEmpresa {
@@ -42,31 +39,6 @@ hr {
   height: 10vh;
 }
 
-button {
-  width: 10vw;
-  height: 6vh;
-  font-size: 12px;
-  background-color: #fbb383;
-  border: #ff7300;
-  color: #252422;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  background-color: #ffd699;
-}
-
-.agregarEmpresa {
-  display: flex;
-  font-size: 0.8rem;
-  justify-content: center;
-  align-items: center;
-}
-
 .containerPopInfo {
   position: fixed;
   top: 0;
@@ -81,7 +53,7 @@ button:hover {
 }
 
 .containerSucursales {
-  background-color: #fffaeb;
+  background-color: #e8e8e8;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -97,14 +69,18 @@ button:hover {
   align-items: center;
 }
 
-.sucursales {
-  margin: 0;
+.containerTituloSucursales {
   width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 0fr);
-  justify-content: space-evenly;
-  gap: 2vh;
+  height: 4rem;
+  background-color: #1a1a1a;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.containerTituloSucursales h2 {
+  margin: 10px;
+  color: #fff;
 }
 
 .sucursal {

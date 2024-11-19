@@ -20,43 +20,40 @@ interface IPropsSucursal {
 }
 
 export const UseSucursal: FC<IPropsSucursal> = ({ empresa, onVistaAdmin }) => {
-
   const dispatch = useDispatch();
 
   const serviceSucursal = new ServiceSucursal();
 
-  const [ sucursales, setSucursales ] = useState<ISucursal[]>([]);
+  const [sucursales, setSucursales] = useState<ISucursal[]>([]);
 
   const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
 
-  const { informacion, mostrarInformacion, cerrarInformacion } = useInformacion();
+  const { informacion, mostrarInformacion, cerrarInformacion } =
+    useInformacion();
 
   useEffect(() => {
-
     const fetctSucursalesSegunEmpresas = async () => {
       try {
         // Primero obtenemos todas las empresas
-        const sucursalesDeEmpresa = await serviceSucursal.getAllSucursalesByEmpresa(empresa.id);
+        const sucursalesDeEmpresa =
+          await serviceSucursal.getAllSucursalesByEmpresa(empresa.id);
         setSucursales(sucursalesDeEmpresa);
         dispatch(guardarSucursales(sucursales));
       } catch (error) {
         console.error("Error al obtener las empresas:", error);
       }
-    }
+    };
 
-    fetctSucursalesSegunEmpresas()
-    
+    fetctSucursalesSegunEmpresas();
   }, [sucursales, dispatch]);
 
   return (
     <>
-      <hr style={{ width: "95%" }} />
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <h3 className={styleSucursal.title} style={{ margin: "0" }}>
-          {empresa.nombre} - {""}
-        </h3>
-        <Button style={{ width: "13vw", height: "auto" }} onClick={HandlePopUp}>
-          Agregar Sucursal
+      <div className={styleSucursal.containerHeader}>
+        <h3 className={styleSucursal.title}>{empresa.nombre}</h3>
+        <Button className={styleSucursal.addSucursalButton} onClick={HandlePopUp}>
+          AGREGAR SUCURSAL
+          <span className="material-symbols-outlined">add</span>
         </Button>
       </div>
       <div className={styleSucursal.containerPrincipal}>

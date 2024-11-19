@@ -15,26 +15,27 @@
 
 .titulo {
   height: 10vh;
+  margin: 1rem;
 }
 .titulo h2 {
   color: #fff;
 }
-button {
-  width: 10vw;
-  height: 6vh;
-  font-size: 12px;
-  background-color: #fbb383;
-  border: #ff7300;
-  color: #252422;
-  padding: 10px 20px;
+.addEmpresaButton{
+  background-color: #e67e22;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.4rem;
   cursor: pointer;
-  transition: 0.2s;
+  width: 8vw;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
-  background-color: #ffd699;
+.addEmpresaButton:hover {
+  background-color: #d35400;
+  transform: scale(1.05);
 }
 
 .agregarEmpresa {

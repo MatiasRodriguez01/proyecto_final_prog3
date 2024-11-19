@@ -5,7 +5,7 @@ import { EmpresaListado } from "../../views/Empresas/EmpresasListado/EmpresaList
 import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
 import { useDispatch, useSelector } from "react-redux";
 
-import styleListado from './Listado.module.css'
+import styleListado from "./Listado.module.css";
 import { guardarEmpresas } from "../../../slices/empresaSlice";
 import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
 import { RootState } from "../../../store/store";
@@ -15,21 +15,22 @@ interface IPropsListado {
 }
 
 export const Listado: FC<IPropsListado> = ({ onVistaAdmin }) => {
-
   // Usamos dispatch para enviar acciones a Redux
   const dispatch = useDispatch();
 
-  // Obtenemos las empresas 
+  // Obtenemos las empresas
   const [empresas, setEmpresas] = useState<IEmpresa[]>([]);
 
   // los servicios
   const serviceEmpresa = new ServiceEmpresa();
 
   // empresaActiva
-  const empresaActiva = useSelector((state: RootState) => state.empresa.empresaActiva)
+  const empresaActiva = useSelector(
+    (state: RootState) => state.empresa.empresaActiva
+  );
 
   useEffect(() => {
-    console.log('Empresa activa : ', empresaActiva)
+    console.log("Empresa activa : ", empresaActiva);
   }, [empresaActiva]);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export const Listado: FC<IPropsListado> = ({ onVistaAdmin }) => {
         // Primero obtenemos todas las empresas
         const empresaDelServicio = await serviceEmpresa.getAllEmpresas();
 
-        setEmpresas(empresaDelServicio)
+        setEmpresas(empresaDelServicio);
         // Actualizamos el estado de empresas en Redux
         dispatch(guardarEmpresas(empresaDelServicio));
       } catch (error) {
@@ -54,21 +55,25 @@ export const Listado: FC<IPropsListado> = ({ onVistaAdmin }) => {
     <>
       <article className={styleListado.container}>
         <section className={styleListado.containerEmpresas}>
-          <EmpresaListado
-            empresas={empresas}
-          />
+          <EmpresaListado empresas={empresas} />
         </section>
 
         <section className={styleListado.containerSucursales}>
-          <h2>Sucursales</h2>
-          {
-            empresas.map((e) => {
-              const visible: boolean = (e.id === empresaActiva?.id);
-              return visible && (
-                <UseSucursal key={e.id} empresa={e} onVistaAdmin={onVistaAdmin} />
+          <div className={styleListado.containerTituloSucursales}>
+            <h2>Sucursales</h2>
+          </div>
+          {empresas.map((e) => {
+            const visible: boolean = e.id === empresaActiva?.id;
+            return (
+              visible && (
+                <UseSucursal
+                  key={e.id}
+                  empresa={e}
+                  onVistaAdmin={onVistaAdmin}
+                />
               )
-            })
-          }
+            );
+          })}
         </section>
       </article>
     </>

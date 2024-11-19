@@ -16,27 +16,10 @@
   background-color: rgb(200, 200, 217);
 }
 
-.cardButton {
-  width: auto;
-  height: 5vh;
-  font-size: 12px;
-  background-color: #fbb383;
-  border: #ff7300;
-  color: #252422;
-  padding: 0;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-button:hover {
-  background-color: #ffd699;
-  color: #252422;
-}
 
 .buttonContainer {
   display: flex;
-  gap: 0vh;
+  gap: 0.5vw;
   justify-content: center;
   align-items: center;
   margin: 1vh;

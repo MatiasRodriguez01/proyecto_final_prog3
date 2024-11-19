@@ -37,6 +37,7 @@
 }
 
 .container {
+  background-color: #E8E8E8;
   display: flex;
   width: 100%;
   height: 91vh;
@@ -68,7 +69,7 @@
   height: 100%;
 }
 
-button {
+.boton {
   width: auto;
   height: auto;
   font-size: 12px;
