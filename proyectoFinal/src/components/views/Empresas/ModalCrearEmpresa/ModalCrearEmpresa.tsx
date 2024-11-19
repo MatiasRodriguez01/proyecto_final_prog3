@@ -121,7 +121,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
               <Button
                 variant="primary"
                 onClick={cancelForm}
-                className={styleModalEmpresa.formButton}
+                className={styleModalEmpresa.formButtonCancel}
               >
                 Cerrar
               </Button>
@@ -129,7 +129,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
                 variant="primary"
                 type="submit"
                 onClick={addForm}
-                className={styleModalEmpresa.formButton}
+                className={styleModalEmpresa.formButtonSend}
               >
                 Enviar
               </Button>
