@@ -1,4 +1,3 @@
-
 import { Button, Card } from "react-bootstrap";
 import { FC } from "react";
 import { IEmpresa } from "../../../../types/dtos/empresa/IEmpresa";
@@ -6,16 +5,21 @@ import stylesEmpresaCard from "./EmpresaCard.module.css";
 import { ModalEditarEmpresa } from "../ModalEditarEmpresa/ModalEditarEmpresa";
 import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
 import { useDispatch, useSelector } from "react-redux";
-import { empresaActiva, eliminarEmpresaActiva } from "../../../../slices/empresaSlice";
-import { RootState } from "../../../../store/store";
+import {
+  empresaActiva,
+  eliminarEmpresaActiva,
+} from "../../../../slices/empresaSlice";
+import { RootState } from "../../../../hooks/store/store";
 
 interface EmpresaCardProps {
   empresa: IEmpresa;
   onVerEmpresa: () => void;
 }
 
-export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa }) => {
-
+export const EmpresaCard: FC<EmpresaCardProps> = ({
+  empresa,
+  onVerEmpresa,
+}) => {
   const dispatch = useDispatch();
 
   const { isPopUpVisible, HandlePopUp } = usePopUpVisible();
@@ -25,7 +29,7 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa }) => 
   const handleEmpresaActiva = () => {
     dispatch(eliminarEmpresaActiva());
     dispatch(empresaActiva(empresa));
-  }
+  };
 
   return (
     <>
@@ -37,7 +41,7 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa }) => 
           <div className={stylesEmpresaCard.buttonContainer}>
             <Button
               variant="outline-primary"
-              className={stylesEmpresaCard.buttonCard}
+              className={stylesEmpresaCard.buttonVerEmpresa}
               onClick={onVerEmpresa}
             >
               <span
@@ -48,8 +52,15 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa }) => 
               </span>
             </Button>
             <Button
+              variant="outline-warning"
+              className={stylesEmpresaCard.buttonEditarEmpresa}
+              onClick={HandlePopUp}
+            >
+              <span className="material-symbols-outlined">edit</span>
+            </Button>
+            <Button
               variant="outline-danger"
-              className={stylesEmpresaCard.buttonCard}
+              className={stylesEmpresaCard.buttonEliminarEmpresa}
             >
               <span
                 style={{ width: "auto", height: "auto", textAlign: "center" }}
@@ -57,13 +68,6 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa }) => 
               >
                 delete_forever
               </span>
-            </Button>
-            <Button
-              variant="outline-success"
-              className={stylesEmpresaCard.buttonCard}
-              onClick={HandlePopUp}
-            >
-              <span className="material-symbols-outlined">edit</span>
             </Button>
           </div>
         </Card.Body>
@@ -77,6 +81,5 @@ export const EmpresaCard: FC<EmpresaCardProps> = ({ empresa, onVerEmpresa }) => 
     </>
   );
 };
-
 
 export default EmpresaCard;

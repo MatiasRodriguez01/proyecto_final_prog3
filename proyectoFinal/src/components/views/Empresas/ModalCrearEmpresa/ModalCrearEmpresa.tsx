@@ -6,7 +6,6 @@ import styleModalEmpresa from "./ModalCrearEmpresa.module.css";
 import addImagen from "./imagen.png";
 import { ServiceEmpresa } from "../../../../services/ServiceEmpresa";
 import { ICreateEmpresaDto } from "../../../../types/dtos/empresa/ICreateEmpresaDto";
-//import { useDispatch } from "react-redux";
 
 interface PopUpPropsEmpresa {
   visible: boolean;
@@ -14,26 +13,21 @@ interface PopUpPropsEmpresa {
 }
 
 const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
-
-  //const dispatch = useDispatch();
   const serviceEmpresa = new ServiceEmpresa();
 
   const { values, handleChange, resetForm } = useForm({
-    nombre: '',
-    razonSocial: '',
+    nombre: "",
+    razonSocial: "",
     cuit: 0,
-    logo: '',
+    logo: "",
   });
 
   const handleCreateEmpresa = async (empresa: ICreateEmpresaDto) => {
-
     try {
       await serviceEmpresa.createOneEmpresa(empresa);
-
     } catch (error) {
-      console.error("Error crear Empresa: ", error)
+      console.error("Error crear Empresa: ", error);
     }
-    //onAddEmpresa(newEmpresa);
   };
 
   const addForm = () => {
@@ -43,10 +37,10 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
       cuit: values.cuit,
       logo: values.logo,
     };
-    handleCreateEmpresa(newEmpresa)
-    resetForm(); // Cerrar el modal
-    onClose()
-  }  
+    handleCreateEmpresa(newEmpresa);
+    resetForm();
+    onClose();
+  };
 
   const cancelForm = () => {
     resetForm();
@@ -64,10 +58,17 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
   return (
     <div className={styleModalEmpresa.containerPopUp}>
       <div className={styleModalEmpresa.popUpContainer}>
-          <h2 style={{width:'100%', color:'black', textAlign:'center', margin:'0'}}>Crear Empresa</h2>
+        <h2
+          style={{
+            width: "100%",
+            color: "black",
+            textAlign: "center",
+            margin: "0",
+          }}
+        >
+          Crear Empresa
+        </h2>
         <div className={styleModalEmpresa.contenido}>
-          {/* <h2>Crear empresa</h2> */}
-
           {/* FORMULARIO PARA AGREGAR EMPRESA */}
           <form
             onSubmit={handleSubmit}
@@ -92,13 +93,17 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
               required
             />
             {/* CUIL */}
-            <input
-              type="number"
-              name="cuit"
-              placeholder="Ingrese un cuil"
-              value={values.cuit}
-              onChange={handleChange}
-            />
+            <div className={styleModalEmpresa.cuitContainer}>
+              <label htmlFor="cuit" >
+                CUIT:
+              </label>
+              <input
+                type="number"
+                name="cuit"
+                value={values.cuit}
+                onChange={handleChange}
+              />
+            </div>
             {/* AGREGAR IMAGEN */}
             <div className={styleModalEmpresa.imagenContainer}>
               <input
@@ -115,19 +120,19 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
             <div className={styleModalEmpresa.containerButtonsForm}>
               <Button
                 variant="primary"
+                onClick={cancelForm}
+                className={styleModalEmpresa.formButton}
+              >
+                Cerrar
+              </Button>
+              <Button
+                variant="primary"
                 type="submit"
                 onClick={addForm}
                 className={styleModalEmpresa.formButton}
               >
                 Enviar
-              </Button>{" "}
-              <Button
-                variant="primary"
-                onClick={cancelForm}
-                className={styleModalEmpresa.formButton}
-              >
-                Cerrar
-              </Button>{" "}
+              </Button>
             </div>
           </form>
         </div>

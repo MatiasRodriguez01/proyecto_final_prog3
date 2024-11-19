@@ -10,7 +10,7 @@ import { ServiceCategorias } from "../../../../services/ServiceCategorias";
 import { guardarCategorias } from "../../../../slices/categoriaSlice";
 
 
-import { RootState } from "../../../../store/store";
+import { RootState } from "../../../../hooks/store/store";
 import ModalEditarProducto from "./ModalEditarProducto/ModalEditarProducto";
 import ModalCrearProducto from "./ModalCrearProducto/ModalCrearProducto";
 

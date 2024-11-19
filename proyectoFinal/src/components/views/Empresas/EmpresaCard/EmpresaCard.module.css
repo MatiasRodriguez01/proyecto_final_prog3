@@ -10,12 +10,11 @@
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.card:hover{
+.card:hover {
   cursor: pointer;
   transform: scale(1.1);
   background-color: rgb(200, 200, 217);
 }
-
 
 .buttonContainer {
   display: flex;
@@ -24,12 +23,46 @@
   align-items: center;
   margin: 1vh;
 }
-
-.buttonCard {
-  width: 4vw;
-  height: 5vh;
+/* Ver empresa */
+.buttonVerEmpresa {
+  background-color: rgba(59, 130, 246, 0.75);
+  padding: auto;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.sucursalesExistentes{
+.buttonVerEmpresa:hover {
+  background-color: rgba(59, 130, 246, 1);
+  transform: scale(1.05);
+}
+
+/* editar empresa */
+.buttonEditarEmpresa {
+  background-color: rgba(251, 191, 36, 0.75);
+  color: white;
+  padding: auto;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* eliminar empresa */
+
+.buttonEliminarEmpresa {
+  background-color: rgba(239, 68, 68, 0.75);
+  color: white;
+  padding: auto;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.buttonCard {
+  width: auto;
+  height: auto;
+}
+
+.sucursalesExistentes {
   margin: 40%;
 }

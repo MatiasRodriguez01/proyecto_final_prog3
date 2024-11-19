@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { ICategorias } from '../../../../../../types/dtos/categorias/ICategorias';
 import { ServiceCategorias } from '../../../../../../services/ServiceCategorias';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../../store/store';
+import { RootState } from '../../../../../../hooks/store/store';
 import { IUpdateCategoria } from '../../../../../../types/dtos/categorias/IUpdateCategoria';
 import { ISucursal } from '../../../../../../types/dtos/sucursal/ISucursal';
 import stylesEditarCategoria from "./ModalEditarCategoria.module.css";

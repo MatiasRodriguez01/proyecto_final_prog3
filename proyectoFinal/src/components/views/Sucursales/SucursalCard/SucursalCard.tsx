@@ -50,6 +50,7 @@ export const SucursalCard: FC<IPropsSucursalCard> = ({
               type="submit"
               className={styleSucursal.buttonVerSucursal}
               variant="primary"
+              onClick={onSucursalActiva}
             >
               Info
             </Button>

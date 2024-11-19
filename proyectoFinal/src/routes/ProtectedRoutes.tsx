@@ -4,7 +4,7 @@ import stylesAdminCard from "./ProtectedRoutes.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AlergenoListado } from "../components/views/vistaAdmin/Alergenos/AlergenoListado.tsx";
 import { sucursalActiva } from "../slices/sucursalSlice.ts";
-import { RootState } from "../store/store.ts";
+import { RootState } from "../hooks/store/store.ts";
 import { Categoria } from "../components/views/vistaAdmin/ACategorias/Categoria.tsx";
 import { Producto } from "../components/views/vistaAdmin/AaProductos/Producto.tsx";
 

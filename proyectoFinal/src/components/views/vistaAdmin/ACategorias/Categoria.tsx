@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { RootState } from "../../../../store/store";
+import { RootState } from "../../../../hooks/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
 import { ServiceCategorias } from "../../../../services/ServiceCategorias";

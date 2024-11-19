@@ -12,7 +12,7 @@ import { ISucursal } from "../../../../../types/dtos/sucursal/ISucursal";
 
 import styleModalProducto from './ModalEditarProducto.module.css';
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../store/store";
+import { RootState } from "../../../../../hooks/store/store";
 import { IProductos } from "../../../../../types/dtos/productos/IProductos";
 import { IUpdateProducto } from "../../../../../types/dtos/productos/IUpdateProducto";
 

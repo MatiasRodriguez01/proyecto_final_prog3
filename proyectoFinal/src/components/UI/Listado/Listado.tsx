@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styleListado from "./Listado.module.css";
 import { guardarEmpresas } from "../../../slices/empresaSlice";
 import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
-import { RootState } from "../../../store/store";
+import { RootState } from "../../../hooks/store/store";
 
 interface IPropsListado {
   onVistaAdmin: () => void;
