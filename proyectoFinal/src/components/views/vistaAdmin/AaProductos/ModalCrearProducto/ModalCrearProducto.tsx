@@ -54,29 +54,30 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
 
     // el useEffect para renderizar y generar las categorias y alergenos
     useEffect(() => {
-      const fetchCategorias = async () => { // fetch para generar las categorias de la sucursal
-        try {
-          if (sucursal) {
-            const response = await serviceCategorias.getAllCategoriasPadrePorSucursal(sucursal.id);
+      if (sucursal) {
+        const fetchCategorias = async () => {
+          try {
+            const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id);
             setCategorias(response);
+          } catch (error) {
+            console.error("Error al obtener categorías:", error);
           }
-        } catch (error) {
-          console.log('ModalCrearProducto no tiene categorias');
-        }
-      }
-
-      const fetchAlergenos = async () => { // fetch para geenerar los alergenos 
-        try {
+        };
+    
+        const fetchAlergenos = async () => {
+          try {
             const response = await serviceAlergenos.getAllAlergenos();
             setAlergenos(response);
-        } catch (error) {
-          console.log('ModalCrearProducto no tiene alergenos');
-        }
+          } catch (error) {
+            console.error("Error al obtener alérgenos:", error);
+          }
+        };
+    
+        // Llamamos a las funciones de manera separada
+        fetchCategorias();
+        fetchAlergenos();
       }
-      // llamamos a  las funciones de effect
-      fetchCategorias();
-      fetchAlergenos();
-    }, [categorias, alergenos]); //asignamos los valores de dependencia
+    }, [sucursal]); //asignamos los valores de dependencia
 
     // desectruturamos los valores de [values]
     const { denominacion, precioVenta, descripcion, codigo, imagen } = values
@@ -187,7 +188,7 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
                     setIdsAlergenos(selectedOptions); // Guarda los IDs seleccionados
                   }}
                 >
-                  <option selected >Lista de Alergenos</option>
+                  <option value="" disabled >Lista de Alergenos</option>
                   {alergenos.map((alergeno) => (
                     <option key={alergeno.id} value={alergeno.id}>
                       {alergeno.denominacion}
