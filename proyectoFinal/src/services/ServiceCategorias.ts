@@ -25,6 +25,12 @@ export class ServiceCategorias {
     return data;
   }
 
+  public async getAllSubcategoriasPorSucursal(idSucursal: number): Promise<ICategorias[]> {
+    const response = await fetch(`${this.baseURL}/allSubCategoriasPorSucursal/${idSucursal}`);
+    const data = await response.json();
+    return data;
+  }
+
   public async getAllCategoriasPadrePorSucursal(idSucursal: number): Promise<ICategorias[]> {
     const response = await fetch(`${this.baseURL}/allCategoriasPorSucursal/${idSucursal}`);
     const data = await response.json();

@@ -13,6 +13,7 @@ import { guardarCategorias } from "../../../../slices/categoriaSlice";
 import { RootState } from "../../../../hooks/store/store";
 import ModalEditarProducto from "./ModalEditarProducto/ModalEditarProducto";
 import ModalCrearProducto from "./ModalCrearProducto/ModalCrearProducto";
+import { sucursalActiva } from "../../../../slices/sucursalSlice";
 
 
 export const Producto = () => {
@@ -23,6 +24,10 @@ export const Producto = () => {
   // servicio
   const serviceProducto = new ServiceProductos();
   const serviceCategorias = new ServiceCategorias();
+
+  const [subCategorias, setSubcategorias] = useState<ICategorias[]>([])
+
+  const [subcategoriaSelect, setSubcategoriaSelect] = useState<string>("")
 
   // sucursales
   const sucursal = useSelector((state: RootState) => state.sucursal.sucursalActiva);
@@ -67,6 +72,20 @@ export const Producto = () => {
     fetchProductos();
   }, [productos]);
 
+  const handleSubcategoriaChange = async() => {
+    try{
+      if (sucursal){
+        const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id)
+
+        console.log(response)
+      
+        setSubcategorias(response)
+      }
+    }catch(error){
+      console.error("Error trayendo subcategorias", error)
+    }
+  }
+
   const handleDeleteProducto = async (id: number) => {
     try {
       await serviceProducto.deleteProductoById(id)// Llama al servicio para eliminar
@@ -84,6 +103,19 @@ export const Producto = () => {
       <button className={styles.buttonCrear} onClick={handleOpenModal}>
         <h5>Crear producto</h5>
       </button>
+      <select
+                name="categorias"
+                value={subcategoriaSelect}
+                onChange={handleSubcategoriaChange}
+                required
+              >
+                <option value="">Seleccione una Categoria</option>
+                {subCategorias.map((subcategoria) => (
+                  <option key={subcategoria.id} value={subcategoria.id}>
+                    {subcategoria.denominacion}
+                  </option>
+                ))}
+              </select>
 
       <div style={{ width: '100%' }}>
         <Table striped bordered hover>
@@ -103,7 +135,6 @@ export const Producto = () => {
               productos &&
               (
                 productos.map((producto) => (
-                  <>
                     <tr key={producto.id}>
                       <td>{producto.id}</td>
                       <td>{producto.denominacion}</td>
@@ -154,7 +185,6 @@ export const Producto = () => {
                         </div>
                       </td>
                     </tr>
-                  </>
                 ))
               )
             }
