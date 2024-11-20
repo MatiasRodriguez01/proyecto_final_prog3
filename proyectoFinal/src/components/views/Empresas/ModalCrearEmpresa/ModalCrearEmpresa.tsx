@@ -82,6 +82,7 @@ const ModalCrearEmpresa: FC<PopUpPropsEmpresa> = ({ visible, onClose }) => {
               value={values.nombre}
               onChange={handleChange}
               required
+              className={styleModalEmpresa.inputElement}
             />
             {/* RAZON SOCIAL DE LA EMPRESA */}
             <input
