@@ -186,23 +186,30 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
             {/* CONTENEDOR DE LA PRIMER COLUMNA DEL MODAL */}
             <div className={styleModalSucursal.columnaUno}>
               {/* NOMBRE DE LA SUCURSAL */}
-              <div className={styleModalSucursal.horarioApertura}>
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="nombre"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  Nombre
+                </label>
                 <input
                   type="text"
                   name="nombre"
-                  placeholder="Ingrese un nombre"
+                  placeholder=" "
                   value={nombre}
                   onChange={handleChange}
                   required
+                  className={styleModalSucursal.inputElement}
                 />
               </div>
               {/* HORARIO DE APERTURA */}
-              <div>
+              <div className={styleModalSucursal.inputField}>
                 <label
                   htmlFor="horarioApertura"
-                  className={styleModalSucursal.labelInput}
+                  className={styleModalSucursal.floatingLabel}
                 >
-                  Horario de Apertura:
+                  Horario de Apertura
                 </label>
                 <input
                   type="time"
@@ -210,23 +217,25 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
                   value={horarioApertura}
                   onChange={handleChange}
                   required
+                  className={styleModalSucursal.inputElement}
                 />
               </div>
               {/* HORARIO DE CIERRE */}
-              <div>
+              <div className={styleModalSucursal.inputField}>
                 <label
                   htmlFor="horarioCierre"
-                  className={styleModalSucursal.labelInput}
+                  className={styleModalSucursal.floatingLabel}
                 >
-                  Horario Cierre:
+                  Horario Cierre
                 </label>
                 <input
                   type="time"
                   name="horarioCierre"
-                  placeholder="Ingrese un horario de cierre"
+                  placeholder=" "
                   value={horarioCierre}
                   onChange={handleChange}
                   required
+                  className={styleModalSucursal.inputElement}
                 />
               </div>
               <div className="checkboxContainer">
@@ -243,50 +252,83 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
             {/* CONTENEDOR DE LA SEGUNDA COLUMNA DEL MODAL */}
             <div className={styleModalSucursal.columnaDos}>
               {/* SELECCIONAR UN PAIS */}
-              <select
-                name="pais"
-                value={pais}
-                onChange={handlePaisChange}
-                required
-              >
-                <option value="">Seleccione un País</option>
-                {paises.map((pais) => (
-                  <option key={pais.id} value={pais.id}>
-                    {pais.nombre}
-                  </option>
-                ))}
-              </select>
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="pais"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  Pais
+                </label>
+                <select
+                  name="pais"
+                  value={pais}
+                  onChange={handlePaisChange}
+                  required
+                  className={styleModalSucursal.inputElement}
+                >
+                  <option value="">Seleccione un País</option>
+                  {paises.map((pais) => (
+                    <option key={pais.id} value={pais.id}>
+                      {pais.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
               {/* SELECCIONAR UNA PROVINCIA */}
-              <select
-                name="provincia"
-                value={provincia}
-                onChange={handleProvinciaChange}
-                required
-              >
-                <option value="">Seleccione una Provincia</option>
-                {provincias.map((prov) => (
-                  <option key={prov.id} value={prov.id}>
-                    {prov.nombre}
-                  </option>
-                ))}
-              </select>
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="provincia"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  Provincia
+                </label>
+                <select
+                  name="provincia"
+                  value={provincia}
+                  onChange={handleProvinciaChange}
+                  required
+                  className={styleModalSucursal.inputElement}
+                >
+                  <option value="">Seleccione una Provincia</option>
+                  {provincias.map((prov) => (
+                    <option key={prov.id} value={prov.id}>
+                      {prov.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
               {/* SELECCIONAR UNA LOCALIDAD */}
-              <select
-                name="localidad"
-                value={idLocalidad || ""}
-                onChange={(e) => setIdLocalidad(Number(e.target.value))}
-                required
-              >
-                <option value="">Seleccione una Localidad</option>
-                {localidades.map((loc) => (
-                  <option key={loc.id} value={loc.id}>
-                    {loc.nombre}
-                  </option>
-                ))}
-              </select>
+
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="localidad"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  Localidad
+                </label>
+                <select
+                  name="localidad"
+                  value={idLocalidad || ""}
+                  onChange={(e) => setIdLocalidad(Number(e.target.value))}
+                  required
+                  className={styleModalSucursal.inputElement}
+                >
+                  <option value="">Seleccione una Localidad</option>
+                  {localidades.map((loc) => (
+                    <option key={loc.id} value={loc.id}>
+                      {loc.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
               {/* LATITUD */}
-              <div>
-                <label htmlFor="latitud">Latitud:</label>
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="latitud"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  Latitud
+                </label>
                 <input
                   type="number"
                   name="latitud"
@@ -294,12 +336,18 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
                   value={latitud}
                   onChange={handleChange}
                   required
+                  className={styleModalSucursal.inputElement}
                 />
               </div>
 
               {/* LONGITUD*/}
-              <div>
-                <label htmlFor="longitud">Longitud:</label>
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="longitud"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  Longitud
+                </label>
                 <input
                   type="number"
                   name="longitud"
@@ -307,21 +355,36 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
                   value={longitud}
                   onChange={handleChange}
                   required
+                  className={styleModalSucursal.inputElement}
                 />
               </div>
               {/* NOMBRE DE LA CALLE*/}
-              <input
-                type="text"
-                name="nombreCalle"
-                placeholder="Nombre de la calle"
-                value={nombreCalle}
-                onChange={handleChange}
-                required
-              />
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="nombreCalle"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  Nombre de la Calle
+                </label>
+                <input
+                  type="text"
+                  name="nombreCalle"
+                  placeholder=" "
+                  value={nombreCalle}
+                  onChange={handleChange}
+                  required
+                  className={styleModalSucursal.inputElement}
+                />
+              </div>
 
               {/* NUMERO DE LA CALLE*/}
-              <div>
-                <label htmlFor="numeroCalle">N° Calle:</label>
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="numeroCalle"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  N° Calle
+                </label>
                 <input
                   type="number"
                   name="numeroCalle"
@@ -329,12 +392,18 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
                   value={numeroCalle}
                   onChange={handleChange}
                   required
+                  className={styleModalSucursal.inputElement}
                 />
               </div>
 
               {/* CODIGO POSTAL*/}
-              <div>
-                <label htmlFor="codigoPostal">CP:</label>
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="codigoPostal"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  CP
+                </label>
                 <input
                   type="number"
                   name="codigoPostal"
@@ -342,25 +411,37 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
                   value={codigoPostal}
                   onChange={handleChange}
                   required
+                  className={styleModalSucursal.inputElement}
                 />
               </div>
 
               {/* NUMERO DE PISO*/}
 
-              <div>
-                <label htmlFor="numeroPiso">N° Piso:</label>
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="numeroPiso"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  N° Piso
+                </label>
                 <input
                   type="number"
                   name="numeroPiso"
                   placeholder="Ingresa un número de piso"
                   value={numeroPiso}
                   onChange={handleChange}
+                  className={styleModalSucursal.inputElement}
                 />
               </div>
 
               {/* NUMERO DE DEPARTAMENTO*/}
-              <div>
-                <label htmlFor="numeroDepartamento">N° Dpto:</label>
+              <div className={styleModalSucursal.inputField}>
+                <label
+                  htmlFor="numeroDepartamento"
+                  className={styleModalSucursal.floatingLabel}
+                >
+                  N° Dpto:
+                </label>
                 <input
                   type="number"
                   name="numeroDepartamento"
@@ -368,6 +449,7 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
                   value={numeroDepartamento}
                   onChange={handleChange}
                   required
+                  className={styleModalSucursal.inputElement}
                 />
               </div>
             </div>
