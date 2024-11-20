@@ -70,21 +70,24 @@ export const Producto = () => {
 
     }
     fetchProductos();
-  }, [productos]);
+  }, [sucursal]);
 
-  const handleSubcategoriaChange = async() => {
-    try{
-      if (sucursal){
-        const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id)
-
-        console.log(response)
-      
-        setSubcategorias(response)
+  const handleSubcategoriaChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedSubcategoriaId = e.target.value;
+    setSubcategoriaSelect(selectedSubcategoriaId);
+    console.log("sucursal activa: ", sucursal)
+    console.log("valor seleccionado: ", selectedSubcategoriaId)
+  
+    try {
+      if (sucursal && selectedSubcategoriaId) {
+        const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id);
+        console.log("Subcategorias: ", response)
+        setSubcategorias(response);
       }
-    }catch(error){
-      console.error("Error trayendo subcategorias", error)
+    } catch (error) {
+      console.error("Error trayendo subcategorias", error);
     }
-  }
+  };
 
   const handleDeleteProducto = async (id: number) => {
     try {
@@ -106,7 +109,13 @@ export const Producto = () => {
       <select
                 name="categorias"
                 value={subcategoriaSelect}
-                onChange={handleSubcategoriaChange}
+                onChange={(e) => {
+                  if (sucursal) {
+                    handleSubcategoriaChange(e);
+                  } else {
+                    console.error("Sucursal no está disponible al cambiar la categoría");
+                  }
+                }}
                 required
               >
                 <option value="">Seleccione una Categoria</option>
