@@ -73,6 +73,7 @@ export const ProtectedRoutes: FC<IProsProyectedRoutes> = ({ isBack }) => {
               >
                 arrow_back
               </span>
+              
             </Button>
           </Navbar.Brand>
         </Container>
