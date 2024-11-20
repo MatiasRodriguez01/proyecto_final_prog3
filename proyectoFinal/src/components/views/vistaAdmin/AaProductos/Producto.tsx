@@ -1,38 +1,41 @@
 import { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
-import styles from './Producto.module.css'
+import styles from "./Producto.module.css";
 import { IProductos } from "../../../../types/dtos/productos/IProductos";
 import { ServiceProductos } from "../../../../services/ServiceProductos";
 import { useDispatch, useSelector } from "react-redux";
-import { editarProducto, guardarProductos } from "../../../../slices/productoSlice";
+import {
+  editarProducto,
+  guardarProductos,
+  productoActivo,
+} from "../../../../slices/productoSlice";
 import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
 import { ServiceCategorias } from "../../../../services/ServiceCategorias";
 import { guardarCategorias } from "../../../../slices/categoriaSlice";
-
 
 import { RootState } from "../../../../hooks/store/store";
 import ModalEditarProducto from "./ModalEditarProducto/ModalEditarProducto";
 import ModalCrearProducto from "./ModalCrearProducto/ModalCrearProducto";
 import { sucursalActiva } from "../../../../slices/sucursalSlice";
 
-
 export const Producto = () => {
-
-  // dispatch 
+  // dispatch
   const dispatch = useDispatch();
 
   // servicio
   const serviceProducto = new ServiceProductos();
   const serviceCategorias = new ServiceCategorias();
 
-  const [subCategorias, setSubcategorias] = useState<ICategorias[]>([])
+  const [subCategorias, setSubcategorias] = useState<ICategorias[]>([]);
 
-  const [subcategoriaSelect, setSubcategoriaSelect] = useState<string>("")
+  const [subcategoriaSelect, setSubcategoriaSelect] = useState<string>("");
 
   const [productosFiltrados, setProductosFiltrados] = useState<IProductos[]>([]);
 
   // sucursales
-  const sucursal = useSelector((state: RootState) => state.sucursal.sucursalActiva);
+  const sucursal = useSelector(
+    (state: RootState) => state.sucursal.sucursalActiva
+  );
 
   // Estado para manejar la visibilidad del modalCrearProducto
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -43,18 +46,20 @@ export const Producto = () => {
   // estado para manejar la visibilidad del modalEditarProducto
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const handleEditModal = (p: IProductos) => {
-    dispatch(editarProducto(null))
-    dispatch(editarProducto(p))
-    console.log('Se creo el producto activo: ', productoAEditar)
-    setShowEditModal(!showEditModal)
-  }
-  
-   // const producto editado
-   const productoAEditar = useSelector((state: RootState) => state.producto.productoEditado)
+    dispatch(editarProducto(null));
+    dispatch(editarProducto(p));
+    console.log("Se creo el producto activo: ", productoAEditar);
+    setShowEditModal(!showEditModal);
+  };
 
-   useEffect(() => {
-     console.log('producto activo: ', productoAEditar)
-   }, [productoAEditar]);
+  // const producto editado
+  const productoAEditar = useSelector(
+    (state: RootState) => state.producto.productoEditado
+  );
+
+  useEffect(() => {
+    console.log("producto activo: ", productoAEditar);
+  }, [productoAEditar]);
 
   const [productos, setProductos] = useState<IProductos[]>([]); // creamos productos
   useEffect(() => {
@@ -62,15 +67,15 @@ export const Producto = () => {
     const fetchProductos = async () => {
       try {
         if (sucursal) {
-          const productosDelServicio = await serviceProducto.getAllProductosPorSucursal(sucursal?.id);
+          const productosDelServicio =
+            await serviceProducto.getAllProductosPorSucursal(sucursal?.id);
           setProductos(productosDelServicio);
-          dispatch(guardarProductos(productosDelServicio))
+          dispatch(guardarProductos(productosDelServicio));
         }
       } catch (error) {
-        console.log("Error al renderizar los productos: ", error)
+        console.log("Error al renderizar los productos: ", error);
       }
-
-    }
+    };
     fetchProductos();
   }, [sucursal]);
 
@@ -104,12 +109,20 @@ useEffect(() => {
 
   const handleDeleteProducto = async (id: number) => {
     try {
-      await serviceProducto.deleteProductoById(id)// Llama al servicio para eliminar
-      alert("Producto eliminado exitosamente");
+      await serviceProducto.deleteProductoById(id); 
     } catch (error) {
       console.error("Error eliminando producto:", error);
-      alert("Hubo un error al eliminar el producto.");
     }
+  };
+
+  const [showInfo, setShowInfo] = useState<boolean>(false);
+  const producto = useSelector(
+    (state: RootState) => state.producto.productoActivo
+  );
+
+  const handleProductoActivo = (a: IProductos) => {
+    dispatch(productoActivo(a));
+    setShowInfo(true);
   };
 
   return (
@@ -169,7 +182,7 @@ useEffect(() => {
           </td>
           <td style={{ width: 'auto' }}>
             <div className={styles.buttonsContainer}>
-              <Button variant="outline-warning">
+              <Button onClick={() => handleProductoActivo(producto)} variant="outline-warning">
                 <span className="material-symbols-outlined">visibility</span>
               </Button>
               <Button onClick={() => handleEditModal(producto)} variant="outline-primary">
@@ -188,7 +201,6 @@ useEffect(() => {
 
       </div>
 
-
       <ModalCrearProducto
         sucursal={sucursal}
         show={showModal}
@@ -201,7 +213,6 @@ useEffect(() => {
         show={showEditModal}
         onClose={() => setShowEditModal(false)}
       />
-
     </>
   );
 };

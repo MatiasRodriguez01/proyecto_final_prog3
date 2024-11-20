@@ -60,17 +60,74 @@ h2 {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+.formulario input {
+  height: 1rem;
+  padding: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.formulario select {
+  height: 1rem;
+  padding: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.inputField {
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
 
-.cuitContainer {
+/* Estilo del input */
+.inputElement {
   width: 100%;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  background: transparent;
+  color: #333;
+}
+
+.inputElement:focus {
+  border-color: #e67e22;
+}
+
+.floatingLabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(8px, -8px);
+  font-size: 0.9rem;
+  color: #555;
+  background-color: white;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+}
+.cuitContainer {
+  position: relative;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 .cuitContainer label {
-  color: #2f2f2f;
-  align-self: flex-start;
-  margin-left: 3rem;
+  position: absolute;
+  top: 0;
+  left: 10%;
+  transform: translate(8px, -8px);
+  font-size: 0.9rem;
+  color: #555;
+  background-color: white;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
 }
 .imagenContainer {
   width: 80%;
