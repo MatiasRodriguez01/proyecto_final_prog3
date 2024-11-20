@@ -120,9 +120,9 @@ export const Categoria = () => {
                   >
                     <Accordion.Header>
                       <strong>{c.denominacion}</strong>
-                      <div style={{ width: '90vw' }}>
+                      <div style={{ width: '90vw'}}>
                         <Button
-                          style={{ width: '4vw', height: '6vh', float: 'right' }}
+                          style={{ width: '4vw', height: '6vh', float: 'right', marginLeft: '0.5rem', marginRight: '0.5rem' }}
                           onClick={(event) => {
                             event.stopPropagation();
                             handlePopUpCrearSubCategoria(c);
@@ -130,7 +130,7 @@ export const Categoria = () => {
                           variant="outline-success"><span className="material-symbols-outlined">add</span>
                         </Button>
                         <Button
-                          style={{ width: '4vw', height: '6vh', float: 'right' }}
+                          style={{ width: '4vw', height: '6vh', float: 'right', marginLeft: '0.5rem' }}
                           onClick={(event) => {
                             event.stopPropagation();
                             handlePopUpEditar(c);

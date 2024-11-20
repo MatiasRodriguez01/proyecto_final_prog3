@@ -89,7 +89,7 @@ const ModalCrearSubcategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, o
               id="categoryName"
               name="denominacion"
               value={values.denominacion}
-              placeholder="Ingrese una denominacion"
+              placeholder="Denominacion"
               onChange={handleChange}
             />
           </div>

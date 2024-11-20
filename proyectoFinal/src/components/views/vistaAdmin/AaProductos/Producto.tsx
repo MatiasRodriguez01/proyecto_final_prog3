@@ -29,6 +29,8 @@ export const Producto = () => {
 
   const [subcategoriaSelect, setSubcategoriaSelect] = useState<string>("")
 
+  const [productosFiltrados, setProductosFiltrados] = useState<IProductos[]>([]);
+
   // sucursales
   const sucursal = useSelector((state: RootState) => state.sucursal.sucursalActiva);
 
@@ -71,6 +73,17 @@ export const Producto = () => {
     }
     fetchProductos();
   }, [sucursal]);
+
+  // Filtrar productos cuando la subcategoría cambia
+useEffect(() => {
+  if (subcategoriaSelect) {
+    const productosFiltradosPorCategoria = productos.filter(producto => producto.categoria.id === parseInt(subcategoriaSelect));
+    setProductosFiltrados(productosFiltradosPorCategoria);
+  } else {
+    setProductosFiltrados(productos); // Si no hay categoría seleccionada, mostrar todos los productos
+  }
+}, [subcategoriaSelect, productos]);
+
 
   const handleSubcategoriaChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSubcategoriaId = e.target.value;
@@ -127,78 +140,52 @@ export const Producto = () => {
               </select>
 
       <div style={{ width: '100%' }}>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Descripcion</th>
-              <th>Categoria</th>
-              <th>Habilitado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              productos &&
-              (
-                productos.map((producto) => (
-                    <tr key={producto.id}>
-                      <td>{producto.id}</td>
-                      <td>{producto.denominacion}</td>
-                      <td>{producto.precioVenta}</td>
-                      <td>{producto.descripcion}</td>
-                      <td>{producto.categoria.denominacion}</td>
-                      <td className={styles.boton}>
-                        <Button
-                          variant="outline-success"
-                        // style={{ width: '5vw' }}
-                        >
-                          <span className="material-symbols-outlined">
-                            thumb_up
-                          </span>
-                        </Button>
-                      </td>
-                      <td style={{ width: 'auto' }}>
-                        <div className={styles.buttonsContainer}>
-                          <Button
-                            // style={{ width: '5vw' }}
-                            variant="outline-warning"
-                          >
-                            <span
-                              className="material-symbols-outlined"
-                              style={{ width: "auto", height: "auto", textAlign: "center" }}
-                            >
-                              visibility
-                            </span>
-                          </Button>
-                          <Button
-                            onClick={() => handleEditModal(producto)}
-                            variant="outline-primary"
-                          >
-                            <span className="material-symbols-outlined">edit</span>
-                          </Button>
-                          <Button
-                            // style={{width: '5vw'}}
-                            variant="outline-danger"
-                            onClick={() => handleDeleteProducto(producto.id)}
-                          >
-                            <span
-                              style={{ width: "auto", height: "auto", textAlign: "center" }}
-                              className="material-symbols-outlined"
-                            >
-                              delete_forever
-                            </span>
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                ))
-              )
-            }
-          </tbody>
-        </Table>
+      <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th>Descripcion</th>
+      <th>Categoria</th>
+      <th>Habilitado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      productosFiltrados &&
+      productosFiltrados.map((producto) => (
+        <tr key={producto.id}>
+          <td>{producto.id}</td>
+          <td>{producto.denominacion}</td>
+          <td>{producto.precioVenta}</td>
+          <td>{producto.descripcion}</td>
+          <td>{producto.categoria.denominacion}</td>
+          <td className={styles.boton}>
+            <Button variant="outline-success">
+              <span className="material-symbols-outlined">thumb_up</span>
+            </Button>
+          </td>
+          <td style={{ width: 'auto' }}>
+            <div className={styles.buttonsContainer}>
+              <Button variant="outline-warning">
+                <span className="material-symbols-outlined">visibility</span>
+              </Button>
+              <Button onClick={() => handleEditModal(producto)} variant="outline-primary">
+                <span className="material-symbols-outlined">edit</span>
+              </Button>
+              <Button variant="outline-danger" onClick={() => handleDeleteProducto(producto.id)}>
+                <span className="material-symbols-outlined">delete_forever</span>
+              </Button>
+            </div>
+          </td>
+        </tr>
+      ))
+    }
+  </tbody>
+</Table>
+
       </div>
 
 
