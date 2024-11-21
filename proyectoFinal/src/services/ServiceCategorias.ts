@@ -13,37 +13,67 @@ export class ServiceCategorias {
   }
 
   public async getAllCategorias(): Promise<ICategorias[]> {
-    const response = await fetch(this.baseURL);
+    const response = await fetch(this.baseURL, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
 
   public async getAllSubcategoriasPorCategoriaPadre(idSucursal: number, idCategoriaPadre: number): Promise<ICategorias[]> {
-    const response = await fetch(`${this.baseURL}/allSubCategoriasPorCategoriaPadre/${idSucursal}/${idCategoriaPadre}`);
+    const response = await fetch(`${this.baseURL}/allSubCategoriasPorCategoriaPadre/${idSucursal}/${idCategoriaPadre}`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/10.1.1"
+      },
+    });
     const data = await response.json();
     return data;
   }
 
   public async getAllSubcategoriasPorSucursal(idSucursal: number): Promise<ICategorias[]> {
-    const response = await fetch(`${this.baseURL}/allSubCategoriasPorSucursal/${idSucursal}`);
+    const response = await fetch(`${this.baseURL}/allSubCategoriasPorSucursal/${idSucursal}`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
 
   public async getAllCategoriasPadrePorSucursal(idSucursal: number): Promise<ICategorias[]> {
-    const response = await fetch(`${this.baseURL}/allCategoriasPorSucursal/${idSucursal}`);
+    const response = await fetch(`${this.baseURL}/allCategoriasPorSucursal/${idSucursal}`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
 
   public async getCategoriasPorEmpresa(idEmpresa: number): Promise<ICategorias[]> {
-    const response = await fetch(`${this.baseURL}/allCategoriasPorEmpresa/${idEmpresa}`);
+    const response = await fetch(`${this.baseURL}/allCategoriasPorEmpresa/${idEmpresa}`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
 
   public async getCategoria(id: number): Promise<IEmpresa> {
-    const response = await fetch(`${this.baseURL}/${id}`);
+    const response = await fetch(`${this.baseURL}/${id}`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
@@ -52,7 +82,8 @@ export class ServiceCategorias {
     const response = await fetch(`${this.baseURL}/create`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json' ,
+        "User-Agent" : "insomnia/9.3.2"
       },
       body: JSON.stringify(categoria)
     });
@@ -64,7 +95,8 @@ export class ServiceCategorias {
     const response = await fetch(`${this.baseURL}/update/${id}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json' ,
+        "User-Agent" : "insomnia/9.3.2"
       },
       body: JSON.stringify(categoria)
     });

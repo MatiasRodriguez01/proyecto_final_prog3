@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import stylesCrearProducto from "./ModalCrearProducto.module.css";
 //import addImagen from "./imagen.png";
@@ -8,23 +8,21 @@ import { ICategorias } from "../../../../../types/dtos/categorias/ICategorias";
 import { IAlergenos } from "../../../../../types/dtos/alergenos/IAlergenos";
 import { IImagen } from "../../../../../types/IImagen";
 import { ICreateProducto } from "../../../../../types/dtos/productos/ICreateProducto";
-import { ServiceCategorias } from "../../../../../services/ServiceCategorias";
-import { ServiceAlergenos } from "../../../../../services/ServiceAlergenos";
-import { ISucursal } from "../../../../../types/dtos/sucursal/ISucursal";
 import { ServiceProductos } from "../../../../../services/ServiceProductos";
+import { ISucursal } from "../../../../../types/dtos/sucursal/ISucursal";
 
 interface ModalCrearProductoProps {
   sucursal: ISucursal | null,
   show: boolean;
+  categorias: ICategorias[];
+  alergenos: IAlergenos[];
   onClose: () => void;
 }
 
-const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ sucursal, show, onClose }) => {
+const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ sucursal, show, categorias, alergenos, onClose }) => {
   if (sucursal !== null) {
 
-    // servicios
-    const serviceCategorias = new ServiceCategorias();
-    const serviceAlergenos = new ServiceAlergenos();
+    
     const serviceProductos = new ServiceProductos();
 
     // los valores de formulario
@@ -44,49 +42,23 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ sucursal, show,
     const [imagenes, setImagenes] = useState<IImagen[]>([])
     // el boton de habilitado
     const [habilitado, setHabilitado] = useState<boolean>(false)
-    // las categorias y alergenos sacados de los servicios de la api
-    const [categorias, setCategorias] = useState<ICategorias[]>([])
-    const [alergenos, setAlergenos] = useState<IAlergenos[]>([])
 
     // const 
-    const handleAddCategoriaId = (event : React.ChangeEvent<HTMLSelectElement>) => {
+    const handleAddCategoriaId = (event: React.ChangeEvent<HTMLSelectElement>) => {
       const num: number = Number(event.target.value);
-      const cate: ICategorias =  categorias[num];
-      setIdCategoria(cate.id)
-    }
-
-    // el useEffect para renderizar y generar las categorias y alergenos
-    useEffect(() => {
-      if (sucursal) {
-        const fetchCategorias = async () => {
-          try {
-            const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id);
-            setCategorias(response);
-          } catch (error) {
-            console.error("Error al obtener categorías:", error);
-          }
-        };
-    
-        const fetchAlergenos = async () => {
-          try {
-            const response = await serviceAlergenos.getAllAlergenos();
-            setAlergenos(response);
-          } catch (error) {
-            console.error("Error al obtener alérgenos:", error);
-          }
-        };
-    
-        // Llamamos a las funciones de manera separada
-        fetchCategorias();
-        fetchAlergenos();
+      if (idCategoria === 0){
+        alert('Agrege una categoria por favor!!')
+        return 
+      } else {
+        setIdCategoria(num)
       }
-    }, [sucursal]); //asignamos los valores de dependencia
+    }
 
     // desectruturamos los valores de [values]
     const { denominacion, precioVenta, descripcion, codigo, imagen } = values
 
     // funcion para guardar las imganes de producto
-    const addImagen = (url: string) => { 
+    const addImagen = (url: string) => {
       if (url.trim() !== "") {  // si la url no esta vacia asigna las imagenes
         const newImage: IImagen = {
           name: `Imagen ${imagenes.length + 1}`,
@@ -108,6 +80,10 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ sucursal, show,
     // creamos la funcion para agregar un producto
     const handleCrearProducto = async (producto: ICreateProducto) => {
       try {
+        // if (idCategoria === 0){
+        //   alert('Agrege una categoria por favor!!')
+        //   return 
+        // }
         const response = await serviceProductos.createOneProducto(producto);
         console.log("Se creo el producto: ", response)
       } catch (error) {
@@ -123,7 +99,7 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ sucursal, show,
         precioVenta: precioVenta,
         descripcion: descripcion,
         codigo: codigo,
-        idCategoria: idCategoria,
+        idCategoria: idCategoria === 0 ? categorias[0].id : idCategoria,
         idAlergenos: idsAlergenos,
         imagenes: imagenes
       }
@@ -152,7 +128,7 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ sucursal, show,
         aria-labelledby="contained-modal-title-vcenter"
         centered show={show} onHide={onClose}>
         <Modal.Header>
-          <h2 style={{textAlign:'center'}}>Crear producto</h2>
+          <h2 style={{ textAlign: 'center' }}>Crear producto</h2>
         </Modal.Header>
         <Modal.Body style={{ height: '70vh' }}>
           <form onSubmit={handleSubmit}>
@@ -262,7 +238,7 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ sucursal, show,
                     onChange={handleChange}
                   />
                   <Button
-                    style={{float:'left', width: 'auto'}}
+                    style={{ float: 'left', width: 'auto' }}
                     onClick={() => addImagen(imagen)}>
                     Agregar Imagen
                   </Button>

@@ -11,14 +11,14 @@ import {
 } from "../../../../slices/productoSlice";
 import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
 import { ServiceCategorias } from "../../../../services/ServiceCategorias";
-import { guardarCategorias } from "../../../../slices/categoriaSlice";
 
 import { RootState } from "../../../../hooks/store/store";
 import ModalEditarProducto from "./ModalEditarProducto/ModalEditarProducto";
 import ModalCrearProducto from "./ModalCrearProducto/ModalCrearProducto";
-import { sucursalActiva } from "../../../../slices/sucursalSlice";
 import { IUpdateProducto } from "../../../../types/dtos/productos/IUpdateProducto";
 import { ProductoInfo } from "./ProductoInfo/ProductoInfo";
+import { IAlergenos } from "../../../../types/dtos/alergenos/IAlergenos";
+import { ServiceAlergenos } from "../../../../services/ServiceAlergenos";
 
 export const Producto = () => {
   // dispatch
@@ -31,8 +31,6 @@ export const Producto = () => {
   const [subCategorias, setSubcategorias] = useState<ICategorias[]>([]);
 
   const [productosFiltrados, setProductosFiltrados] = useState<IProductos[]>([]);
-
-  const [habilitado, setHabilitado] = useState<boolean>(false)
 
   // sucursales
   const sucursal = useSelector(
@@ -60,7 +58,7 @@ export const Producto = () => {
   );
 
   useEffect(() => {
-    console.log("producto activo: ", productoAEditar);
+    console.log("producto a Editar activo: ", productoAEditar);
   }, [productoAEditar]);
 
   const [productos, setProductos] = useState<IProductos[]>([]); // creamos productos
@@ -130,18 +128,16 @@ export const Producto = () => {
     setShowInfo(true);
   };
 
-  const handleEditarHabilitado = async(productoHabilitado: IUpdateProducto) => {
-    try{
+  const handleEditarHabilitado = async (productoHabilitado: IUpdateProducto) => {
+    try {
       await serviceProducto.editOneProducto(productoHabilitado.id, productoHabilitado)
-    }catch(error){
+    } catch (error) {
       console.error("Error al habilitar el producto: ", error)
     }
   }
 
-
-
   const handleHabilitado = (producto: IProductos) => {
-    if (producto){
+    if (producto) {
       console.log(producto.id)
       const productoHabilitado: IUpdateProducto = {
         id: producto.id,
@@ -165,6 +161,40 @@ export const Producto = () => {
       );
     }
   }
+
+  // servicios
+  const serviceAlergenos = new ServiceAlergenos();
+  // las categorias y alergenos sacados de los servicios de la api
+  const [categorias, setCategorias] = useState<ICategorias[]>([])
+  // el useEffect para renderizar y generar las categorias y alergenos
+  useEffect(() => {
+    const fetchCategorias = async () => { // fetch para generar las categorias de la sucursal
+      try {
+        if (sucursal) {
+          const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id);
+          setCategorias(response);
+        }
+      } catch (error) {
+        console.log('ModalCrearProducto no tiene categorias');
+      }
+    }
+    fetchCategorias();
+  }, [categorias]); //asignamos los valores de dependencia
+
+  const [alergenos, setAlergenos] = useState<IAlergenos[]>([])
+  useEffect(() => {
+
+    const fetchAlergenos = async () => { // fetch para geenerar los alergenos 
+      try {
+        const response = await serviceAlergenos.getAllAlergenos();
+        setAlergenos(response);
+      } catch (error) {
+        console.log('ModalCrearProducto no tiene alergenos');
+      }
+    }
+    // llamamos a  las funciones de effect
+    fetchAlergenos();
+  }, [alergenos])
 
   return (
     <>
@@ -222,10 +252,10 @@ export const Producto = () => {
                       <td>{producto.categoria.denominacion}</td>
                       <td className={styles.boton}>
                         <Button variant="outline-success" onClick={() => handleHabilitado(producto)} className={
-                                                            producto.habilitado
-                                                            ? styles.botonHabilitado
-                                                            : styles.botonDeshabilitado
-                                                            }>
+                          producto.habilitado
+                            ? styles.botonHabilitado
+                            : styles.botonDeshabilitado
+                        }>
                           <span className="material-symbols-outlined">thumb_up</span>
                         </Button>
                       </td>
@@ -284,12 +314,16 @@ export const Producto = () => {
 
       <ModalCrearProducto
         sucursal={sucursal}
+        alergenos={alergenos}
+        categorias={categorias}
         show={showModal}
         onClose={() => setShowModal(false)}
       />
 
       <ModalEditarProducto
         sucursal={sucursal}
+        alergenos={alergenos}
+        categorias={categorias}
         productoAEditar={productoAEditar}
         show={showEditModal}
         onClose={() => setShowEditModal(false)}

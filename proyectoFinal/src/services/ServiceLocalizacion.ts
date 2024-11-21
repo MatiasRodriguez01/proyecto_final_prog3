@@ -1,6 +1,4 @@
-import { ICreateEmpresaDto } from '../types/dtos/empresa/ICreateEmpresaDto';
-import { IEmpresa } from '../types/dtos/empresa/IEmpresa';
-import { IUpdateEmpresaDto } from '../types/dtos/empresa/IUpdateEmpresaDto';
+
 import { ILocalidad } from '../types/ILocalidad';
 import { IPais } from '../types/IPais';
 import { IProvincia } from '../types/IProvincia';
@@ -16,19 +14,34 @@ export class ServiceLocalizacion {
   }
 
   public async getPaises(): Promise<IPais[]> {
-    const response = await fetch(`${this.baseURL}/paises`);
+    const response = await fetch(`${this.baseURL}/paises`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
 
   public async getProvincias(idPais: number): Promise<IProvincia[]> {
-    const response = await fetch(`${this.baseURL}/provincias/findByPais/${idPais}`);
+    const response = await fetch(`${this.baseURL}/provincias/findByPais/${idPais}`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
 
   public async getLocalidades(idProvincia: number): Promise<ILocalidad[]> {
-    const response = await fetch(`${this.baseURL}/localidades/findByProvincia/${idProvincia}`);
+    const response = await fetch(`${this.baseURL}/localidades/findByProvincia/${idProvincia}`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }

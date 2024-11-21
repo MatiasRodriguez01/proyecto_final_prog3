@@ -1,4 +1,3 @@
-import { ICreateAlergeno } from "../types/dtos/alergenos/ICreateAlergeno";
 import { ICreateProducto } from "../types/dtos/productos/ICreateProducto";
 import { IProductos } from "../types/dtos/productos/IProductos";
 import { IUpdateProducto } from "../types/dtos/productos/IUpdateProducto";
@@ -15,20 +14,35 @@ export class ServiceProductos{
   }
 
   public async getAllProductos(): Promise<IProductos[]> {
-    const response = await fetch(this.baseURL);
-    const data = await response.json();
-    return data;
+      const response = await fetch(this.baseURL, {
+        method: 'GET',
+        headers: {
+          "User-Agent" : "insomnia/9.3.2"
+        },
+      });
+      const data = await response.json();
+      return data;
   }  
   
   public async getAllProductosPorSucursal(idSucursal: number): Promise<IProductos[]> {
-    const response = await fetch(`${this.baseURL}/porSucursal/${idSucursal}`);
+    const response = await fetch(`${this.baseURL}/porSucursal/${idSucursal}`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
 
 
   public async getProducto(id: number): Promise<IProductos> {
-    const response = await fetch(`${this.baseURL}/${id}`);
+    const response = await fetch(`${this.baseURL}/${id}`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
@@ -36,7 +50,8 @@ export class ServiceProductos{
         const response = await fetch(`${this.baseURL}/create`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json' ,
+            "User-Agent" : "insomnia/9.3.2"
           },
           body: JSON.stringify(producto)
         });
@@ -44,17 +59,12 @@ export class ServiceProductos{
         return data;
       }
     
-      // public async editOneEmpresa(id: number, empresa: IUpdateEmpresaDto): Promise<AxiosResponse<IEmpresa>> {
-      //   return axios.put(`${this.baseURL}/update/${id}`, empresa, {
-      //     headers: { 'Content-Type': 'application/json' },
-      //   });
-      // }
-    
       public async editOneProducto(id: number, producto: IUpdateProducto): Promise<IUpdateProducto> {
         const response = await fetch(`${this.baseURL}/update/${id}`, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json' ,
+            "User-Agent" : "insomnia/9.3.2"
           },
           body: JSON.stringify(producto)
         });

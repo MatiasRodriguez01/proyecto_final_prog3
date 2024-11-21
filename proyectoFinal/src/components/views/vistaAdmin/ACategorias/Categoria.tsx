@@ -65,6 +65,7 @@ export const Categoria = () => {
   // modal edita categoria
   const [popUpEditar, setPopUpEditar] = useState<boolean>(false);
   const handlePopUpEditar = (cate: ICategorias) => {
+    dispatch(categoriaActiva(null))
     dispatch(categoriaActiva(cate))
     setPopUpEditar(!popUpEditar);
   }
@@ -72,6 +73,7 @@ export const Categoria = () => {
   //subCategoriaActiva
   const [popUpEditarSubCategoria, setPopUpEditarSubCategoria] = useState<boolean>(false);
   const handlePopUpEditarSubCategoria = (cate: ICategorias) => {
+    dispatch(subCategoriaActiva(null))
     dispatch(subCategoriaActiva(cate))
     setPopUpEditarSubCategoria(!popUpEditarSubCategoria);
   }
@@ -79,6 +81,7 @@ export const Categoria = () => {
   //subCategoriaActiva
   const [popUpCrearSubCategoria, setPopUpCrearSubCategoria] = useState<boolean>(false);
   const handlePopUpCrearSubCategoria = (cate: ICategorias) => {
+    dispatch(subCategoriaActiva(null))
     dispatch(subCategoriaActiva(cate))
     setPopUpCrearSubCategoria(!popUpCrearSubCategoria);
   }

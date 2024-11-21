@@ -12,19 +12,25 @@ export class ServiceEmpresa {
 
   }
 
-  // public async getAllEmpresas(): Promise<AxiosResponse<IEmpresa[]>> {
-  //   return axios.get(this.baseURL);
-  // }
-
   public async getAllEmpresas(): Promise<IEmpresa[]> {
-    const response = await fetch(`${this.baseURL}/empresas`);
+    const response = await fetch(`${this.baseURL}/empresas,`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
 
   // momstrar una empresa
   public async getEmpresa(id: number): Promise<IEmpresa> {
-    const response = await fetch(`${this.baseURL}/empresas/${id}`);
+    const response = await fetch(`${this.baseURL}/empresas/${id}`, {
+      method: 'GET',
+      headers: {
+        "User-Agent" : "insomnia/9.3.2"
+      },
+    });
     const data = await response.json();
     return data;
   }
@@ -33,7 +39,8 @@ export class ServiceEmpresa {
     const response = await fetch(`${this.baseURL}/empresas`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json',
+         "User-Agent" : "insomnia/9.3.2"
       },
       body: JSON.stringify(empresa)
     });

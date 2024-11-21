@@ -15,7 +15,8 @@ export class ServiceAlergenos{
         const response = await fetch(`${this.baseURL}`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json' ,
+             "User-Agent" :"insomnia/9.3.2"
           },
           body: JSON.stringify(alergeno)
         });
@@ -24,14 +25,24 @@ export class ServiceAlergenos{
       }
 
       public async getAllAlergenos(): Promise<IAlergenos[]> {
-        const response = await fetch(`${this.baseURL}`);
+        const response = await fetch(`${this.baseURL}`,{
+          method: 'GET',
+          headers: {
+            "User-Agent" :"insomnia/9.3.2"
+          },
+        });
         const data = await response.json();
         return data;
       }
     
 
       public async getAlergeno(id: number): Promise<IAlergenos> {
-        const response = await fetch(`${this.baseURL}/${id}`);
+        const response = await fetch(`${this.baseURL}/${id}`,{
+          method: 'GET',
+          headers: {
+            "User-Agent" :"insomnia/9.3.2"
+          },
+        })
         const data = await response.json();
         return data;
       }
@@ -40,7 +51,8 @@ export class ServiceAlergenos{
         const response = await fetch(`${this.baseURL}/${id}`, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json',
+             "User-Agent" :"insomnia/9.3.2"
           },
           body: JSON.stringify(alergeno)
         });

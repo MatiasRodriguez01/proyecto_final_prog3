@@ -5,8 +5,6 @@ import { ServiceProductos } from "../../../../../services/ServiceProductos";
 import { ICategorias } from "../../../../../types/dtos/categorias/ICategorias";
 import { IAlergenos } from "../../../../../types/dtos/alergenos/IAlergenos";
 import { IImagen } from "../../../../../types/IImagen";
-import { ServiceCategorias } from "../../../../../services/ServiceCategorias";
-import { ServiceAlergenos } from "../../../../../services/ServiceAlergenos";
 import { ISucursal } from "../../../../../types/dtos/sucursal/ISucursal";
 
 import styleModalProducto from './ModalEditarProducto.module.css';
@@ -15,24 +13,26 @@ import { IUpdateProducto } from "../../../../../types/dtos/productos/IUpdateProd
 
 interface ModalEditarProductoProps {
   sucursal: ISucursal | null,
-  productoAEditar: IProductos | null
-  show: boolean;
-  onClose: () => void;
+  alergenos: IAlergenos[],
+  categorias: ICategorias[],
+  productoAEditar: IProductos | null,
+  show: boolean,
+  onClose: () => void,
 }
 
 const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
   sucursal,
+  alergenos,
+  categorias,
   productoAEditar,
   show,
   onClose,
 }) => {
   if ((sucursal !== null) && (productoAEditar !== null)) {
     // servicios
-    const serviceCategorias = new ServiceCategorias();
-    const serviceAlergenos = new ServiceAlergenos();
     const serviceProductos = new ServiceProductos();
 
-    
+
     // los valores de formulario
     const { values, handleChange, resetForm, setValues } = useForm({
       denominacion: productoAEditar?.denominacion || "",
@@ -47,15 +47,15 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
 
     useEffect(() => {
       if (productoAEditar && show) {
-          setValues({
-            denominacion: productoAEditar.denominacion,
-            precioVenta: productoAEditar.precioVenta,
-            descripcion: productoAEditar.descripcion,
-            codigo: productoAEditar.codigo,
-            imagen: "",
-          });
+        setValues({
+          denominacion: productoAEditar.denominacion,
+          precioVenta: productoAEditar.precioVenta,
+          descripcion: productoAEditar.descripcion,
+          codigo: productoAEditar.codigo,
+          imagen: "",
+        });
       }
-  }, [productoAEditar, show]);
+    }, [productoAEditar, show]);
 
     // guardamos el id de la categorias seleccionada
     const [idCategoria, setIdCategoria] = useState(productoAEditar.categoria.id)
@@ -65,42 +65,13 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
     const [imagenes, setImagenes] = useState<IImagen[]>(productoAEditar.imagenes)
     // el boton de habilitado
     const [habilitado, setHabilitado] = useState<boolean>(productoAEditar.habilitado)
-    // las categorias y alergenos sacados de los servicios de la api
-    const [categorias, setCategorias] = useState<ICategorias[]>([])
-    const [alergenos, setAlergenos] = useState<IAlergenos[]>([])
 
     // const 
-    const handleAddCategoriaId = (event : React.ChangeEvent<HTMLSelectElement>) => {
+    const handleAddCategoriaId = (event: React.ChangeEvent<HTMLSelectElement>) => {
       console.log(event);
       const num = (event.target.value);
       setIdCategoria(Number(num));
     }
-
-    // el useEffect para renderizar y generar las categorias y alergenos
-    useEffect(() => {
-      const fetchCategorias = async () => { // fetch para generar las categorias de la sucursal
-        try {
-          if (sucursal) {
-            const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id);
-            setCategorias(response);
-          }
-        } catch (error) {
-          console.log('ModalCrearProducto no tiene categorias');
-        }
-      }
-
-      const fetchAlergenos = async () => { // fetch para geenerar los alergenos 
-        try {
-          const response = await serviceAlergenos.getAllAlergenos();
-          setAlergenos(response);
-        } catch (error) {
-          console.log('ModalCrearProducto no tiene alergenos');
-        }
-      }
-      // llamamos a  las funciones de effect
-      fetchCategorias();
-      fetchAlergenos();
-    }, [categorias, alergenos]); //asignamos los valores de dependencia
 
     // funcion para guardar las imganes de producto
     const addImagen = (url: string) => {
@@ -171,7 +142,7 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
         aria-labelledby="contained-modal-title-vcenter"
         centered show={show} onHide={onClose}>
         <Modal.Header>
-          <h2 style={{textAlign:'center'}}>Editar producto</h2>
+          <h2 style={{ textAlign: 'center' }}>Editar producto</h2>
         </Modal.Header>
         <Modal.Body style={{ height: '70vh' }}>
           <form onSubmit={handleSubmit}>
@@ -231,7 +202,7 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
                   className={styleModalProducto.label}
                   type="text"
                   name="codigo"
-                  value={codigo}
+                  value={values.codigo}
                   placeholder="Ingrese el codigo del producto"
                   onChange={handleChange}
                 />
@@ -280,7 +251,7 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
                     onChange={handleChange}
                   />
                   <Button
-                    style={{float:'left', width: 'auto'}}
+                    style={{ float: 'left', width: 'auto' }}
                     onClick={() => addImagen(imagen)}>
                     Agregar Imagen
                   </Button>
