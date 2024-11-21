@@ -135,6 +135,7 @@ useEffect(() => {
       <select
                 name="categorias"
                 value={subcategoriaSelect}
+                className={styles.selectCategoria}
                 onChange={(e) => {
                   if (sucursal) {
                     handleSubcategoriaChange(e);
