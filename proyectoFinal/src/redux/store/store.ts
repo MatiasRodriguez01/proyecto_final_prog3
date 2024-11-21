@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import empresaReducer from "../../slices/empresaSlice";
-import sucursalReducer from "../../slices/sucursalSlice";
-import alergenoReducer from '../../slices/alegenoSlice'
-import categoriaReducer from '../../slices/categoriaSlice'
-import productoReducer from '../../slices/productoSlice'
+import empresaReducer from "../slices/empresaSlice";
+import sucursalReducer from "../slices/sucursalSlice";
+import alergenoReducer from '../slices/alegenoSlice'
+import categoriaReducer from '../slices/categoriaSlice'
+import productoReducer from '../slices/productoSlice'
 
 const store = configureStore({
   reducer: {

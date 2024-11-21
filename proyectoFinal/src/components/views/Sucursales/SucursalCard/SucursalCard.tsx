@@ -5,7 +5,7 @@ import { ISucursal } from "../../../../types/dtos/sucursal/ISucursal";
 import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
 import { ModalEditarSucursal } from "../ModalEditarSucursal/ModalEditarSucursal";
 import { useDispatch } from "react-redux";
-import { sucursalActiva } from "../../../../slices/sucursalSlice";
+import { sucursalActiva } from "../../../../redux/slices/sucursalSlice";
 
 interface IPropsSucursalCard {
   sucursal: ISucursal;

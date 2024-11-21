@@ -8,11 +8,11 @@ import {
   editarProducto,
   guardarProductos,
   productoActivo,
-} from "../../../../slices/productoSlice";
+} from "../../../../redux/slices/productoSlice";
 import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
 import { ServiceCategorias } from "../../../../services/ServiceCategorias";
 
-import { RootState } from "../../../../hooks/store/store";
+import { RootState } from "../../../../redux/store/store";
 import ModalEditarProducto from "./ModalEditarProducto/ModalEditarProducto";
 import ModalCrearProducto from "./ModalCrearProducto/ModalCrearProducto";
 import { IUpdateProducto } from "../../../../types/dtos/productos/IUpdateProducto";

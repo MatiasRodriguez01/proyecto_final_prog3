@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISucursal } from "../types/dtos/sucursal/ISucursal";
+import { ISucursal } from "../../types/dtos/sucursal/ISucursal";
 
 interface sucursalState {
   sucursales: ISucursal[];

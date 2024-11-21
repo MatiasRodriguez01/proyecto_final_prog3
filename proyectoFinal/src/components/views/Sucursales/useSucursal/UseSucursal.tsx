@@ -12,7 +12,7 @@ import { usePopUpVisible } from "../../../../hooks/usePopUpVisible";
 import { useDispatch } from "react-redux";
 import { ISucursal } from "../../../../types/dtos/sucursal/ISucursal";
 import { ServiceSucursal } from "../../../../services/ServiceSucursal";
-import { guardarSucursales } from "../../../../slices/sucursalSlice";
+import { guardarSucursales } from "../../../../redux/slices/sucursalSlice";
 
 interface IPropsSucursal {
   empresa: IEmpresa;

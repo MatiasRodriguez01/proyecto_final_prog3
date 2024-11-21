@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   empresaActiva,
   eliminarEmpresaActiva,
-} from "../../../../slices/empresaSlice";
-import { RootState } from "../../../../hooks/store/store";
+} from "../../../../redux/slices/empresaSlice";
+import { RootState } from "../../../../redux/store/store";
 
 interface EmpresaCardProps {
   empresa: IEmpresa;

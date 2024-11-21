@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IAlergenos } from "../types/dtos/alergenos/IAlergenos";
+import { IAlergenos } from "../../types/dtos/alergenos/IAlergenos";
 
 interface alergenoState {
   alergenos: IAlergenos[];

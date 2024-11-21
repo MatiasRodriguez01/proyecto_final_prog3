@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { RootState } from "../../../../hooks/store/store";
+import { RootState } from "../../../../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
 import { ServiceCategorias } from "../../../../services/ServiceCategorias";
-import { categoriaActiva, guardarCategorias, subCategoriaActiva } from "../../../../slices/categoriaSlice";
+import { categoriaActiva, guardarCategorias, subCategoriaActiva } from "../../../../redux/slices/categoriaSlice";
 import categoriaStyle from "./Categoria.module.css";
 import { Accordion, Button, ListGroup } from "react-bootstrap";
 import ModalCrearCategoria from "./Categoria/ModalCrearCategoria/ModalCrearCategoria";

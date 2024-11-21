@@ -3,13 +3,13 @@ import { Button, Modal } from 'react-bootstrap';
 import { ICategorias } from '../../../../../../types/dtos/categorias/ICategorias';
 import { ServiceCategorias } from '../../../../../../services/ServiceCategorias';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../../hooks/store/store';
+import { RootState } from '../../../../../../redux/store/store';
 import { IUpdateCategoria } from '../../../../../../types/dtos/categorias/IUpdateCategoria';
 import { ISucursal } from '../../../../../../types/dtos/sucursal/ISucursal';
 import { useForm } from '../../../../../../hooks/useForm';
 
 import stylesEditarSubCategoria from "./ModalEditarSubCategoria.module.css";
-import { subCategoriaActiva } from '../../../../../../slices/categoriaSlice';
+import { subCategoriaActiva } from '../../../../../../redux/slices/categoriaSlice';
 
 interface IProsEditarCategoria {
     subCategoria: ICategorias | null,

@@ -6,9 +6,9 @@ import { UseSucursal } from "../../views/Sucursales/useSucursal/UseSucursal";
 import { useDispatch, useSelector } from "react-redux";
 
 import styleListado from "./Listado.module.css";
-import { guardarEmpresas } from "../../../slices/empresaSlice";
+import { guardarEmpresas } from "../../../redux/slices/empresaSlice";
 import { IEmpresa } from "../../../types/dtos/empresa/IEmpresa";
-import { RootState } from "../../../hooks/store/store";
+import { RootState } from "../../../redux/store/store";
 
 interface IPropsListado {
   onVistaAdmin: () => void;

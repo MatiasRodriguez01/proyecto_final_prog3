@@ -5,12 +5,12 @@ import ModalCrearAlergeno from "./ModalCrearAlergeno/ModalCrearAlergeno";
 
 import styles from "./AlergenoListado.module.css";
 import { Button } from "react-bootstrap";
-import { RootState } from "../../../../hooks/store/store";
+import { RootState } from "../../../../redux/store/store";
 import {
   alergenoActivo,
   editarAlergeno,
   guardarAlergenos,
-} from "../../../../slices/alegenoSlice";
+} from "../../../../redux/slices/alegenoSlice";
 import { ModalEditarAlergeno } from "./ModalCrearAlergeno/ModalEditarAlergeno";
 import { AlergenoInfo } from "./AlergenoInfo/AlergenoInfo";
 import { useDispatch, useSelector } from "react-redux";

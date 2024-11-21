@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IEmpresa } from "../types/dtos/empresa/IEmpresa";
+import { IEmpresa } from "../../types/dtos/empresa/IEmpresa";
 
 
 interface EmpresaState {

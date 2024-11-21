@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICategorias } from "../types/dtos/categorias/ICategorias";
+import { ICategorias } from "../../types/dtos/categorias/ICategorias";
 
 interface categoriaState {
   categorias: ICategorias[];

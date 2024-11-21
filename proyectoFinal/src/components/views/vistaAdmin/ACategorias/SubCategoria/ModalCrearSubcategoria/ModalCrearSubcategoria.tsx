@@ -6,7 +6,7 @@ import { ICreateCategoria } from "../../../../../../types/dtos/categorias/ICreat
 import { IEmpresa } from "../../../../../../types/dtos/empresa/IEmpresa";
 
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../../hooks/store/store";
+import { RootState } from "../../../../../../redux/store/store";
 
 import styles from "./ModalCrearSubcategoria.module.css";
 
