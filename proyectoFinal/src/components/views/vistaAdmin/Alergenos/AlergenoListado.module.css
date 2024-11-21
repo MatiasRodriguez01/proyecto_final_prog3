@@ -48,74 +48,65 @@
 }
 .tabla td {
   padding: 8px;
-  
 }
 
 .tabla tr:nth-child(even) {
-    background-color: #dddddd; 
-  }
-.tabla th:nth-child(1){
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-
+  background-color: #dddddd;
+}
+.tabla th:nth-child(1) {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .tabla {
-    width: 100%; /* Ocupa todo el ancho disponible */
-    border-collapse: collapse; /* Une los bordes */
-    background-color: #f5f5f5; /* Fondo claro para buena visibilidad */
-    font-family: Arial, sans-serif; /* Fuente limpia */
-    align-items: center;
-  }
-  
-  .tablaTitle {
-    padding: 10px; /* Espaciado interno */
-    text-align: center;
-    background-color: #e67e22; /* Centra el contenido */
-  }
-  
-  .tabla tr {
-    background-color: #e67e22; /* Fondo naranja para encabezados */
-    color: black; /* Texto blanco */
-    font-weight: bold;
-  }
-  
-  .tabla tr:nth-child(even) {
-    background-color: #dddddd; /* Gris claro para filas pares */
-  }
-  
-  .tabla tr:nth-child(odd) {
-    background-color: #f5f5f5; /* Fondo claro para filas impares */
-  }
-  
-  .tabla img {
-    border-radius: 4px; /* Bordes redondeados para imágenes */
-    object-fit: cover; /* Ajusta la imagen sin distorsión */
-  }
-  
-  /* Botones */
-  .botones {
-    border: none; /* Sin borde */
-    padding: 6px 10px; /* Tamaño uniforme */
-    font-size: 16px;
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer;
-  }
-  
-  .botones:hover {
-    opacity: 0.8; /* Efecto visual al pasar el cursor */
-  }
-  
-  .botones[aria-label="Ver alergeno"] {
-    color: #ffcc00; /* Amarillo */
-  }
-  
-  .botones[aria-label="Editar alergeno"] {
-    color: #007bff; /* Azul */
-  }
-  
-  .botones[aria-label="Eliminar alergeno"] {
-    color: #dc3545; /* Rojo */
-  }
-  
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+  align-items: center;
+}
+
+.tablaTitle {
+  padding: 10px;
+  text-align: center;
+  background-color: #e67e22;
+}
+
+.tabla tr {
+  background-color: #e67e22;
+  color: black;
+  font-weight: bold;
+}
+
+.tabla tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.tabla tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
+.tabla img {
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.botones {
+  border: none;
+  padding: 6px 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.botones:hover {
+  opacity: 0.8;
+  scale: 1.2;
+}
+.id{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
