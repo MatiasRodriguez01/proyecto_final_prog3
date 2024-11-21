@@ -130,8 +130,19 @@ export const Producto = () => {
     setShowInfo(true);
   };
 
-  const handleHabilitado = () => {
+  const handleEditarHabilitado = async(productoHabilitado: IUpdateProducto) => {
+    try{
+      await serviceProducto.editOneProducto(productoHabilitado.id, productoHabilitado)
+    }catch(error){
+      console.error("Error al habilitar el producto: ", error)
+    }
+  }
+
+
+
+  const handleHabilitado = (producto: IProductos) => {
     if (producto){
+      console.log(producto.id)
       const productoHabilitado: IUpdateProducto = {
         id: producto.id,
         eliminado: producto.eliminado,
@@ -144,8 +155,15 @@ export const Producto = () => {
         idAlergenos: producto.alergenos.map((alergeno) => Number(alergeno.id)),
         imagenes: producto.imagenes
       }
-    }
 
+      handleEditarHabilitado(productoHabilitado)
+
+      setProductos((prevProductos) =>
+        prevProductos.map((p) =>
+          p.id === producto.id ? { ...p, habilitado: !p.habilitado } : p
+        )
+      );
+    }
   }
 
   return (
@@ -203,7 +221,11 @@ export const Producto = () => {
                       <td>{producto.descripcion}</td>
                       <td>{producto.categoria.denominacion}</td>
                       <td className={styles.boton}>
-                        <Button variant="outline-success">
+                        <Button variant="outline-success" onClick={() => handleHabilitado(producto)} className={
+                                                            producto.habilitado
+                                                            ? styles.botonHabilitado
+                                                            : styles.botonDeshabilitado
+                                                            }>
                           <span className="material-symbols-outlined">thumb_up</span>
                         </Button>
                       </td>
@@ -232,7 +254,7 @@ export const Producto = () => {
                         <td>{producto.descripcion}</td>
                         <td>{producto.categoria.denominacion}</td>
                         <td className={styles.boton}>
-                          <Button variant="outline-success" onClick={handleHabilitado}>
+                          <Button variant="outline-success">
                             <span className="material-symbols-outlined">thumb_up</span>
                           </Button>
                         </td>
