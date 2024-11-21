@@ -69,8 +69,20 @@ export class ServiceProductos{
             "User-Agent" : "insomnia/10.1.0"
           }
         });
-        const data = response.json();
-        return data;
+        if (response.ok) {
+          // Si no se espera cuerpo, no hacemos .json()
+          if (response.status === 204) {
+            // Si la respuesta es vacía (204 No Content), solo regresamos sin hacer nada
+            return;
+          }
+      
+          // Si la respuesta tiene un cuerpo JSON, entonces lo procesamos
+          const data = await response.json();
+          return data;
+        } else {
+          // Manejo de error en caso de que la respuesta no sea exitosa
+          throw new Error('Error en la respuesta de la API');
+        }
       }
     
 }

@@ -1,36 +1,41 @@
 import { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
-import styles from './Producto.module.css'
+import styles from "./Producto.module.css";
 import { IProductos } from "../../../../types/dtos/productos/IProductos";
 import { ServiceProductos } from "../../../../services/ServiceProductos";
 import { useDispatch, useSelector } from "react-redux";
-import { editarProducto, guardarProductos } from "../../../../slices/productoSlice";
+import {
+  editarProducto,
+  guardarProductos,
+  productoActivo,
+} from "../../../../slices/productoSlice";
 import { ICategorias } from "../../../../types/dtos/categorias/ICategorias";
 import { ServiceCategorias } from "../../../../services/ServiceCategorias";
 import { guardarCategorias } from "../../../../slices/categoriaSlice";
-
 
 import { RootState } from "../../../../hooks/store/store";
 import ModalEditarProducto from "./ModalEditarProducto/ModalEditarProducto";
 import ModalCrearProducto from "./ModalCrearProducto/ModalCrearProducto";
 import { sucursalActiva } from "../../../../slices/sucursalSlice";
 
-
 export const Producto = () => {
-
-  // dispatch 
+  // dispatch
   const dispatch = useDispatch();
 
   // servicio
   const serviceProducto = new ServiceProductos();
   const serviceCategorias = new ServiceCategorias();
 
-  const [subCategorias, setSubcategorias] = useState<ICategorias[]>([])
+  const [subCategorias, setSubcategorias] = useState<ICategorias[]>([]);
 
-  const [subcategoriaSelect, setSubcategoriaSelect] = useState<string>("")
+  const [subcategoriaSelect, setSubcategoriaSelect] = useState<string>("");
+
+  const [productosFiltrados, setProductosFiltrados] = useState<IProductos[]>([]);
 
   // sucursales
-  const sucursal = useSelector((state: RootState) => state.sucursal.sucursalActiva);
+  const sucursal = useSelector(
+    (state: RootState) => state.sucursal.sucursalActiva
+  );
 
   // Estado para manejar la visibilidad del modalCrearProducto
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -41,18 +46,20 @@ export const Producto = () => {
   // estado para manejar la visibilidad del modalEditarProducto
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const handleEditModal = (p: IProductos) => {
-    dispatch(editarProducto(null))
-    dispatch(editarProducto(p))
-    console.log('Se creo el producto activo: ', productoAEditar)
-    setShowEditModal(!showEditModal)
-  }
-  
-   // const producto editado
-   const productoAEditar = useSelector((state: RootState) => state.producto.productoEditado)
+    dispatch(editarProducto(null));
+    dispatch(editarProducto(p));
+    console.log("Se creo el producto activo: ", productoAEditar);
+    setShowEditModal(!showEditModal);
+  };
 
-   useEffect(() => {
-     console.log('producto activo: ', productoAEditar)
-   }, [productoAEditar]);
+  // const producto editado
+  const productoAEditar = useSelector(
+    (state: RootState) => state.producto.productoEditado
+  );
+
+  useEffect(() => {
+    console.log("producto activo: ", productoAEditar);
+  }, [productoAEditar]);
 
   const [productos, setProductos] = useState<IProductos[]>([]); // creamos productos
   useEffect(() => {
@@ -60,40 +67,62 @@ export const Producto = () => {
     const fetchProductos = async () => {
       try {
         if (sucursal) {
-          const productosDelServicio = await serviceProducto.getAllProductosPorSucursal(sucursal?.id);
+          const productosDelServicio =
+            await serviceProducto.getAllProductosPorSucursal(sucursal?.id);
           setProductos(productosDelServicio);
-          dispatch(guardarProductos(productosDelServicio))
+          dispatch(guardarProductos(productosDelServicio));
         }
       } catch (error) {
-        console.log("Error al renderizar los productos: ", error)
+        console.log("Error al renderizar los productos: ", error);
       }
-
-    }
+    };
     fetchProductos();
-  }, [productos]);
+  }, [sucursal]);
 
-  const handleSubcategoriaChange = async() => {
-    try{
-      if (sucursal){
-        const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id)
-
-        console.log(response)
-      
-        setSubcategorias(response)
-      }
-    }catch(error){
-      console.error("Error trayendo subcategorias", error)
-    }
+  // Filtrar productos cuando la subcategoría cambia
+useEffect(() => {
+  if (subcategoriaSelect) {
+    const productosFiltradosPorCategoria = productos.filter(producto => producto.categoria.id === parseInt(subcategoriaSelect));
+    setProductosFiltrados(productosFiltradosPorCategoria);
+  } else {
+    setProductosFiltrados(productos); // Si no hay categoría seleccionada, mostrar todos los productos
   }
+}, [subcategoriaSelect, productos]);
+
+
+  const handleSubcategoriaChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedSubcategoriaId = e.target.value;
+    setSubcategoriaSelect(selectedSubcategoriaId);
+    console.log("sucursal activa: ", sucursal)
+    console.log("valor seleccionado: ", selectedSubcategoriaId)
+  
+    try {
+      if (sucursal && selectedSubcategoriaId) {
+        const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id);
+        console.log("Subcategorias: ", response)
+        setSubcategorias(response);
+      }
+    } catch (error) {
+      console.error("Error trayendo subcategorias", error);
+    }
+  };
 
   const handleDeleteProducto = async (id: number) => {
     try {
-      await serviceProducto.deleteProductoById(id)// Llama al servicio para eliminar
-      alert("Producto eliminado exitosamente");
+      await serviceProducto.deleteProductoById(id); 
     } catch (error) {
       console.error("Error eliminando producto:", error);
-      alert("Hubo un error al eliminar el producto.");
     }
+  };
+
+  const [showInfo, setShowInfo] = useState<boolean>(false);
+  const producto = useSelector(
+    (state: RootState) => state.producto.productoActivo
+  );
+
+  const handleProductoActivo = (a: IProductos) => {
+    dispatch(productoActivo(a));
+    setShowInfo(true);
   };
 
   return (
@@ -106,7 +135,13 @@ export const Producto = () => {
       <select
                 name="categorias"
                 value={subcategoriaSelect}
-                onChange={handleSubcategoriaChange}
+                onChange={(e) => {
+                  if (sucursal) {
+                    handleSubcategoriaChange(e);
+                  } else {
+                    console.error("Sucursal no está disponible al cambiar la categoría");
+                  }
+                }}
                 required
               >
                 <option value="">Seleccione una Categoria</option>
@@ -118,80 +153,53 @@ export const Producto = () => {
               </select>
 
       <div style={{ width: '100%' }}>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Descripcion</th>
-              <th>Categoria</th>
-              <th>Habilitado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              productos &&
-              (
-                productos.map((producto) => (
-                    <tr key={producto.id}>
-                      <td>{producto.id}</td>
-                      <td>{producto.denominacion}</td>
-                      <td>{producto.precioVenta}</td>
-                      <td>{producto.descripcion}</td>
-                      <td>{producto.categoria.denominacion}</td>
-                      <td className={styles.boton}>
-                        <Button
-                          variant="outline-success"
-                        // style={{ width: '5vw' }}
-                        >
-                          <span className="material-symbols-outlined">
-                            thumb_up
-                          </span>
-                        </Button>
-                      </td>
-                      <td style={{ width: 'auto' }}>
-                        <div className={styles.buttonsContainer}>
-                          <Button
-                            // style={{ width: '5vw' }}
-                            variant="outline-warning"
-                          >
-                            <span
-                              className="material-symbols-outlined"
-                              style={{ width: "auto", height: "auto", textAlign: "center" }}
-                            >
-                              visibility
-                            </span>
-                          </Button>
-                          <Button
-                            onClick={() => handleEditModal(producto)}
-                            variant="outline-primary"
-                          >
-                            <span className="material-symbols-outlined">edit</span>
-                          </Button>
-                          <Button
-                            // style={{width: '5vw'}}
-                            variant="outline-danger"
-                            onClick={() => handleDeleteProducto(producto.id)}
-                          >
-                            <span
-                              style={{ width: "auto", height: "auto", textAlign: "center" }}
-                              className="material-symbols-outlined"
-                            >
-                              delete_forever
-                            </span>
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                ))
-              )
-            }
-          </tbody>
-        </Table>
-      </div>
+      <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th>Descripcion</th>
+      <th>Categoria</th>
+      <th>Habilitado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      productosFiltrados &&
+      productosFiltrados.map((producto) => (
+        <tr key={producto.id}>
+          <td>{producto.id}</td>
+          <td>{producto.denominacion}</td>
+          <td>{producto.precioVenta}</td>
+          <td>{producto.descripcion}</td>
+          <td>{producto.categoria.denominacion}</td>
+          <td className={styles.boton}>
+            <Button variant="outline-success">
+              <span className="material-symbols-outlined">thumb_up</span>
+            </Button>
+          </td>
+          <td style={{ width: 'auto' }}>
+            <div className={styles.buttonsContainer}>
+              <Button onClick={() => handleProductoActivo(producto)} variant="outline-warning">
+                <span className="material-symbols-outlined">visibility</span>
+              </Button>
+              <Button onClick={() => handleEditModal(producto)} variant="outline-primary">
+                <span className="material-symbols-outlined">edit</span>
+              </Button>
+              <Button variant="outline-danger" onClick={() => handleDeleteProducto(producto.id)}>
+                <span className="material-symbols-outlined">delete_forever</span>
+              </Button>
+            </div>
+          </td>
+        </tr>
+      ))
+    }
+  </tbody>
+</Table>
 
+      </div>
 
       <ModalCrearProducto
         sucursal={sucursal}
@@ -205,7 +213,6 @@ export const Producto = () => {
         show={showEditModal}
         onClose={() => setShowEditModal(false)}
       />
-
     </>
   );
 };

@@ -69,17 +69,17 @@ const ModalCrearCategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, onCl
       <Modal.Header >
         <Modal.Title>Crear/Editar Categoría</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className="bodyModal">
         {/* Formulario para crear categoría */}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <input
               type="text"
-              className="form-control"
+              className="form-control inputAlignLeft"
               id="categoryName"
               name="denominacion"
               value={values.denominacion}
-              placeholder="Ingrese una denominacion"
+              placeholder="Denominacion"
               onChange={handleChange}
             />
           </div>

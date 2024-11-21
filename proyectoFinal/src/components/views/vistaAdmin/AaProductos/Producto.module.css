@@ -3,9 +3,31 @@
     text-align: center;
 }
 
+.containerButtonCrear{
+    display: flex;
+    justify-content: end;
+    margin: 30px;
+}
+
 .buttonCrear {
-    width: auto;
-    height: auto;
+    background-color: #e67e22;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    width: 9vw;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.buttonCrear:hover {
+    background-color: #d35400;
+    transform: scale(1.05);
+}
+.buttonCrearH2{
+    margin-top: 7px;
 }
 
 .buttonsContainer {
@@ -26,5 +48,8 @@
 
 Button {
     width: 5vw;
-    
+}
+.containerDiv{
+    display: flex;
+    margin: 10px;
 }
