@@ -28,8 +28,6 @@ export const Producto = () => {
 
   const [subCategorias, setSubcategorias] = useState<ICategorias[]>([]);
 
-  const [subcategoriaSelect, setSubcategoriaSelect] = useState<string>("");
-
   const [productosFiltrados, setProductosFiltrados] = useState<IProductos[]>([]);
 
   // sucursales
@@ -79,37 +77,41 @@ export const Producto = () => {
     fetchProductos();
   }, [sucursal]);
 
-  // Filtrar productos cuando la subcategoría cambia
-useEffect(() => {
-  if (subcategoriaSelect) {
-    const productosFiltradosPorCategoria = productos.filter(producto => producto.categoria.id === parseInt(subcategoriaSelect));
-    setProductosFiltrados(productosFiltradosPorCategoria);
-  } else {
-    setProductosFiltrados(productos); // Si no hay categoría seleccionada, mostrar todos los productos
-  }
-}, [subcategoriaSelect, productos]);
 
-
+  const [selectedSubcategoriaId, setSelectedSubcategoriaId] = useState<string>('');
   const handleSubcategoriaChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedSubcategoriaId = e.target.value;
-    setSubcategoriaSelect(selectedSubcategoriaId);
+    setSelectedSubcategoriaId(e.target.value);
     console.log("sucursal activa: ", sucursal)
     console.log("valor seleccionado: ", selectedSubcategoriaId)
-  
-    try {
-      if (sucursal && selectedSubcategoriaId) {
-        const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id);
-        console.log("Subcategorias: ", response)
-        setSubcategorias(response);
-      }
-    } catch (error) {
-      console.error("Error trayendo subcategorias", error);
-    }
   };
+
+  useEffect(() => {
+    const fetchSubCategorias = async () => {
+      try {
+        if (sucursal) {
+          const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id);
+          setSubcategorias(response)
+        }
+      } catch (error) {
+        console.error("Error trayendo subcategorias", error);
+      }
+    }
+    fetchSubCategorias();
+  }, [subCategorias, setSubcategorias]);
+
+  // Filtrar productos cuando la subcategoría cambia
+  useEffect(() => {
+    if (selectedSubcategoriaId) {
+      const productosFiltradosPorCategoria = productos.filter(producto => producto.categoria.id === parseInt(selectedSubcategoriaId));
+      setProductosFiltrados(productosFiltradosPorCategoria);
+    } else {
+      setProductosFiltrados(productos); // Si no hay categoría seleccionada, mostrar todos los productos
+    }
+  }, [productos]);
 
   const handleDeleteProducto = async (id: number) => {
     try {
-      await serviceProducto.deleteProductoById(id); 
+      await serviceProducto.deleteProductoById(id);
     } catch (error) {
       console.error("Error eliminando producto:", error);
     }
@@ -133,71 +135,106 @@ useEffect(() => {
         <h5>Crear producto</h5>
       </button>
       <select
-                name="categorias"
-                value={subcategoriaSelect}
-                onChange={(e) => {
-                  if (sucursal) {
-                    handleSubcategoriaChange(e);
-                  } else {
-                    console.error("Sucursal no está disponible al cambiar la categoría");
-                  }
-                }}
-                required
-              >
-                <option value="">Seleccione una Categoria</option>
-                {subCategorias.map((subcategoria) => (
-                  <option key={subcategoria.id} value={subcategoria.id}>
-                    {subcategoria.denominacion}
-                  </option>
-                ))}
-              </select>
+        name="categorias"
+        value={selectedSubcategoriaId}
+        onChange={(e) => {
+          if (sucursal) {
+            handleSubcategoriaChange(e);
+          } else {
+            console.error("Sucursal no está disponible al cambiar la categoría");
+          }
+        }}
+        required
+      >
+        <option value="">Seleccione una Categoria</option>
+        <option value="todas" onChange={() => setSelectedSubcategoriaId("todas")}>Seleccionar Todas Las Categorias</option>
+        {subCategorias.map((subcategoria) => (
+          <option key={subcategoria.id} value={subcategoria.id}>
+            {subcategoria.denominacion}
+          </option>
+        ))}
+      </select>
 
       <div style={{ width: '100%' }}>
-      <Table striped bordered hover>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Precio</th>
-      <th>Descripcion</th>
-      <th>Categoria</th>
-      <th>Habilitado</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    {
-      productosFiltrados &&
-      productosFiltrados.map((producto) => (
-        <tr key={producto.id}>
-          <td>{producto.id}</td>
-          <td>{producto.denominacion}</td>
-          <td>{producto.precioVenta}</td>
-          <td>{producto.descripcion}</td>
-          <td>{producto.categoria.denominacion}</td>
-          <td className={styles.boton}>
-            <Button variant="outline-success">
-              <span className="material-symbols-outlined">thumb_up</span>
-            </Button>
-          </td>
-          <td style={{ width: 'auto' }}>
-            <div className={styles.buttonsContainer}>
-              <Button onClick={() => handleProductoActivo(producto)} variant="outline-warning">
-                <span className="material-symbols-outlined">visibility</span>
-              </Button>
-              <Button onClick={() => handleEditModal(producto)} variant="outline-primary">
-                <span className="material-symbols-outlined">edit</span>
-              </Button>
-              <Button variant="outline-danger" onClick={() => handleDeleteProducto(producto.id)}>
-                <span className="material-symbols-outlined">delete_forever</span>
-              </Button>
-            </div>
-          </td>
-        </tr>
-      ))
-    }
-  </tbody>
-</Table>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Descripcion</th>
+              <th>Categoria</th>
+              <th>Habilitado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              productosFiltrados &&
+              productosFiltrados.map((producto) => {
+                if (producto.categoria.id === Number(selectedSubcategoriaId)) {
+                  return (
+                    <tr key={producto.id}>
+                      <td>{producto.id}</td>
+                      <td>{producto.denominacion}</td>
+                      <td>{producto.precioVenta}</td>
+                      <td>{producto.descripcion}</td>
+                      <td>{producto.categoria.denominacion}</td>
+                      <td className={styles.boton}>
+                        <Button variant="outline-success">
+                          <span className="material-symbols-outlined">thumb_up</span>
+                        </Button>
+                      </td>
+                      <td style={{ width: 'auto' }}>
+                        <div className={styles.buttonsContainer}>
+                          <Button onClick={() => handleProductoActivo(producto)} variant="outline-warning">
+                            <span className="material-symbols-outlined">visibility</span>
+                          </Button>
+                          <Button onClick={() => handleEditModal(producto)} variant="outline-primary">
+                            <span className="material-symbols-outlined">edit</span>
+                          </Button>
+                          <Button variant="outline-danger" onClick={() => handleDeleteProducto(producto.id)}>
+                            <span className="material-symbols-outlined">delete_forever</span>
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                } else {
+                  if ('todas' === (selectedSubcategoriaId)) {
+                    return (
+                      <tr key={producto.id}>
+                        <td>{producto.id}</td>
+                        <td>{producto.denominacion}</td>
+                        <td>{producto.precioVenta}</td>
+                        <td>{producto.descripcion}</td>
+                        <td>{producto.categoria.denominacion}</td>
+                        <td className={styles.boton}>
+                          <Button variant="outline-success">
+                            <span className="material-symbols-outlined">thumb_up</span>
+                          </Button>
+                        </td>
+                        <td style={{ width: 'auto' }}>
+                          <div className={styles.buttonsContainer}>
+                            <Button onClick={() => handleProductoActivo(producto)} variant="outline-warning">
+                              <span className="material-symbols-outlined">visibility</span>
+                            </Button>
+                            <Button onClick={() => handleEditModal(producto)} variant="outline-primary">
+                              <span className="material-symbols-outlined">edit</span>
+                            </Button>
+                            <Button variant="outline-danger" onClick={() => handleDeleteProducto(producto.id)}>
+                              <span className="material-symbols-outlined">delete_forever</span>
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  }
+                }
+              })
+            }
+          </tbody>
+        </Table>
 
       </div>
 

@@ -10,7 +10,6 @@ export class ServiceCategorias {
     //this.baseURL = 'http://localhost:8090/empresas';
     //this.baseURL = 'http://190.221.207.224:8090/empresas';
     this.baseURL = 'http://190.221.207.224:8090/categorias'
-
   }
 
   public async getAllCategorias(): Promise<ICategorias[]> {
