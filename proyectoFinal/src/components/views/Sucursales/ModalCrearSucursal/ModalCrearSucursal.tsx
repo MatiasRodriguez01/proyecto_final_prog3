@@ -465,7 +465,6 @@ export const ModalCrearSucursal: FC<PopUpPropsSucursal> = ({
             />
             <img src={addImagen} alt="imagen del boton" />
           </div>
-          {/* AGREGAR FUNCIONALIDAD PARA SUBIR UNA IMAGEN */}
           <div className={styleModalSucursal.containerButtonsForm}>
             <Button
               variant="primary"

@@ -15,10 +15,6 @@ import { ModalEditarAlergeno } from "./ModalCrearAlergeno/ModalEditarAlergeno";
 import { AlergenoInfo } from "./AlergenoInfo/AlergenoInfo";
 import { useDispatch, useSelector } from "react-redux";
 
-// interface IPropsAlergeno {
-//   AlergenoActivo: Function;
-// }
-
 export const AlergenoListado = () => {
   // usamos el dispatch para usar los slice
   const dispatch = useDispatch();
@@ -124,7 +120,7 @@ export const AlergenoListado = () => {
             <tbody>
               {alergenos.map((alergeno) => (
                 <tr key={alergeno.id}>
-                  <th scope="row">{alergeno.id}</th>
+                  <th scope="row" className={styles.id}>{alergeno.id}</th>
                   <td>{alergeno.denominacion}</td>
                   <td>
                     {alergeno.imagen?.url ? (
@@ -134,7 +130,9 @@ export const AlergenoListado = () => {
                         alt={alergeno.imagen.name}
                       />
                     ) : (
-                      <span>No Image</span>
+                      <span className="material-symbols-outlined">
+                        add_photo_alternate
+                      </span>
                     )}
                   </td>
                   <td>
