@@ -18,6 +18,7 @@ import ModalEditarProducto from "./ModalEditarProducto/ModalEditarProducto";
 import ModalCrearProducto from "./ModalCrearProducto/ModalCrearProducto";
 import { sucursalActiva } from "../../../../slices/sucursalSlice";
 import { IUpdateProducto } from "../../../../types/dtos/productos/IUpdateProducto";
+import { ProductoInfo } from "./ProductoInfo/ProductoInfo";
 
 export const Producto = () => {
   // dispatch
@@ -121,11 +122,10 @@ export const Producto = () => {
   };
 
   const [showInfo, setShowInfo] = useState<boolean>(false);
-  const producto = useSelector(
-    (state: RootState) => state.producto.productoActivo
-  );
+  const producto = useSelector((state: RootState) => state.producto.productoActivo);
 
-  const handleProductoActivo = (a: IProductos) => {
+  const handleVerInfo = (a: IProductos) => {
+    dispatch(productoActivo(null));
     dispatch(productoActivo(a));
     setShowInfo(true);
   };
@@ -209,7 +209,7 @@ export const Producto = () => {
                       </td>
                       <td style={{ width: 'auto' }}>
                         <div className={styles.buttonsContainer}>
-                          <Button onClick={() => handleProductoActivo(producto)} variant="outline-warning">
+                          <Button onClick={() => handleVerInfo(producto)} variant="outline-warning">
                             <span className="material-symbols-outlined">visibility</span>
                           </Button>
                           <Button onClick={() => handleEditModal(producto)} variant="outline-primary">
@@ -238,7 +238,7 @@ export const Producto = () => {
                         </td>
                         <td style={{ width: 'auto' }}>
                           <div className={styles.buttonsContainer}>
-                            <Button onClick={() => handleProductoActivo(producto)} variant="outline-warning">
+                            <Button onClick={() => handleVerInfo(producto)} variant="outline-warning">
                               <span className="material-symbols-outlined">visibility</span>
                             </Button>
                             <Button onClick={() => handleEditModal(producto)} variant="outline-primary">
@@ -272,6 +272,13 @@ export const Producto = () => {
         show={showEditModal}
         onClose={() => setShowEditModal(false)}
       />
+
+      <ProductoInfo
+        producto={producto}
+        show={showInfo}
+        onClose={() => setShowInfo(false)}
+      />
+
     </>
   );
 };

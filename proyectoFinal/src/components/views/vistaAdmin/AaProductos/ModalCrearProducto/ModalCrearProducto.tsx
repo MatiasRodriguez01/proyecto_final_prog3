@@ -19,11 +19,7 @@ interface ModalCrearProductoProps {
   onClose: () => void;
 }
 
-const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
-  sucursal,
-  show,
-  onClose,
-}) => {
+const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ sucursal, show, onClose }) => {
   if (sucursal !== null) {
 
     // servicios
@@ -41,7 +37,7 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
     })
 
     // guardamos el id de la categorias seleccionada
-    const [idCategoria, setIdCategoria] = useState(0)
+    const [idCategoria, setIdCategoria] = useState(0);
     // guardamos los id de los alergenos seleccionados
     const [idsAlergenos, setIdsAlergenos] = useState<number[]>([])
     // const guardamos las imagenes 
@@ -51,6 +47,13 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
     // las categorias y alergenos sacados de los servicios de la api
     const [categorias, setCategorias] = useState<ICategorias[]>([])
     const [alergenos, setAlergenos] = useState<IAlergenos[]>([])
+
+    // const 
+    const handleAddCategoriaId = (event : React.ChangeEvent<HTMLSelectElement>) => {
+      const num: number = Number(event.target.value);
+      const cate: ICategorias =  categorias[num];
+      setIdCategoria(cate.id)
+    }
 
     // el useEffect para renderizar y generar las categorias y alergenos
     useEffect(() => {
@@ -87,7 +90,7 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
       if (url.trim() !== "") {  // si la url no esta vacia asigna las imagenes
         const newImage: IImagen = {
           name: `Imagen ${imagenes.length + 1}`,
-          url: url,
+          url: String(url),
         }
         setImagenes((prevImagenes) => [...prevImagenes, newImage])
       }
@@ -170,9 +173,9 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({
                   className={styleModalProducto.label}
                   name="idCategoria"
                   value={idCategoria}
-                  onChange={(e) => setIdCategoria(Number(e.target.value))}
+                  onChange={(e) => handleAddCategoriaId(e)}
                 >
-                  <option value="">Categoria</option>
+                  {/* <option value="">Categoria</option> */}
                   {categorias.map((categoria) => (
                     <option key={categoria.id} value={categoria.id}>{categoria.denominacion}</option>
                   ))}

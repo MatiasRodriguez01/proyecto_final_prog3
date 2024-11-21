@@ -5,14 +5,11 @@ import { ServiceProductos } from "../../../../../services/ServiceProductos";
 import { ICategorias } from "../../../../../types/dtos/categorias/ICategorias";
 import { IAlergenos } from "../../../../../types/dtos/alergenos/IAlergenos";
 import { IImagen } from "../../../../../types/IImagen";
-import { ICreateProducto } from "../../../../../types/dtos/productos/ICreateProducto";
 import { ServiceCategorias } from "../../../../../services/ServiceCategorias";
 import { ServiceAlergenos } from "../../../../../services/ServiceAlergenos";
 import { ISucursal } from "../../../../../types/dtos/sucursal/ISucursal";
 
 import styleModalProducto from './ModalEditarProducto.module.css';
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../../hooks/store/store";
 import { IProductos } from "../../../../../types/dtos/productos/IProductos";
 import { IUpdateProducto } from "../../../../../types/dtos/productos/IUpdateProducto";
 
@@ -58,26 +55,33 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
             imagen: "",
           });
       }
-  }, [productoAEditar]);
+  }, [productoAEditar, show]);
 
     // guardamos el id de la categorias seleccionada
-    const [idCategoria, setIdCategoria] = useState(0)
+    const [idCategoria, setIdCategoria] = useState(productoAEditar.categoria.id)
     // guardamos los id de los alergenos seleccionados
     const [idsAlergenos, setIdsAlergenos] = useState<number[]>([])
     // const guardamos las imagenes 
-    const [imagenes, setImagenes] = useState<IImagen[]>([])
+    const [imagenes, setImagenes] = useState<IImagen[]>(productoAEditar.imagenes)
     // el boton de habilitado
-    const [habilitado, setHabilitado] = useState<boolean>(false)
+    const [habilitado, setHabilitado] = useState<boolean>(productoAEditar.habilitado)
     // las categorias y alergenos sacados de los servicios de la api
     const [categorias, setCategorias] = useState<ICategorias[]>([])
     const [alergenos, setAlergenos] = useState<IAlergenos[]>([])
+
+    // const 
+    const handleAddCategoriaId = (event : React.ChangeEvent<HTMLSelectElement>) => {
+      console.log(event);
+      const num = (event.target.value);
+      setIdCategoria(Number(num));
+    }
 
     // el useEffect para renderizar y generar las categorias y alergenos
     useEffect(() => {
       const fetchCategorias = async () => { // fetch para generar las categorias de la sucursal
         try {
           if (sucursal) {
-            const response = await serviceCategorias.getAllCategoriasPadrePorSucursal(sucursal.id);
+            const response = await serviceCategorias.getAllSubcategoriasPorSucursal(sucursal.id);
             setCategorias(response);
           }
         } catch (error) {
@@ -140,7 +144,7 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
         codigo: codigo,
         idCategoria: idCategoria,
         idAlergenos: productoAEditar.alergenos.map((alergeno) => Number(alergeno.id)),
-        imagenes: productoAEditar.imagenes
+        imagenes: imagenes,
       }
       handleEditarProducto(newProducto)
       resetForm()
@@ -188,9 +192,8 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
                   className={styleModalProducto.label}
                   name="idCategoria"
                   value={idCategoria}
-                  onChange={(e) => setIdCategoria(Number(e.target.value))}
+                  onChange={(e) => handleAddCategoriaId(e)}
                 >
-                  <option value="">Categoria</option>
                   {categorias.map((categoria) => (
                     <option key={categoria.id} value={categoria.id}>{categoria.denominacion}</option>
                   ))}
