@@ -117,6 +117,7 @@ const ModalEditarProducto: React.FC<ModalEditarProductoProps> = ({
         idAlergenos: productoAEditar.alergenos.map((alergeno) => Number(alergeno.id)),
         imagenes: imagenes,
       }
+      console.log(newProducto)
       handleEditarProducto(newProducto)
       resetForm()
       onClose()

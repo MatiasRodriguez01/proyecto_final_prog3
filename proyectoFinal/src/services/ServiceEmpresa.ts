@@ -13,7 +13,7 @@ export class ServiceEmpresa {
   }
 
   public async getAllEmpresas(): Promise<IEmpresa[]> {
-    const response = await fetch(`${this.baseURL}/empresas,`, {
+    const response = await fetch(`${this.baseURL}/empresas`, {
       method: 'GET',
       headers: {
         "User-Agent" : "insomnia/9.3.2"

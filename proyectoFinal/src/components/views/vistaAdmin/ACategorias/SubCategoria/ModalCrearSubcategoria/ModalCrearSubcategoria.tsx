@@ -31,7 +31,7 @@ const ModalCrearSubcategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, o
   const { values, handleChange, resetForm } = useForm({
     denominacion: "",
     IdEmpresa: idEmpresa,
-    IdCategoriaPadre: idCategoriaActiva,
+    IdCategoriaPadre: idCategoriaActiva || 0,
   })
 
   const handleCreateCategoria = async (categoria: ICreateCategoria) => {
@@ -47,12 +47,20 @@ const ModalCrearSubcategoria: FC<ModalCrearCategoriaProps> = ({ empresa, show, o
 
   const addForm = () => {
     if (empresa !== null) {
+      console.log("ID Empresa: ", empresa.id);
+      console.log("ID Categoría Padre: ", values.IdCategoriaPadre);
+
+      if (!values.IdCategoriaPadre || values.IdCategoriaPadre === 0) {
+        alert("Debe seleccionar una categoría padre.");
+        return;
+      }
       const newCategoria: ICreateCategoria = {
         denominacion: values.denominacion,
         idCategoriaPadre: values.IdCategoriaPadre,
         idEmpresa: empresa.id
         
       }
+      console.log("Creando categoría con datos: ", newCategoria);
 
       handleCreateCategoria(newCategoria)
       resetForm()

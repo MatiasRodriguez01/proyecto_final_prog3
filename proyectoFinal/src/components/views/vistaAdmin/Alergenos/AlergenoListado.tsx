@@ -59,10 +59,8 @@ export const AlergenoListado = () => {
   const handleEliminarAlergeno = async (id: number) => {
     try {
       await serviceAlergeno.deleteAlergenoById(id); // Llama al servicio para eliminar
-      alert("Alérgeno eliminado exitosamente.");
     } catch (error) {
       console.error("Error eliminando alérgeno:", error);
-      alert("Hubo un error al eliminar el alérgeno.");
     }
   };
 

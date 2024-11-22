@@ -46,13 +46,14 @@ const ModalCrearProducto: React.FC<ModalCrearProductoProps> = ({ sucursal, show,
     // const 
     const handleAddCategoriaId = (event: React.ChangeEvent<HTMLSelectElement>) => {
       const num: number = Number(event.target.value);
-      if (idCategoria === 0){
+      if (num === 0){
         alert('Agrege una categoria por favor!!')
         return 
       } else {
         setIdCategoria(num)
       }
     }
+
 
     // desectruturamos los valores de [values]
     const { denominacion, precioVenta, descripcion, codigo, imagen } = values
